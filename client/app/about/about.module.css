@@ -1,0 +1,136 @@
+.container{
+    background-color: rgba(243,244,246, 80%);
+    padding: 10px 20px;
+    width: 100%;
+    height: fit-content;
+
+}
+.card{
+   width: 100%;
+   height: fit-content; 
+   display: flex;
+   padding: 20px 20px;
+   gap: 6%;
+   justify-content: flex-start;
+   background-image: linear-gradient(to top,  #fbfcfd,white );
+   box-shadow: 0 2px 10px rgba(0,0,0, 0.07);
+   margin: auto;
+   overflow: hidden;
+
+  }
+  .aboutContainer{
+    width: 46%;
+  }
+  .aboutContainer .header{
+    font-weight: bold;
+    font-size: large;
+    width: 100%;
+    position: relative;
+    left: 40%;
+   
+  }
+
+  .aboutContainer .body{
+    color: rgb(55, 55, 56);
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: justify;
+  }
+  .contactContainer{
+    width: 46%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .contactContainer .header{
+    font-weight: bold;
+    font-size: large;
+    margin-left: 40%;
+    position: relative;
+
+  }
+ 
+  .formContainer form{
+    width: 100%;
+  }
+  .formContainer form label{
+    font-weight: bold;
+  }
+  .formContainer form input[type=text]{
+    padding: 5px 10px;
+    outline: none;
+    border: 1px rgb(185, 183, 183) solid;
+    border-radius: 5px;
+
+  }
+
+  .formContainer form input.inputFieldError{
+    border: 1px solid red;
+  }
+  .formContainer form textarea{
+    padding: 5px 10px;
+    outline: none;
+    border: 1px rgb(185, 183, 183)  solid;
+    border-radius: 5px;
+
+  }
+  .formContainer form textarea.inputFieldError{
+    border: 1px solid red;
+  }
+  .formControl{
+    width: 100%;
+    display: block;
+    margin-top: 5px; 
+  }
+  
+  .btnDark{
+    width: 100%;
+    cursor:pointer;
+    display: block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    background-color: rgb(0, 0, 0);
+    border-radius: 3px;
+  }
+  .socialContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .socialContainer i{
+    margin-top: 10px;
+    padding-right: 20px;
+    font-size: 30px;
+    box-shadow: 0px 3px 10px rgba(0,0,0, 0.02);
+  }
+  .socialContainer h3{
+    font-weight: bold;
+  }
+ .right a{
+    margin-top: 5px;
+ }
+ .inputError{
+  color: red;
+  font-size: 13px;
+ }
+ @media screen and (max-width: 768px) {
+  .container{
+    height: fit-content;
+  }
+  .card{
+    width: 100%;
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 10px;
+  }
+  .aboutContainer{
+    width: 100%;
+  
+  }
+  .contactContainer{
+    width: 100%;
+  }
+ }

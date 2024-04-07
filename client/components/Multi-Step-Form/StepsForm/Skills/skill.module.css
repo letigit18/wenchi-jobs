@@ -1,0 +1,176 @@
+.skillCard{
+    position: fixed;
+    left: 32.5%;
+    padding: 0 15px;
+    width: 35%;
+    top: 14vh;
+    height: 550px;
+    border: 1px solid rgb(231, 236, 255);
+    background-color: white;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    border-top: 2px solid #f74949;
+    z-index: 4000;
+}
+
+.skillCard .header h3{
+    position: absolute;
+    left: 25%;
+    top: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.skillCard .header .close{
+    position: absolute;
+    display: flex;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    right: 20px;
+    top: 20px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    background-color:#f74949;
+}
+
+.header .closeToolTip{
+    position: absolute;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    color: white;
+    right: 40px;
+    top: 67px;
+    width: 40px;
+    height: 24px;
+    font-size: 12px;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 300;
+}
+.header .closeToolTip::before{
+    position: absolute;
+    content: '';
+    width: 9px;
+    height: 9px;
+    background-color: black;
+    left: 50%;
+    top: -2px;
+    transform: rotate(45deg);
+}
+.header .close:hover ~ .closeToolTip{
+    visibility: visible;
+    opacity: 1;
+}
+.skillCard form{
+    position: absolute;
+    font-size: 1rem;
+    width: calc((100% - 10px));
+    padding: 0 20px;
+    top: 50px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.skillCard form .inputBox{
+    position: relative;
+    width: 100%;
+
+}
+
+.inputBox span{
+    position: absolute;
+    left: 0;
+    padding: 5px;
+    pointer-events: none;
+    font-size: 15px;
+    transition: 0.3s;
+    color: gray;
+}
+.skillCard form label{
+    display: block;
+   
+}
+
+.skillCard form textarea{
+    width: 100%;
+    padding: 4px;
+    outline: none;
+    border: 1px solid rgb(212, 210, 210);
+    border-radius: 5px;
+   
+    transition: 0.3s;
+}
+.skillCard form textarea.inputError{
+    border: 1px solid red;
+}
+
+.inputBox p.errorLabel{
+    color: red;
+    font-size: 12px;
+}
+.skillCard form p i{
+    font-size: 18px;
+}
+.skillCard form p.caution{
+    font-size: 12px;
+    color: rgb(252, 171, 142);
+}
+.btnLogin{
+    width: 100%;
+    margin-top: 5px;
+    height: 40px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    background-color: #0c4a6e;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+.skillContainer{
+    width: 100%;
+    margin-top: 15px;
+    border: gray 1px solid;
+    padding: 5px; 
+
+    font-size: 10pt;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.skillContainer .skillItem{
+    display: inline-block;
+    background-color: whitesmoke;
+    padding: 5px;
+    border-radius: 15px;
+    transition: 0.2s ease;
+}
+.skillItem .skillItem:hover{
+    transform: scale(1);
+}
+.skillContainer .close{
+    cursor: pointer;
+    width: 17px;
+    height: 17px;
+    background-color: #0c4a6e;
+    display: inline-flex;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    color: white;
+}
+.skillInput{
+    flex-grow: 1;
+    padding: 5px 0;
+    border: none;
+    outline: none;
+}

@@ -1,0 +1,405 @@
+
+.header{
+    position: sticky;
+    background-color: white;
+    color: black;
+    top: 0;
+    width: 100%;
+    font-size: 14px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.07);
+    z-index: 1;
+
+}
+.navBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    margin-left: 20px;
+}
+.menu{
+    display: flex;
+    
+}
+.menu .menuItem{
+    padding: 30px 15px;
+    position: relative;
+    font-weight: 500;
+   
+}
+.menu .menuItem a{
+    position: relative;
+    cursor: pointer;
+}
+.menu .menuItem a:hover::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 4px;
+    animation-name: link;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    background-color: #f74949; 
+}
+.menu .menuItem a.active::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 4px;
+    animation-name: link;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    background-color: #f74949;
+
+}
+
+ .menu .menuItem .dropdownMenu{
+    background-color: white;
+    border-top: 1px solid #f74949;
+    left: 0;
+    top: 100%;
+    width: 200px;
+    padding: 5px 10px;
+    position: absolute;
+    display: none;
+    
+}
+.menu .menuItem:hover .dropdownMenu{
+    display: block;
+    height: 0;
+    opacity: 0;
+    animation-name: dropdownt;
+    animation-fill-mode: forwards;
+    animation-duration: .5s;
+    }
+.menu .menuItem i{
+    transition: .3s ease-in-out;
+}
+.menu .menuItem:hover i{
+        transform: rotate(180deg);
+    }
+/* Mega menu for job category style */
+
+.menu .menuItem .megaMenu{
+    background-color: white;
+    border-top: 1px solid #f74949;
+    width: 75%;
+    left: 15%;
+    top: 100%;
+    display: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, .1);
+    position: absolute;
+    z-index: 300;
+}
+.menu .menuItem:hover .megaMenu{
+    display: block;
+    height: 0;
+    opacity: 0;
+    animation-name: dropdownt;
+    animation-fill-mode: forwards;
+    animation-duration: .5s;
+}
+.menu .megaItem{
+    position: static;
+}
+.megaContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 30px 0;
+}
+/* right side menu in the navbar */
+.menuRight{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 14px;
+}
+.menuRight .menuItem{
+    padding: 30px 10px;
+    position: relative;
+   
+}
+
+.menuRight .dropdownMenu{
+    background-color: rgb(253, 250, 253);
+    border-top: 1px solid #f74949;
+    color: black;
+    transition: all 1s ease-in;
+    right: 0;
+    top: 100%;
+    width: 160px;
+    padding: 5px 10px;
+    position: absolute;
+    box-shadow: 3px 6px 20px rgba(0, 0, 0, 0.25);
+    display: none;
+
+}
+.menuRight .menuItem:hover .dropdownMenu{
+    display: block;
+    height: 0;
+    opacity: 0;
+    animation-name: dropdownt;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    animation-duration: .6s;
+    }
+.dropdownMenu .menuItem{
+        padding: 10px;
+        cursor: pointer;
+}
+.menuRight .menuItem:hover i{
+        transform: rotate(180deg);
+ }
+/*buttons style */
+.btnTransparent{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 100px;
+    height: 30px; 
+    border-radius: 5px;
+    background-color: #0c4a6e;
+    color: white;
+    padding: 6px 8px;
+    transition: .6s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) 
+}
+.btnTransparent span img{
+    width: 20px;
+    height: 12px;
+}
+
+.toolTip{
+    position: absolute;
+    text-align: center;
+    font-size: 11px;
+    padding-top: 4px;
+    left: 10px;
+    top: 100%;
+    width: 105px;
+    border-radius: 3px;
+    height: 25px;
+    background-color: black;
+    color: white;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease;
+}
+.toolTip::before{
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 35%;
+    width: 8px;
+    height: 8px;
+    background-color: black;
+    transform: rotate(45deg);
+}
+.btnTransparent:hover .toolTip{
+ opacity: 1;
+ visibility: visible;
+}
+.btnOrange{
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    background-color: #f74949;
+    color: white;
+    padding: 6px 8px;
+    transition: .6s;
+    box-shadow: 3px 3px 25px rgba(0, 0, 0, 0.1);  
+}
+/* hamburger menu */
+.hamburger{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    color: #0c4a6e;
+    top: 20px;
+    right: 20px;
+    font-size: 33px;
+    display: none;
+}
+.hidden{
+    display: none;
+}
+/* animation styles */
+@keyframes dropdownt {
+ 0%{
+    height: 0;
+    opacity: 0;
+ }    
+ 100%{
+    opacity: 100%;
+    height: fit-content;
+ }
+}
+@keyframes link{
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 25px;
+    }
+}
+@media screen and (max-width: 768px){
+    .header{
+        position: sticky;
+        height: 90px;
+        max-width: 100vw;
+    }
+    .hamburger{
+        display: block;
+        position: absolute;
+        text-align: center;
+        width: 45px;
+        height: 38px;
+        top: 20px;
+        right: 1rem;
+        font-size: 33px;
+    }
+    .menu{
+       display: none;
+    }
+    .mobileMenu{
+        position: absolute;
+        background-color: #0c4a6e;
+        color: white;
+        top: 0;
+        right: -3000px;
+        z-index: 5000;
+        width: 65%;
+        padding-top: 87px;
+        height: 100vh;
+        font-size: 15px;
+        box-shadow: 5px 3px 15px rgba(0, 0, 0, .5);
+    }
+    .mobileMenu.active{
+        right: 0;
+        
+
+    }
+    .mobileMenu > li:nth-child(1){
+        border-top: #235d7e solid 1px;
+    }
+    .myAccount{
+        position: absolute;
+        top: 40px;
+        left: 20px;
+        font-size: 17px;
+        font-weight: bold;
+    }
+    .myAccount .dropdownMenu::before{
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 20px;
+        width: 15px;
+        height: 15px;
+        background-color: rgb(248 250 252);
+        transform: rotate(45deg);
+        
+    }
+    .myAccount span:hover .myAccount span i{
+        transform: rotate(180deg);
+    }
+    .myAccount .dropdownMenu{ 
+        position: absolute;
+        font-weight: normal;
+        padding: 10px;
+        top: 40px;
+        margin-left: 7px;
+        width: 200px;
+        border-left: 1.5px solid #f97316;
+        color: #0c4a6e;
+        border-radius: 3px;
+        background-color: rgb(248 250 252);
+        box-shadow: 5px 10px 25px rgba(0, 0, 0, .07);
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.5s;
+    }
+    .myAccount .dropdownMenu .linkItem{
+        padding: 10px;
+        font-size: 1rem;
+        border-bottom: 0.1px dashed #ebded5;
+    }
+    .myAccount .dropdownMenu .linkItem:hover a{
+        color: #f97316;
+    }
+   .myAccount .dropdownMenu.active{
+    visibility: visible;
+    opacity: 1;
+   }
+    .closeMenu{
+        position: absolute;
+        text-align: center;
+        width: 45px;
+        height: 38px;
+        top: 20px;
+        right: 1rem;
+        font-size: 33px;
+    }
+   
+ 
+    .mobileMenu .menuItem{
+        position: relative;
+    }
+    .mobileMenu .menuItem .dropdownMenu{
+        display: none;
+        position: absolute;
+        left: 5px;
+        top: 100%;
+        margin-left: 15px;
+        width: 65%;
+        color: #0c4a6e;
+        border-radius: 3px;
+        background-color: rgb(248 250 252);
+        box-shadow: 3px 3px 7px rgba(0, 0, 0, .08);
+    }
+    .mobileMenu .menuItem:hover .dropdownMenu{
+        display: block;
+        
+    }
+    
+    .mobileMenu .brand{
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        color: white;
+        font-size: 12px;
+    }
+    .mobileMenu .menuItem{
+        padding: 15px;
+        margin-left: 15px;
+    }
+    .menuRight .menuItem .btnOrange{
+        display: none;
+    }
+    .menuRight .menuItem .btnTransparent{
+        margin-right: 2.5rem;
+        width: 110px;
+    }
+    .toolTip{
+        display: none;
+    }
+}
+
+@keyframes mobileMenu{
+    0%{
+        right: -3000px;
+    }
+    100%{
+        right: 0;
+    }
+}

@@ -1,0 +1,34 @@
+.btnContainer{
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    bottom: 30px;
+    left: 45%;
+}
+.btnNext{
+    border: none;
+    width: 85px;
+    padding: 5px 0;
+    color: white;
+    background-color: #000000;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.btnNext i{
+    transform: rotate(180deg);
+}
+.btnPrevious{
+    position: relative;
+    border: none;
+    width: 85px;
+    padding: 5px 0;
+    font-size: 14px;
+    color: black;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.btnPrevious:disabled{
+    cursor: not-allowed;
+}

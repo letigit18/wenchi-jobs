@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    background-color:  rgba(243,244,246, 80%);
+    padding: 10px 20px;
+    font-size: 15px;
+   
+}
+.textBox{
+    background: white;
+
+  width: 21cm;
+  height: 29.7cm;
+  padding-bottom: 4px;
+  margin: auto;
+  margin-bottom: 0.5cm;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 12pt;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  overflow-y: scroll;
+  text-align: justify;
+  text-justify: inter-word;
+  color: black;
+}
+.container h3{
+    padding: 10px 0;
+    font-weight: bold;
+    background-color: rgb(28, 23, 51);
+}
+.container h1{
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px 0;
+}
+.container h2{
+    padding: 10px 0;
+    font-weight: bold;
+}
+.container ul li{
+    list-style:disc;
+}
