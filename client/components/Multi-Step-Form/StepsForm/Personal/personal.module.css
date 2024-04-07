@@ -60,7 +60,7 @@
     border: 1px solid red;
 }
 .container form select.inputError{
-    border: 1px solid red;
+    border: 1px solid rgb(255, 0, 0);
 }
 .container p.errorLabel{
     color: red;
