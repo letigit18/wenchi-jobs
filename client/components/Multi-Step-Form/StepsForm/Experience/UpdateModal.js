@@ -11,7 +11,6 @@ import { addEducationalFormData, addExperienceData, setFormData, updateExperienc
 import { redirect } from 'next/navigation';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation';
 import { changeStep } from '@/redux/step';
 const UpdateModal = ({closeModal, experienceData, indexValue})=>{
     //react quill input
@@ -24,7 +23,7 @@ const UpdateModal = ({closeModal, experienceData, indexValue})=>{
     const formData = useSelector((state)=> state.CVBuilder.experienceData)
     const [editorContent, setEditorContent] = useState(experienceData[indexValue].jobResponsibility)
     const dispatch = useDispatch()
-    const router = useRouter()
+   
     //setting up the validation schema
     const validationSchema = yup.object().shape({
         jobTitle: yup.string().required("Job title required"),

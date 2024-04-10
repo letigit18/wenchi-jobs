@@ -1,6 +1,7 @@
 .container{
     width: 100%;
     padding-top: 20px;
+    padding-right: 30px;
 }
 .container form{
     display: flex;
@@ -13,8 +14,10 @@
     gap: 10px;
 }
 .imageContainer img{
-    width: 230px;
+    width: 235px;
     height: 245px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.03);
 }
 .btnUpload{
     margin-top:3px;
@@ -31,6 +34,8 @@
 }
 .btnUpload:disabled{
     cursor: not-allowed;
+    color: black;
+    background-color: whitesmoke;
 }
 
 .container form .formContainer{
