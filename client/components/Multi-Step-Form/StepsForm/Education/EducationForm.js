@@ -65,8 +65,8 @@ const EducationForm = () =>{
                  </thead>
                  <tbody>
                
-                {educationalFormData.map((formData, index)=>(
-                 <tr key={index}>
+                {educationalFormData.map((formData, index)=>{
+                 return <tr key={index}>
                       <td>
                           {index+1}
                       </td>
@@ -74,7 +74,7 @@ const EducationForm = () =>{
                         {formData.educationalLevel}
                       </td>
                       <td>
-                        {formData.collegeName}
+                        {formData.collegeName === "other" ? formData.other : formData.collegeName}
                       </td>
                       <td>
                         {formData.department}
@@ -102,7 +102,7 @@ const EducationForm = () =>{
                          </span>
                       </td>
                   </tr>
-                ))}
+          })}
                   <tr>
                       
                       <td colSpan={8} className={styles.tdButton}><button type='button' onClick={()=>{setEducationModalOpen(true)}}  className={styles.addButton}><i className='bx bx-plus'></i>Add Education</button></td>

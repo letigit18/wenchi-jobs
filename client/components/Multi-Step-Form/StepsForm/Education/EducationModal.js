@@ -12,13 +12,15 @@ const EducationModal = ({closeModal})=>{
     const date = new Date();
     date.toDateString();
     const isEnglish = useSelector((state)=>state.language.isEnglish)
-    const formData = useSelector((state)=> state.CVBuilder.educationalFormData)
+    const educationData = useSelector((state)=> state.CVBuilder.educationalFormData)
     const [universityName, setUniversityName] = useState('')
+    let regId;
     const dispatch = useDispatch()
     //setting up the validation schema
     const validationSchema = yup.object().shape({
         educationalLevel: yup.string().required("Educational level required"),
         collegeName: yup.string().required("School name required"),
+        category: yup.string().required("Education category required"),
         showOther: yup.boolean(),
         other: yup.string()
               .when("showOther", {
@@ -57,6 +59,16 @@ const EducationModal = ({closeModal})=>{
         }
 
     }, [universityName])
+    //function that generates userId
+    const getRegId = () =>{
+        if(educationData.length == 0){
+            regId = 1;
+            return regId;
+        }
+        else{
+            return parseInt(educationData[educationData.length - 1].id) + 1;
+        }
+    }
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
         fetch('http://localhost:5000/create-education-data', {
@@ -64,7 +76,7 @@ const EducationModal = ({closeModal})=>{
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
-        dispatch(addEducationalFormData({educationalLevel: data.educationalLevel, collegeName: data.collegeName, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa}))
+        dispatch(addEducationalFormData({id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, category: data.category, collegeName: data.collegeName, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa}))
         closeModal(false)
     }
     return(
@@ -72,7 +84,7 @@ const EducationModal = ({closeModal})=>{
             <div className={styles.card}>
               
                 <div className={styles.header}>
-                     <h3>Add Experience</h3>
+                     <h3>Add Education</h3>
                      
                      <div className={styles.close} onClick={()=>closeModal(false)}>X</div>
                      <div className={styles.closeToolTip}>
@@ -80,7 +92,8 @@ const EducationModal = ({closeModal})=>{
                      </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-         
+                    <input type="hidden" {...register("userId")} value="1" />
+                    <input type='hidden' {...register("id")} value={getRegId()} />
                     <div className={styles.inputBox}>
                         <label>Educational Level</label>
                         <select  {...register("educationalLevel")} className= {errors.educationalLevel ? styles.inputError : ""} required>
@@ -157,24 +170,54 @@ const EducationModal = ({closeModal})=>{
                         <p className={styles.errorLabel}>{errors.other?.message}</p>
                     </div>
                     <div className={styles.inputBox}>
+                        <label>Education category</label>
+                        <select  {...register("category")}  className= {errors.category? styles.inputError : ""}  required>
+                            <option value=''>Select</option>
+                            <option value="Accounting and Finance">Accounting and Finance</option>
+                            <option value='Agricultural Science'>Agricultural Science</option>
+                            <option value="Art and Design">Art and Design</option>
+                            <option value="Automotive and Machinery">Automotive and Machinery</option>
+                            <option value="Banking and Insurance">Banking and Insurance</option>
+                            <option value="Economics">Economics</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Health Science">Health Science</option>
+                            <option value="Hotel and Hospitality">Hotel and Hospitality</option>
+                            <option value="Information Technology">Informatics</option>
+                            <option value="Legal">Legal studies</option>
+                            <option value="Logistics and Transportation">Logistics and Transportation</option>
+                            <option value="Management and Business Administration">Management and Business Administration</option>
+                            <option value="Media and Journalism">Media and Journalism</option>
+                            <option value="Music and Theatrical Art">Music and Theatrical Art</option>
+                            <option value="Natural Science">Natural Science</option>
+                            <option value="Project Management">Project Management</option>
+                            <option value="Purchasing and Procurement">Purchasing and Procurement</option>
+                            <option value="Sales and Marketing">Sales and Marketing</option>
+                            <option value="Security">Security</option>
+                            
+                        </select>
+                        <p className={styles.errorLabel}>{errors.category?.message}</p>
+                    </div>
+                    <div className={styles.inputBox}>
                         <label>Department</label>
                         <input type='text'   {...register("department")} className= {errors.department ? styles.inputError : ""} required/>
                          
                         <p className={styles.errorLabel}>{errors.department?.message}</p>
                     </div>
-                    <div className={styles.inputBox}>
-                        <label>Start date</label>
-                        <input type='date'  {...register("startDate")} className= {errors.startDate ? styles.inputError : ""} required />
+                    <div className={styles.inputBoxRow}>
+                        <div className={styles.col}>
+                            <label>Start date</label>
+                            <input type='date'  {...register("startDate")} className= {errors.startDate ? styles.inputError : ""} required />
 
-                        <p className={styles.errorLabel}>{errors.startDate?.message}</p>
+                            <p className={styles.errorLabel}>{errors.startDate?.message}</p>
+                        </div>
+                        <div className={styles.col}>
+                            <label>End date</label>
+                            <input type='date'  {...register("endDate")} className= {errors.endDate ? styles.inputError : ""} required/>
+                            <p className={styles.errorLabel}>{errors.endDate?.message}</p>
+                        </div>
+                        
                     </div>
                     
-                    <div className={styles.inputBox}>
-                        <label>End date</label>
-                        <input type='date'  {...register("endDate")} className= {errors.endDate ? styles.inputError : ""} required/>
-                    
-                        <p className={styles.errorLabel}>{errors.endDate?.message}</p>
-                    </div>
                     <div className={styles.inputBox}>
                         <label>CGPA</label>
                         <input type='text'  {...register("cgpa")} className= {errors.cgpa ? styles.inputError : ""} />
