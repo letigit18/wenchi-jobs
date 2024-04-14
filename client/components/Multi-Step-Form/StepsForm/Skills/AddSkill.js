@@ -19,8 +19,7 @@ const AddLanguage = ({closeModal})=>{
     const dispatch = useDispatch()
     //setting up the validation schema
     
-    const validationSchema = yup.object().shape({
-        skills: yup.string().required("Skills required"),       
+    const validationSchema = yup.object().shape({     
         profileSummary: yup.string().required("Profile summary required")
                         .min(50, 'Please Enter informative profile summary')
                         .max(500, "Your summary should not exceed 500 characters"),
@@ -60,16 +59,22 @@ const AddLanguage = ({closeModal})=>{
     const handleClear = (index)=>{
         setSkillTag(skillTag.filter((skill, i)=> i !== index ))
     }
+    //prevent on enter form submission
+    const preventEnterKeySubmission = (e)=>{
+        if(e.key === 'Enter'){
+            e.preventDefault()
+        }
+    }
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
         
         fetch('http://localhost:5000/create-skill-data', {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(data)
+            body: JSON.stringify({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary})
         })
         .then(response => {
-        dispatch(addSkillsData({id: regId, userId: data.userId, skills: data.skills, profileSummary: data.profileSummary}))
+        dispatch(addSkillsData({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary}))
        
         closeModal(false)
         })
@@ -87,7 +92,7 @@ const AddLanguage = ({closeModal})=>{
                         Close
                      </div>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <form onSubmit={handleSubmit(onSubmit)} onKeyPress={preventEnterKeySubmission} noValidate>
                    <input type='hidden' value={getRegId()} {...register("id")} />
                    <input type='hidden' value={1} {...register("userId")} />
                    <label>Skills</label>
@@ -102,6 +107,7 @@ const AddLanguage = ({closeModal})=>{
                         <input ref={inputRef} type='text' onKeyDown={handleKeyDown} className={styles.skillInput} placeholder='Enter your skill' autoFocus={true}/>
                         
                     </div>
+                   
                     <div className={styles.inputBox}>
                         <label htmlFor='profileSummary'>Profile Summary</label>
                         <textarea rows={8} placeholder='enter profile summary ' {...register("profileSummary")} className= {errors.profileSummary ? styles.inputError : ""} autoFocus={false} >

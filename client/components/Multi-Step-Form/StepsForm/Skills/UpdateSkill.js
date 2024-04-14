@@ -1,32 +1,47 @@
 "use client"
-import React, {useEffect, useMemo, useState} from 'react'
-import styles from '../steps.module.css'
+import React, {useRef, useState} from 'react'
+import styles from './skill.module.css'
 import Link  from 'next/link';
 import {useForm} from 'react-hook-form'
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
-import {  } from '@/redux/multiStepForm';
+import { updateSkillsData } from '@/redux/multiStepForm';
 
-const UpdateSkill= ({closeModal, indexValue, languageData})=>{
+const UpdateSkill= ({closeModal, skillData, indexValue})=>{
 
     const isEnglish = useSelector((state)=>state.language.isEnglish)
-    const formData = useSelector((state)=> state.CVBuilder.languageData)
     const [openInputField, setOpenInputField] = useState(false);
-    const [language, setLanguage] = useState(formData[indexValue].language)
+    let skillArray = skillData[indexValue].skills.split(",");
+    const [skillTag, setSkillTag] = useState(skillArray)
+    const inputRef = useRef(null)
     const dispatch = useDispatch()
     //setting up the validation schema
     
-    const validationSchema = yup.object().shape({
-        language: yup.string().required("Language required"),
-        proficiency: yup.string().required("Proficiency required"),
-        other: yup.string()            
+    const validationSchema = yup.object().shape({     
+        profileSummary: yup.string().required("Profile summary required")
+                        .min(50, 'Please Enter informative profile summary')
+                        .max(500, "Your summary should not exceed 500 characters"),
+       
     })
     //linking the validation schema with the form data throuhg resolver
     const {register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(validationSchema),
        
     });
+       //handle skills key down event handler function
+       const handleKeyDown = (e) =>{
+        if(e.key !== 'Enter') return
+        const value = e.target.value;
+        if(!value.trim()) return
+        setSkillTag([...skillTag, value])
+        e.target.value = ''
+        
+    }
+    //handle clear 
+    const handleClear = (index)=>{
+        setSkillTag(skillTag.filter((skill, i)=> i !== index ))
+    }
     const getRegId = () =>{
         if(languageData.length == 0){
             regId = 1;
@@ -36,18 +51,23 @@ const UpdateSkill= ({closeModal, indexValue, languageData})=>{
             return parseInt(languageData[languageData.length - 1].id) + 1;
         }
     }
+    const preventEnterKeySubmission = (e)=>{
+        if(e.key === 'Enter'){
+            e.preventDefault()
+        }
+    }
   
     //the function that handles the onsubmit form data 
-    const onSubmit = (data) =>{
-        
-        const response = fetch('http://localhost:5000/update-language-data', {
+    const onSubmit = (data, e) =>{
+        e.preventDefault()
+        const response = fetch('http://localhost:5000/update-skill-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({id: data.id, userId: data.userId, language: data.language, other: data.other, proficiency: data.proficiency})
+            body: JSON.stringify({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary})
         })
         .then(response => {
         
-        dispatch(updateLanguageData({id: data.id, userId: data.userId, language: data.language, other: data.other, proficiency: data.proficiency}))
+            dispatch(updateSkillsData({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary}))
         closeModal(false)
         
         
@@ -57,7 +77,7 @@ const UpdateSkill= ({closeModal, indexValue, languageData})=>{
  
     return(
         
-            <div className={styles.languageCard} >
+            <div className={styles.skillCard} >
               
                 <div className={styles.header}>
                      <h3>Update Language Data </h3>
@@ -67,47 +87,32 @@ const UpdateSkill= ({closeModal, indexValue, languageData})=>{
                         Close
                      </div>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                   <input type='hidden' value={formData[indexValue].id} {...register("id")} />
-                   <input type='hidden' value={formData[indexValue].userId} {...register("userId")} />
-                   <div className={styles.inputBox} >
-                        <label htmlFor='language'>Language</label>
-                        <select {...register("language")} value={language} onChange={e=>setLanguage(e.target.value)} className= {errors.language ? styles.inputError : ""} required>
-                            <option></option>
-                            <option value="Amharic">Amharic</option>
-                            <option value="Oromic">Afan Oromo</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="English">English</option>
-                            <option value="French">French</option>
-                            <option value="Gurage">Guragegna</option>
-                            <option value="Harari">Harari</option>
-                            <option value="Somali">Somali</option>
-                            <option value="Sidama">Sidamegna</option>
-                            <option value="Tigregna">Tigregna</option>
-                            <option value="Wolaita">Wolaitagna</option>
-                            <option value="other">Other</option>
-                        </select>
-                        {language == 'other' && <input type='text' defaultValue={formData[indexValue].other} placeholder='Enter other language' style={{margin: '5px 0'}} {...register('other')} className= {errors.other ? styles.inputError : ""} />}
-                       
+                <form onSubmit={handleSubmit(onSubmit)} onKeyPress={preventEnterKeySubmission} noValidate>
+                   <input type='hidden' value={skillData[indexValue].id} {...register("id")} />
+                   <input type='hidden' value={skillData[indexValue].userId} {...register("userId")} />
+                   <label>Skills</label>
+                   <div className={styles.skillContainer} >
+                       {skillTag.map((s, index)=>(
+                                <div className={styles.skillItem} key={index}>
+                                  <span className={styles.skillName}>{s}</span>
+                                  <span onClick={()=>handleClear(index)} className={styles.close}>&times;</span>
+                                                  
+                                </div>
+                          ))}
+                        <input ref={inputRef} type='text' onKeyDown={handleKeyDown}  className={styles.skillInput} placeholder='Enter your skill & hit enter' autoFocus={true}/>
                         
-                        <p className={styles.errorLabel}>{errors.language?.message}</p>
-                    </div>
-                    <div className={styles.inputBox}>
-                        <label htmlFor='proficiency' style={{marginTop: '15px'}}>Proficiency</label>
-                        <select defaultValue={formData[indexValue].proficiency} {...register("proficiency")} className= {errors.proficiency ? styles.inputError : ""} required>
-                            <option></option>
-                            <option value="Basic">Basic</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Fluent">Fluent</option>
-                            <option value="Native">Native</option>
-                            
-                           
-                        </select>
-                                             
-                        
-                        <p className={styles.errorLabel}>{errors.proficiency?.message}</p>
                     </div>
                    
+                    <div className={styles.inputBox}>
+                        <label htmlFor='profileSummary'>Profile Summary</label>
+                        <textarea rows={8} placeholder='enter profile summary ' defaultValue={skillData[indexValue].profileSummary}{...register("profileSummary")} className= {errors.profileSummary ? styles.inputError : ""} autoFocus={false} >
+
+                        </textarea>         
+                        
+                        <p className={styles.errorLabel}>{errors.profileSummary?.message}</p>
+                    </div>
+                   
+                    
                                    
                     <input type='submit' value="Update" name='submit' className={styles.btnLogin} style={{marginTop: '25px'}}/>
                    

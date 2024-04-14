@@ -8,6 +8,7 @@ import styles from '../steps.module.css'
 import AddSkill from './AddSkill';
 import {deleteSkillsData, getSkillsData } from '@/redux/multiStepForm';
 import UpdateSkill from './UpdateSkill';
+import axios from 'axios';
 const SkillsForm = () =>{
 
     const currentStep = useSelector((state)=> state.step.currentStep);
@@ -17,16 +18,19 @@ const SkillsForm = () =>{
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
     const dispatch = useDispatch();
     const {register, handleSubmit} = useForm();
+    console.log(skillData)
     //fetching language data
     useEffect(() => {
-        fetch('http://localhost:5000/fetch-skill-data')
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-           dispatch( getSkillsData(data))
-          });
-      }, []);
+      async function fetchPersonalData(){
+        await axios.get('http://localhost:5000/fetch-skill-data')
+        .then((res)=>{
+          dispatch(getSkillsData(res.data))
+        })
+        
+        .catch(err=>console.log(err))
+      }
+      fetchPersonalData()
+    }, []);
     //handle delete language
     const handleDelete = (id, userId)=>{
         console.log(id)
@@ -57,9 +61,10 @@ const SkillsForm = () =>{
                     </tr>
                 </thead>
                 <tbody>
-                    {skillData.map((skill, index)=> {
-                    return <tr key={index}>
-                        <td>{index + 1}</td>
+                  
+               {skillData?.map((skill, index)=>{
+                     return <tr>
+                        <td>1</td>
                         <td>{skill.skills}</td>
                         <td>{skill.profileSummary}</td>
                         <td  className={styles.actionIcons} style={{textAlign: 'center'}} >
@@ -75,7 +80,9 @@ const SkillsForm = () =>{
                       </span>
                    </td>
                     </tr>
-                    })}
+                 
+               })}
+            
                     <tr>
                         <td colSpan={4} className={styles.tdButton}><button type='button' onClick={()=>{setSkillModalOpen(true)}}  className={styles.addButton}><i className='bx bx-plus'></i>Add Skills</button></td>
                     </tr>
