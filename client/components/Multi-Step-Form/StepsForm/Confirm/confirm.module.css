@@ -1,0 +1,24 @@
+.form{
+    margin-top: 10px;
+    width: 45%;
+    background-color: whitesmoke;
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+    height: 80px;
+    border-radius: 5px;
+
+
+}
+.form input{
+    margin-right: 10px;
+    cursor: pointer;
+}
+.form {
+    font-size: 11pt;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
