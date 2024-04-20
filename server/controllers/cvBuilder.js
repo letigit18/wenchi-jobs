@@ -15,7 +15,7 @@ const cvBuilderModel = require("../models/cvBuilderModel")
  }
 //update personal data
 exports.updatePersonalData = (req, res)=>{
-    const data = {userId: 1, userFirstName: req.body.userFirstName, userMiddleName: req.body.userMiddleName, userLastName: req.body.userLastName, userSex: req.body.userSex, userDateOfBirth: req.body.userDateOfBirth, userLocation: req.body.userLocation, userPhoneNumber: req.body.userPhoneNumber, portfolioLink: req.body.portfolioLink, linkedinLink: req.body.linkedinLink, userEmail: req.body.userEmail}
+    const data = {userId: 1, userFirstName: req.body.userFirstName, userMiddleName: req.body.userMiddleName, userLastName: req.body.userLastName, userSex: req.body.userSex, userDateOfBirth: req.body.userDateOfBirth, userLocation: req.body.userLocation, userPhoneNumber: req.body.userPhoneNumber, portfolioLink: req.body.portfolioLink, linkedinLink: req.body.linkedinLink, githubLink: req.body.githubLink,  userEmail: req.body.userEmail}
     cvBuilderModel.updatePersonalData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Success"})
@@ -72,7 +72,7 @@ exports.fetchEducationalData = (req, res)=>{
 }
 //insert new record of education data for job seekers
 exports.createEducationData = (req, res)=>{
-    const data = {userId: 1, educationalLevel: req.body.educationalLevel, collegeName: req.body.collegeName, department: req.body.department, startDate: req.body.startDate, endDate: req.body.endDate, cgpa: req.body.cgpa}
+    const data = {userId: 1, id: req.body.id, educationalLevel: req.body.educationalLevel, category: req.body.category, collegeName: req.body.collegeName, department: req.body.department, startDate: req.body.startDate, endDate: req.body.endDate, cgpa: req.body.cgpa}
     cvBuilderModel.createEducationData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Record Successfully created"})
@@ -84,7 +84,7 @@ exports.createEducationData = (req, res)=>{
 }
 //update educational data of job seekers
 exports.updateEducationData =(req, res)=>{
-    const data = {id: req.body.id, userId: 1, educationalLevel: req.body.educationalLevel, collegeName: req.body.collegeName, department: req.body.department, startDate: req.body.startDate, endDate: req.body.endDate, cgpa: req.body.cgpa}
+    const data = {id: req.body.id, userId: req.body.userId, educationalLevel: req.body.educationalLevel, collegeName: req.body.collegeName, other: req.body.other, category: req.body.category, department: req.body.department, startDate: req.body.startDate, endDate: req.body.endDate, cgpa: req.body.cgpa}
  cvBuilderModel.updateEducationData(req.con, data, (error, result)=>{
     if(result){
         res.json({"message": "Record Updated successfully"})
@@ -211,9 +211,10 @@ exports.deleteLanguageData = (req, res)=>{
 //create record of skill 
 exports.fetchSkillData = (req, res)=>{
     const data = {userId: 1}
-    cvBuilderModel.fetchLanguageData(req.con, data, (error, result)=>{
+    cvBuilderModel.fetchSkillData(req.con, data, (error, result)=>{
         if(result){
             res.json(result)
+            
         }
         else{
             throw error
@@ -223,7 +224,7 @@ exports.fetchSkillData = (req, res)=>{
 }
 //insert new record of skills data for job seekers
 exports.createSkillData = (req, res)=>{
-    const data = {id: req.body.id, userId: req.body.userId, skills: req.body.skills, profileSummary: profileSummary }
+    const data = {id: req.body.id, userId: req.body.userId, skills: req.body.skills, profileSummary: req.body.profileSummary }
     cvBuilderModel.createSkillData(req.con, data, (error, result)=>{
         if(result){
             res.send("Record Successfully created")
@@ -235,7 +236,7 @@ exports.createSkillData = (req, res)=>{
 }
 //update skills data of job seekers
 exports.updateSkillData =(req, res)=>{
-    const data = {id: req.body.id, userId: req.body.userId, skills: req.body.skills, profileSummary: profileSummary}
+    const data = {id: req.body.id, userId: req.body.userId, skills: req.body.skills, profileSummary: req.body.profileSummary}
     cvBuilderModel.updateSkillData(req.con, data, (error, result)=>{
     if(result){
         res.json({"message": "Record updated successfully"})
