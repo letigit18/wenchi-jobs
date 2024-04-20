@@ -81,12 +81,13 @@
     cursor: pointer;
 }
 .jobContainer{
-    width: 65%;
+    width: 75%;
+    overflow-y: scroll;
 }
 .jobContainer .gridContainer li{
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 30px;
     font-size: 14px;
 }
 .jobContainer .gridContainer li .counter{
@@ -122,12 +123,10 @@
 /* style for category listing in grid */
 .gridContainer{
     display: grid;
-    padding: 35px 10px;
+    padding: 25px 10px 25px 0px;
     width: 100%;
     column-gap: 30px;
     row-gap: 20px;
-    overflow: hidden;
-    overflow-y: scroll;
     grid-template-columns: repeat(3, 1fr);
 }
 @keyframes counter {

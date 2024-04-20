@@ -5,10 +5,12 @@ import styles from './cv-builder.module.css'
 import { stepsData } from './topics'
 import StepForm from '@/components/Multi-Step-Form/StepFormContainer'
 import { useSelector, useDispatch } from 'react-redux'
-import { getExperienceData } from '@/redux/multiStepForm'
-
+import { getExperienceData, getImageData, getPersonalData } from '@/redux/multiStepForm'
+import axios from 'axios'
 const CVBuilder = () =>{
  const currentStep = useSelector((state)=> state.step.currentStep);
+ const isEnglish = useSelector((state)=>state.language.isEnglish)
+ const dispatch = useDispatch()
 
     return(
         <section className={styles.container}>
@@ -18,7 +20,7 @@ const CVBuilder = () =>{
                   
                         <div className={styles.step}>
                           <span className={step.id !== currentStep ? styles.circle : `${styles.circle} ${styles.active}`}>{step.id < currentStep ? <i className='bx bx-check'></i> : step.id}</span>
-                          <h3 key={id}>{step.title}</h3>
+                          {isEnglish ? <h3 key={id}>{step.title}</h3> : <h3 key={id}>{step.titleOro}</h3>}
                           
                         </div>
                   

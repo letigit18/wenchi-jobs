@@ -67,7 +67,7 @@ const EducationForm = () =>{
                  </thead>
                  <tbody>
                
-                {experienceData.map((formData, index)=>{
+                {experienceData?.map((formData, index)=>{
                  return <tr key={index}>
                       <td>
                           {index+1}

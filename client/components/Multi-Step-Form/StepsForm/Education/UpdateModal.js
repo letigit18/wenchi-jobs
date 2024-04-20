@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from '../steps.module.css'
 import Link  from 'next/link';
-import {useFieldArray, useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
@@ -52,16 +52,16 @@ const UpdateModal = ({closeModal, educationData, indexValue})=>{
    
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
-       const response = fetch('http://localhost:5000/update-education-data', {
+      fetch('http://localhost:5000/update-education-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, other: data.other, collegeName: data.collegeName, category: data.category, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa})
         })
-        .then(response =>{
-            console.log(data)
+      .then(res => {
         dispatch(updateEducationalData({id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, other: data.other, collegeName: data.collegeName, category: data.category, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa}))
         closeModal(false)
-        })
+      })
+        
     }
     return(
         
@@ -104,7 +104,7 @@ const UpdateModal = ({closeModal, educationData, indexValue})=>{
                     <div className={styles.inputBox}>
                         <label>University/College name</label>
                         <select  {...register("collegeName")}  value={universityName} onChange={e => setUniversityName(e.target.value)} className= {errors.collegeName? styles.inputError : ""}  required>
-                            <option value=''>Select</option>
+                    
                             <option value="Adama Science and Technology University">Adama Science and Technology university</option>
                             <option value="Addis Ababa Science and Technology University">Addis Ababa Science and Technology University</option>
                             <option value="Addis Ababa University">Addis Ababa University</option>
@@ -155,7 +155,7 @@ const UpdateModal = ({closeModal, educationData, indexValue})=>{
                     <div className={styles.inputBox}>
                         <label>Education category</label>
                         <select  {...register("category")} defaultValue={educationData[indexValue].category}  className= {errors.category? styles.inputError : ""}  required>
-                            <option value=''>Select</option>
+                
                             <option value="Accounting and Finance">Accounting and Finance</option>
                             <option value='Agricultural Science'>Agricultural Science</option>
                             <option value="Art and Design">Art and Design</option>

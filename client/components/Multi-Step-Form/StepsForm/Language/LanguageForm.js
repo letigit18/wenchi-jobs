@@ -57,7 +57,7 @@ const LanguageForm = () =>{
                     </tr>
                 </thead>
                 <tbody>
-                    {languageData.map((language, index)=> {
+                    {languageData?.map((language, index)=> {
                     return <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{language.language != 'other' ? language.language : language.other}</td>

@@ -5,7 +5,7 @@ import PersonalForm from './StepsForm/Personal/PersonalForm';
 import ExperienceForm from './StepsForm/Experience/ExperienceForm';
 import SkillsForm from './StepsForm/Skills/SkillsForm';
 import LanguageForm from './StepsForm/Language/LanguageForm';
-import SubmitForm from './StepsForm/SubmitForm';
+import SubmitForm from './StepsForm/Confirm/SubmitForm';
 import { useSelector } from 'react-redux';
 const StepFormContainer = () =>{
 const currentStep = useSelector((state)=> state.step.currentStep);

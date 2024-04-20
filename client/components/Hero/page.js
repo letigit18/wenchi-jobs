@@ -18,6 +18,7 @@ const Hero = () =>{
     return(
         <section className={styles.hero} id="hero">
            <div className={styles.leftContainer}>
+            
              <div className={styles.text}>
             {isEnglish ? 
              <TypeAnimation
@@ -63,6 +64,7 @@ const Hero = () =>{
       /> }
              </div>
            </div>
+           
            <div className={styles.container}>
            {/*** search box on the hero section */}
               <div className={styles.box}>
@@ -82,8 +84,9 @@ const Hero = () =>{
              </div>
                 
            </div>
-         
+           
            <div className={styles.rightContainer}>
+      
              <div className={styles.socialContainer}>
                 <h3>{isEnglish ? 'Follow us' : 'Nu hordofaa'}</h3>
                 <div className={styles.socialIcons}>
@@ -93,6 +96,7 @@ const Hero = () =>{
                 </div>
              </div>
            </div> 
+    
              {/* open signup modal onclick */}
           {signupOpen && <SignupModal closeModal={setSignupOpen}/>}
         

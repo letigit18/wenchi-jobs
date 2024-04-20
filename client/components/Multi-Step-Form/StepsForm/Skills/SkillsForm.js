@@ -18,7 +18,7 @@ const SkillsForm = () =>{
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
     const dispatch = useDispatch();
     const {register, handleSubmit} = useForm();
-    console.log(skillData)
+    
     //fetching language data
     useEffect(() => {
       async function fetchPersonalData(){
@@ -33,7 +33,6 @@ const SkillsForm = () =>{
     }, []);
     //handle delete language
     const handleDelete = (id, userId)=>{
-        console.log(id)
         fetch('http://localhost:5000/delete-skill-data',{
           method: "delete",
           headers: {"Content-Type": "application/json"},
@@ -44,7 +43,25 @@ const SkillsForm = () =>{
         
         })
       }
-
+ // formatting the skill data
+ const formatSkill = (skill)=>{
+  if(skill.length <=5){
+    return(
+      skill.map((s, i)=>{
+        return <ul key={i}>
+            <li style={{textIndent: '-3px'}}>{s}</li>
+        </ul>
+      })
+    )
+  }
+  else{
+    return (
+      skill.map((s, i)=>{
+        return <span>{`${s}, `}</span>
+      })
+    )
+  }
+ }
     const onSubmit = () =>{
         dispatch(changeStep( currentStep + 1))
     }
@@ -54,8 +71,8 @@ const SkillsForm = () =>{
              <table className={styles.table} >
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Skills</th>
+                        
+                        <th style={{paddingLeft: '10px'}}>Skills</th>
                         <th>Profile Summary</th>
                         <th style={{textAlign: 'center'}}>Actions</th>
                     </tr>
@@ -64,9 +81,9 @@ const SkillsForm = () =>{
                   
                {skillData?.map((skill, index)=>{
                      return <tr>
-                        <td>1</td>
-                        <td>{skill.skills}</td>
-                        <td>{skill.profileSummary}</td>
+                        
+                        <td style={{paddingLeft: '30px'}}>{formatSkill(skill.skills.split(","))}</td>
+                        <td style={{textAlign: "left"}}>{skill.profileSummary}</td>
                         <td  className={styles.actionIcons} style={{textAlign: 'center'}} >
                       
                       <i className={`${styles.editButton} bx bx-edit`} style={{color:'green'}} onClick={()=>{setUpdateModalOpen(true), setIndexValue(index) }}></i>
@@ -84,7 +101,7 @@ const SkillsForm = () =>{
                })}
             
                     <tr>
-                        <td colSpan={4} className={styles.tdButton}><button type='button' onClick={()=>{setSkillModalOpen(true)}}  className={styles.addButton}><i className='bx bx-plus'></i>Add Skills</button></td>
+                      {skillData?.length === 0 &&  <td colSpan={3} className={styles.tdButton}><button type='button' onClick={()=>{setSkillModalOpen(true)}}  className={styles.addButton}><i className='bx bx-plus'></i>Add Skills</button></td> }
                     </tr>
                 </tbody>
              </table>

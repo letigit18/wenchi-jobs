@@ -37,7 +37,7 @@ const Navbar = () =>{
         <header className={styles.header}>
             <nav className={styles.navBar}>
                 <div className={styles.logo}>
-                    Wenchi jobss
+                    <img src="/wenchijobs-nav-logo.png" />
                 </div>
                 <ul className={styles.menu}>
                     <li className={styles.menuItem}>
@@ -71,7 +71,7 @@ const Navbar = () =>{
                     <Link className={`${styles.link} ${styles.dropdown}`} href="#">{isEnglish ? 'Job seekers' : 'Hojii barbaadaa'}<i className='bx bx-chevron-down'></i></Link>
                      <ul className={styles.dropdownMenu}>
                         <li className={styles.menuItem}><Link href='/browse-jobs'>{isEnglish ? 'Find jobs' : 'Hojii barbaadi'}</Link></li>
-                        <li className={styles.menuItem}>{isEnglish ? 'Build CV' : 'CV Qopheessi'}</li>
+                        <li className={styles.menuItem}><Link href='/CV-Builder'>{isEnglish ? 'Build CV' : 'CV Qopheessi'}</Link></li>
                         <li className={styles.menuItem}>{isEnglish ? 'Register' : 'Haaraa galmeessii'}</li>
                         <li className={styles.menuItem}>{isEnglish ? 'Login' : 'Seenii | Login'}</li>
 
@@ -81,7 +81,7 @@ const Navbar = () =>{
                     <Link className={`${styles.link} ${styles.dropdown}`} href="/">{isEnglish ? 'Employers' : 'Hojjechiistota'}<i className='bx bx-chevron-down'></i></Link>
                      <ul className={styles.dropdownMenu}>
                         <li className={styles.menuItem}>{isEnglish ? 'Home' : 'Fula jalqabaa'}</li>
-                        <li className={styles.menuItem}>{isEnglish ? 'Post jobs' : 'Hoji maxxansii'}</li>
+                        <li className={styles.menuItem}><Link href="/employers/post-jobs">{isEnglish ? 'Post jobs' : 'Hoji maxxansii'}</Link></li>
                         <li className={styles.menuItem}>{isEnglish ? 'Register' : 'Haaraa Galmeessii'}</li>
                         <li className={styles.menuItem}>{isEnglish ? 'Login' : 'Seenii'}</li>
 
@@ -96,7 +96,7 @@ const Navbar = () =>{
                 </ul>
                 {/* open signup modal on click*/}
                 {signupOpen && <SignupModal closeModal={setSignupOpen}/>}
-                {/*Mobile Menu starts here */}
+                {/*Mobile Menu startls here */}
                 <ul className={active ? `${styles.mobileMenu} ${styles.hidden}` : `${styles.mobileMenu} ${styles.active}` }>
                     <li className={styles.menuItem}>
                         <Link className={styles.link} href="/">Home</Link>
@@ -114,7 +114,7 @@ const Navbar = () =>{
                     <Link className={`${styles.link} ${styles.dropdown}`} href="/">Employers  <i className='bx bx-chevron-down'></i></Link>
                      <ul className={styles.dropdownMenu}>
                         <li className={styles.menuItem}>Register</li>
-                        <li className={styles.menuItem}>Post jobs</li>
+                        <li className={styles.menuItem}><Link href="/employers/post-jobs">Post jobs</Link></li>
                      </ul>
                     </li>
                     <div className= {styles.myAccount}>

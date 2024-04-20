@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './category.module.css';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,12 +7,23 @@ const Category = ()=>{
   const [selected, setSelected] = useState(null)
   const dispatch = useDispatch();
   const isEnglish = useSelector((state)=> state.language.isEnglish)
+  const [category, setCategory] = useState([])
   const handleToggle = (index)=>{
     if(selected == index){
         return setSelected(null)
     }
     setSelected(index)
   }
+  //fetch category from database 
+  useEffect(() => {
+    fetch('http://localhost:5000/fetch-job-category')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+       setCategory(data)
+      });
+  }, []);
        
     return(
         <section className={styles.container} id="category">
@@ -80,16 +91,13 @@ const Category = ()=>{
                         
                 </div>
                 <div className={styles.jobContainer}>
+                
                     <ul className={styles.gridContainer}>
-                        <li>Information Technolog <span className={styles.counter}> 102</span></li>
-                        <li>Computer Science <span className={styles.counter}> 102</span></li>
-                        <li>Information Technology <span className={styles.counter}> 102</span></li>
-                        <li>Information Technology <span className={styles.counter}> 102</span></li>
-                        <li>Information Technology <span className={styles.counter}> 102</span></li>
-                        
-                        <li>Computer Science</li>
-                        
+                    {category?.map((cat, index)=>{
+                      return  <li key={index}>{isEnglish ? cat.categoryName : cat.categoryOromic} <span className={styles.counter}> 102</span></li>
+                    })}
                     </ul>
+              
                 </div>
             </div>
         </section>

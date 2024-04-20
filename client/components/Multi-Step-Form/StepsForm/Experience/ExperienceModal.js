@@ -18,8 +18,7 @@ const EducationModal = ({closeModal})=>{
     date.toDateString();
     const isEnglish = useSelector((state)=>state.language.isEnglish)
     const experienceData = useSelector((state)=>state.CVBuilder.experienceData);
-    const formData = useSelector((state)=> state.CVBuilder.educationalFormData)
-    const regId = parseInt(experienceData[experienceData.length - 1].id) + 1;
+    let regId;
     const dispatch = useDispatch()
     //setting up the validation schema
     const validationSchema = yup.object().shape({
@@ -50,6 +49,16 @@ const EducationModal = ({closeModal})=>{
       const onEditorStateChange = (editorState) => {
         setValue("jobResponsibility", editorState);
       };
+      //function that sets id
+      const getRegId = () =>{
+        if(experienceData.length == 0){
+            regId = 1;
+            return regId;
+        }
+        else{
+            return parseInt(experienceData[experienceData.length - 1].id) + 1;
+        }
+    }
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
         fetch('http://localhost:5000/create-experience-data', {
@@ -58,7 +67,7 @@ const EducationModal = ({closeModal})=>{
             body: JSON.stringify(data)
         })
         .then(response => {
-        dispatch(addExperienceData({id: regId, userId: data.userId, jobTitle: data.jobTitle, employerName: data.employerName, jobResponsibility: data.jobResponsibility, startDate: data.startDate, endDate: data.endDate}))
+        dispatch(addExperienceData({id: data.id, userId: data.userId, jobTitle: data.jobTitle, employerName: data.employerName, jobResponsibility: data.jobResponsibility, startDate: data.startDate, endDate: data.endDate}))
        
         closeModal(false)
         })
@@ -78,7 +87,7 @@ const EducationModal = ({closeModal})=>{
                      </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                   <input type='hidden' value={regId} {...register("id")} />
+                   <input type='hidden' value={getRegId()} {...register("id")} />
                    <input type='hidden' value={1} {...register("userId")} />
                    <div className={styles.inputBox}>
                         <label htmlFor='jobTitle'>Job Title</label>

@@ -14,7 +14,18 @@
     border-radius: 4px;
     font-size: 14px;
 }
+.btnDownload{
+    border: none;
+    padding: 5px;
+    color: white;
+    background-color: rgb(74, 150, 74);
+    border-radius: 4px;
+    font-size: 14px;
+}
 .btnNext i{
+    transform: rotate(180deg);
+}
+.btnDownload i{
     transform: rotate(180deg);
 }
 .btnPrevious{

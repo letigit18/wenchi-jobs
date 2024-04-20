@@ -27,15 +27,6 @@ const UpdateLanguage = ({closeModal, indexValue, languageData})=>{
         resolver: yupResolver(validationSchema),
        
     });
-    const getRegId = () =>{
-        if(languageData.length == 0){
-            regId = 1;
-            return regId;
-        }
-        else{
-            return parseInt(languageData[languageData.length - 1].id) + 1;
-        }
-    }
   
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{

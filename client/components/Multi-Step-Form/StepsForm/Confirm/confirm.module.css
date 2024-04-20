@@ -60,22 +60,200 @@
 }
 .header{
     position: absolute;
-    padding: 10px;
+    padding: 5px 5px 5px 20px;
     width: 100%;
-    height: 180px;
+    height: 165px;
     background-color: darkslateblue;
     color: white;
+    
 }
 .header img{
     width: 35mm;
     height: 40mm;
-    border-radius: 5px;
+    border-radius: 2px;
 }
-.header .nameInfo{
+.header .nameInfo {
     position: absolute;
     top: 20px;
-    left: 45%;
+    left: 50%;
     color: white;
-    font-size: 18pt;
+    font-size: 20pt;
     font-weight: bolder;
+}
+.header .personalInfo1{
+    position: absolute;
+    top: 80px;
+    left: 35%;
+    font-size: 12pt;
+}
+.personalInfo2{
+    position: absolute;
+    top: 80px;
+    right: 40px;
+    font-size: 12pt;
+}
+.personalInfo2 li{
+    margin-bottom: 10px;
+}
+.personalInfo2 i{
+    margin-right: 5px;
+}
+.personalInfo1 i{
+    margin-right: 5px;
+}
+.personalInfo1 li{
+   margin-bottom: 10px;
+}
+.cvBodyContainer{
+    position: absolute;
+    top:170px;
+    width: 100%;
+    height: calc(100% - 165px);
+    display: flex;
+}
+.cvBodyContainer .leftContainer{
+    padding: 0 0 0 20px;
+    width: 40%;
+    height: 100%;
+}
+.leftContainer h2{
+    font-size: 16pt;
+    font-weight: bold;
+}
+.personalInfo .headerLine{
+    margin-top: 15px;
+    width: 270px;
+    height: 2px;
+    background-color: black;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.leftContainer .personalInfo ul{
+    margin-top: 10px;
+}
+.leftContainer .personalInfo ul li{
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+   
+}
+.leftContainer .personalInfo ul li span{
+    position: absolute;
+    left: 110px;
+   
+}
+.leftContainer .personalInfo ul li p{
+    font-weight: bold;
+}
+
+.skillInfo{
+    position: absolute;
+    top: 250px;
+  
+}
+.skillInfo .headerLine{
+    
+    width: 270px;
+    height: 2px;
+    margin-top: 15px;
+    background-color: black;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.skillInfo h2{
+ font-size: 16pt;
+ font-weight: bold;
+}
+.skillInfo .skillList{
+    margin-top: 10px;
+}
+.skillInfo .skillList li{
+    margin-bottom: 10px;
+}
+
+
+.languageInfo{
+    position: absolute;
+    top: 530px;
+
+}
+.languageInfo .headerLine{
+    width: 270px;
+    height: 2px;
+    margin-top: 15px;
+    background-color: black;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);margin-top: 15px;
+}
+.languageInfo .languageList{
+    margin-top: 10px;
+}
+.languageInfo .languageList li{
+    display: flex;
+}
+.languageInfo .languageList li span{
+    position: absolute;
+    left: 180px;
+}
+.referenceInfo{
+    position: absolute;
+    top: 760px;
+}
+.referenceInfo .headerLine{
+    width: 270px;
+    height: 2px;
+    margin-top: 15px;
+    background-color: black;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);margin-top: 15px;  
+}
+.referenceInfo p{
+    margin-top: 10px;
+}
+/** right side cv content styles **/
+.cvBodyContainer .rightContainer{
+    width: 60%;
+    padding: 0 10px 0 10px;
+    color: black;
+    position: relative;
+}
+
+.rightContainer h2{
+    display: flex;
+    gap: 10px;
+    font-size: 16pt;
+    font-weight: bold;
+}
+.rightContainer .profileSummary .headerLine{
+    margin-top: 15px;
+    width: 270px;
+    height: 2px;
+    background-color: black;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.profileSummary p{
+    margin-top: 10px;
+}
+.educationInfo{
+    position: absolute;
+    top: 250px;
+}
+.educationInfo .headerLine{
+    width: 270px;
+    height: 2px;
+    margin-top: 10px;
+    background-color: black;
+    border-radius: 1px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);margin-top: 15px;  
+}
+
+.rightContainer img{
+    width: 25px;
+    height: 25px;
+    margin-top: 10px;
+   
+}
+.spacer{
+    margin-top: 5px;
 }

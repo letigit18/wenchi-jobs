@@ -16,6 +16,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.1",
+    "axios": "^1.6.8",
     "boxicons": "^2.1.4",
     "dom-to-image": "^2.6.0",
     "ethiopian-date": "^0.0.6",

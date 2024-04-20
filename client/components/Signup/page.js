@@ -25,7 +25,15 @@ const Signup = ({closeModal})=>{
 
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
-        setMessage(data.firstName)
+        fetch('http://localhost:5000/create-signup-data', {
+            method: 'post',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        })
+        .then((res)=>{
+            console.log(res)
+            closeModal(false)
+        })
     }
     return(
         

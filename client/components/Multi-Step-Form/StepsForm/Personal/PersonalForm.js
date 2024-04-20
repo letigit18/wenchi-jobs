@@ -246,7 +246,7 @@ const PersonalForm = () =>{
              </div>
              <div className={styles.imageContainer}>
                
-                <img src={`http://localhost:5000/uploads/`+imageState.userImage} alt='wenchijobs-default-profile-picture' />
+                <img src={`http://localhost:5000/uploads/`+imageState?.userImage} alt='wenchijobs-default-profile-picture' />
                
                 <div className={styles.buttonContainer}>
                     <input type='file' onChange={(e)=>{

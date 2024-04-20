@@ -1,34 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {formData: {}, educationalFormData: [], experienceData: [], languageData: [], skillData: []}
+const initialState = {personalData: {}, educationalFormData: [], experienceData: [], languageData: [], skillData: [], imageData: {}}
 const multiStepSlice = createSlice({
     name: "CVBuilder",
     initialState,
     reducers: {
-        setFormData: (state, action)=>{
-            state.formData = {...state.formData, ...action.payload}
+        
+        //personal data reducers
+        getPersonalData: (state, action)=>{
+            state.personalData = {userId: action.payload.userId, userFirstName: action.payload.userFirstName, userMiddleName: action.payload.userMiddleName, userLastName: action.payload.userLastName, userSex: action.payload.userSex, userDateOfBirth: action.payload.userDateOfBirth, userLocation: action.payload.userLocation, userPhoneNumber: action.payload.phoneNumber, portfolioLink: action.payload.portfolioLink, linkedinLink: action.payload.linkedinLink, githubLink: action.payload.githubLink, userEmail: action.payload.userEmail}
         },
-        //education states
+        updatePersonalData: (state, action)=>{
+            state.personalData.userId = action.payload.userId,
+            state.personalData.userFirstName = action.payload.userFirstName,
+            state.personalData.userMiddleName = action.payload.userMiddleName,
+            state.personalData.userLastName = action.payload.userLastName,
+            state.personalData.userSex = action.payload.userSex,
+            state.personalData.userLocation = action.payload.userLocation,
+            state.personalData.userDateOfBirth = action.payload.userDateOfBirth,
+            state.personalData.userPhoneNumber = action.payload.userPhoneNumber,
+            state.personalData.userEmail = action.payload.userEmail,
+            state.personalData.githubLink = action.payload.githubLink,
+            state.personalData.linkedinLink = action.payload.linkedinLink,
+            state.personalData.portfolioLink = action.payload.portfolioLink
+        },
+        //education data handler reducers
         getEducationalData: (state, action)=>{
             state.educationalFormData = action.payload.map((data)=>{
-                return{id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, collegeName: data.collegeName, cgpa: data.cgpa, department: data.department, 
-                    startDate: data.startDate, endDate: data.endDate
+                return{id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, category: data.category, collegeName: data.collegeName, cgpa: data.cgpa, department: data.department, 
+                    other: data.other, startDate: data.startDate, endDate: data.endDate
                 }
             })
         },
         addEducationalFormData: (state, action)=>{
             state.educationalFormData.push(action.payload)
         },
-        updateEducationalFormData: (state, action)=>{
-          const index = state.educationalFormData.findIndex(educationData => educationData.userId == action.payload.userId && educationData.id == action.payload.id)
-          state.educationalFormData[index] ={
-            educationalLevel: action.payload.educationalLevel,
-            collegeName: action.payload.collegeName,
-            cgpa: action.payload.cgpa,
-            department: action.payload.department,
-            startDate: action.payload.startDate,
-            endDate: action.payload.endDate
-          }
-        },
+        updateEducationalData: (state, action)=>{
+            const { id, userId, educationalLevel, collegeName, other, category, cgpa, department, startDate, endDate } = action.payload;
+            const educationalFormData = state.educationalFormData.map(education => {
+              if (education.id == id && education.userId == userId) {
+                return { ...education, id, userId, educationalLevel, collegeName, other, category, cgpa, department, startDate, endDate};
+              }
+             
+              return education;
+            });
+          
+            return { ...state.educationalFormData, educationalFormData};
+              
+            },
+                  
         deleteEducationalFormData: (state, action)=>{
             const id = action.payload.id;
             state.educationalFormData = state.educationalFormData.filter(education => education.id !== id)
@@ -58,6 +77,7 @@ const multiStepSlice = createSlice({
         return { ...state.experienceData, experienceData };
           
         },
+        
         deleteExperienceData: (state, action)=>{
             const id = action.payload.id;
             state.experienceData = state.experienceData.filter(experience => experience.id !== id)
@@ -99,30 +119,35 @@ const multiStepSlice = createSlice({
         },
         addSkillsData: (state, action)=>{
             state.skillData.push(action.payload)
-           
         },
         updateSkillsData: (state, action)=>{
-        
-        const { id, userId, skills, profileSummary } = action.payload;
-        const skillData = state.skillData.map(skill => {
-          if (skill.id == id && skill.userId == userId) {
-            return { ...skill, id, skills, profileSummary, userId};
-          }
-          return skill;
-        });
-      
-        return { ...state.skillData, skillData };
-          
+            state.skillData[0].id = action.payload.id;
+            state.skillData[0].userId = action.payload.userId;
+            state.skillData[0].skills = action.payload.skills;
+            state.skillData[0].profileSummary = action.payload.profileSummary; 
         },
         deleteSkillsData: (state, action)=>{
-            const id = action.payload.id;
-            state.skillData = state.skillData.filter(skill => skill.id !== id)
-        }
+            if(action.payload.id == state.skillData[0].id && action.payload.userId == state.skillData[0].userId){
+                state.skillData = []
+            }
+        },
+        //cv image data reducers
+        getImageData: (state, action)=>{
+            state.imageData = {userId: action.payload.userId, userImage: action.payload.userImage}
+        },
+        updateImageData: (state, action)=>{
+           state.imageData.userId = action.payload.userId;
+           state.imageData.userImage = action.payload.userImage
+            
+        },
+
     }
 })
-export const {getEducationalData, setFormData, addEducationalFormData, updateEducationalFormData, deleteEducationalFormData,
+export const {getEducationalData, setFormData, addEducationalFormData, updateEducationalData, deleteEducationalFormData,
 getExperienceData,addExperienceData, updateExperienceData, deleteExperienceData,
 getLanguageData,addLanguageData, updateLanguageData, deleteLanguageData,
-getSkillsData, addSkillsData, updateSkillsData, deleteSkillsData
+getSkillsData, addSkillsData, updateSkillsData, deleteSkillsData,
+getImageData, updateImageData,
+getPersonalData, updatePersonalData,
 } = multiStepSlice.actions;
 export default multiStepSlice.reducer;

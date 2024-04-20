@@ -13,7 +13,7 @@ const NavButtons = () =>{
         
           <div className={styles.btnContainer}>
             <button type='button'  className={styles.btnPrevious} onClick={handlePrevious} disabled={currentStep === 1}><i class='bx bx-arrow-back'></i> Previous</button>
-            <button type='submit' className={styles.btnNext} > Next <i class='bx bx-arrow-back'></i></button>   
+            <button type='submit' className={currentStep === 6 ? styles.btnDownload : styles.btnNext} >{currentStep === 6 ? "Finish and Download" : "Next"} {currentStep !== 6 && <i class='bx bx-arrow-back'></i>}</button>   
          </div>
          
     

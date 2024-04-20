@@ -10,7 +10,7 @@ const Login = ()=>{
         <section className={styles.container}>
             <div className={styles.card}>
                 <div className={styles.logo}>
-                    
+                    <img src='wenchijobs-nav-logo.png' />
                 </div>
                 <div className={styles.header}>
                         Login

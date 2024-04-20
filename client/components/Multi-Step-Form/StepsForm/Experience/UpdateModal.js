@@ -20,7 +20,6 @@ const UpdateModal = ({closeModal, experienceData, indexValue})=>{
     date.toDateString();
     const currentStep = useSelector((state)=> state.step.currentStep);
     const isEnglish = useSelector((state)=>state.language.isEnglish)
-    const formData = useSelector((state)=> state.CVBuilder.experienceData)
     const [editorContent, setEditorContent] = useState(experienceData[indexValue].jobResponsibility)
     const dispatch = useDispatch()
    
@@ -44,7 +43,7 @@ const UpdateModal = ({closeModal, experienceData, indexValue})=>{
         resolver: yupResolver(validationSchema),
        
     });
-    
+  
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
      
