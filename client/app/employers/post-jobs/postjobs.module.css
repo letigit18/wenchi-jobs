@@ -3,7 +3,7 @@
     background-color: rgba(243,244,246, 80%);
     height: 80%;
     padding: 10px 20px 20px 20px;
-   
+    font-size: 12pt;
 }
 .container .card{
     width: 100%;
@@ -11,10 +11,32 @@
     padding: 20px;
     background-color: white;
 }
-.formContainer{
+.card form{
+    width: 100%;
     display: flex;
+    gap: 5%;
+}
+.formContainer{
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formContainerEng, .formContainerOro{
+    display: flex;
+    justify-content: space-between;
 }
 .inputBox{
     display: flex;
     flex-direction: column;
+    width: 32%;
 }
+.formControl{
+    outline: none;
+    border: 1px solid rgb(214, 213, 216);
+    padding: 3px 5px;
+    border-radius: 5px;
+  
+}
+
