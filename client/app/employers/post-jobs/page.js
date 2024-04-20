@@ -1,22 +1,45 @@
 "use client"
-import React from 'react'
+import React, {useMemo, useEffect, useState} from 'react'
 import styles from './postjobs.module.css'
 import {useForm} from 'react-hook-form'
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic'
 const PostJobs = ()=>{
+  const [jobCategory, setJobCategory] = useState([])
+  const [oroForm, setOroForm] = useState(false)
+  const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }),[]);
   const validationSchema = yup.object().shape({})
   const {register, setValue, handleSubmit, formState: {errors}} = useForm({
     resolver: yupResolver(validationSchema),
    
 });
+//fetching job category from db
+useEffect(()=>{
+  fetch("http://localhost:5000/fetch-job-category")
+  .then((res)=>{
+    return res.json()
+  })
+  .then((data)=>{
+    setJobCategory(data)
+    console.log(data)
+  })
+}, [])
 
     return(
         <section className={styles.container}>
           <div className={styles.card}>
             <form>
                 <div className={styles.formContainer}>
-                   <h2>Post Job </h2>
+                   <h2>Job Registration </h2>
+                   <p>
+                    <span>All information with * symbol must be filled!</span>
+                    <span className={styles.checkbox}>
+                      <input type="checkbox" value={oroForm} name="oroForm" onChange={(e)=> setOroForm(!oroForm)}  />
+                       Enable Oromiffa Job Post
+                    </span>
+                  </p>
                    <div className={styles.formContainerEng}>
                          <div className={styles.inputBox}>
                             <label>Job Title*</label>
@@ -26,7 +49,9 @@ const PostJobs = ()=>{
                           <div className={styles.inputBox}>
                             <label>Job category*</label>
                             <select {...register("jobCategory")} className={styles.formControl}>
-                              <option>select</option>
+                              {jobCategory?.map((category, index)=>{
+                              return <option value={category.categoryName}>{category.categoryName}</option>
+                              })}
                             </select>
                           </div>
                           <div className={styles.inputBox}>
@@ -76,29 +101,124 @@ const PostJobs = ()=>{
                             <input type='text' {...register("location")} className={styles.formControl} />
                           </div>
                    </div>
+                   <div className={styles.formContainerTextArea}>
+                         <div className={styles.inputBoxQuill} style={{width: '100%'}}>
+                            <label>Job requirement*</label>
+                            <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' className={styles.textArea}  />
+                            <p></p>
+                         </div>
+                        
+                   </div>
+                   <div className={styles.formContainerTextArea}>
+                         <div className={styles.inputBoxQuill}>
+                            <label>How to Apply* </label>
+                            <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' className={styles.textArea}  />
+                            <p></p>
+                         </div>
+                         <div className={styles.inputBoxQuill}>
+                            <label>Job description </label>
+                            <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' className={styles.textArea}  />
+                            <p></p>
+                         </div>
+                   </div>
+                 
+                   <div className={oroForm ? `${styles.buttonContainer} ${styles.active}` : styles.buttonContainer}>
+                       <input type="submit" value= "Register job" className={styles.btnSubmit} />
+                       <input type='reset' value="Reset" className={styles.btnReset} />
+                   </div>
+                   
                 </div>
                 {/** form container for Afan Oromo */}
-                <div className={styles.formContainer}>
-                    <h3>Hojii Maxxansii</h3>
-                    <div className={styles.formContainerOro}>
-                            <div className={styles.inputBox}>
-                              <label>Job Title*</label>
-                              <input type='text' {...register("jobTitle")} className={styles.formControl} />
-                              <p>error</p>
-                            </div>
-                            <div className={styles.inputBox}>
-                              <label>Maqaa hojii</label>
-                              <input type='text' {...register("jobTitleOro")} className={styles.formControl} />
-                            </div>
-                            <div className={styles.inputBox}>
-                              <label>Job category</label>
-                              <select {...register("jobCategory")} className={styles.formControl}>
-                                <option>select</option>
-                              </select>
-                            </div>
-                            
-                    </div>
+                <div className={oroForm ? `${styles.formContainerOro} ${styles.active}` : styles.formContainerOro}>
+                   <h2>Galmee Hojii </h2>
+                   <p><span>Odeeffannoowwan mallattoo * qabaan hundii guutamuu qabu!</span></p>
+                   <div className={styles.formContainerEng}>
+                         <div className={styles.inputBox}>
+                            <label>Maqaa Hojii*</label>
+                            <input type='text' {...register("jobTitle")} className={styles.formControl} />
+                          </div>
+                    
+                          <div className={styles.inputBox}>
+                            <label>Gosa Hojii*</label>
+                            <select {...register("jobCategory")} className={styles.formControl}>
+                            {jobCategory?.map((category, index)=>{
+                              return <option value={category.categoryOromic}>{category.categoryOromic}</option>
+                              })}
+                            </select>
+                          </div>
+                          <div className={styles.inputBox}>
+                            <label>Haala Qacarrii*</label>
+                            <select {...register("jobCategory")} className={styles.formControl}>
+                              <option></option>
+                              <option value="Kontiraataan">Kontiraataan</option>
+                              <option value="dhaabbataan">dhaabbataan</option>
+                              <option value="Riimootiin">Riimootiin</option>
+                            </select>
+                          </div>
+                   </div>
+                   <div className={styles.formContainerEng}>
+                         <div className={styles.inputBox}>
+                            <label>Mindaa</label>
+                            <input type='text' {...register("location")} className={styles.formControl} />
+                          </div>
+                          <div className={styles.inputBox}>
+                            <label>Mindaa(in text)</label>
+                            <select {...register("salaryInText")} className={styles.formControl}>
+                              <option></option>
+                              <option value="Akka iskeelii mindaa dhaabbatichaa">Akka iskeelii dhaabbatichaa</option>
+                              <option value="Akka iskeelii mindaa dhaabbatichaa fi baayyee hawwataadha">Akka iskeelii dhaabbatichaa fi baayyee hawwataadha</option>
+                              <option value="Akka iskeelii mindaa Baankichaatiin">Akka iskeelii mindaa Baankichaatiin</option>
+                              <option value="Akka iskeelii mindaa Barnoota Dhaabbata Olaanoo">Akka iskeelii mindaa Barnoota Dhaabbata Olaanoo</option>
+                              <option value="Waliigalteen">Waliigalteen</option>
+                            </select>
+                          </div>
+                          <div className={styles.inputBox}>
+                            <label>Bakka Hojii</label>
+                            <input type='text' {...register("location")} className={styles.formControl} />
+                          </div>
+                        
+                   </div>
+                   <div className={styles.formContainerEng}>
+                         <div className={styles.inputBox}>
+                            <label>Bay'inaa Barbaadamuu  </label>
+                            <input type='number' {...register("requiredNumber")} className={styles.formControl} />
+                          </div>
+                    
+                          <div className={styles.inputBox}>
+                            <label>Guyyaa cufiinsaa(G.C.)</label>
+                            <input type='date' className={styles.formControl} {...register("closingDate")} />
+                          </div>
+                          <div className={styles.inputBox}>
+                            <label>Bakka Hojii</label>
+                            <input type='text' {...register("location")} className={styles.formControl} />
+                          </div>
+                   </div>
+                  
+                   <div className={styles.formContainerTextArea}>
+                         <div className={styles.inputBoxQuill} style={{width: '100%'}}>
+                            <label>Ulaagaa Hojii*</label>
+                            <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' className={styles.textArea}  />
+                            <p></p>
+                         </div>
+                        
+                   </div>
+                   <div className={styles.formContainerTextArea}>
+                         <div className={styles.inputBoxQuill}>
+                            <label>Haala Galmee* </label>
+                            <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' className={styles.textArea}  />
+                            <p></p>
+                         </div>
+                         <div className={styles.inputBoxQuill}>
+                            <label>Ibsa hojii </label>
+                            <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' className={styles.textArea}  />
+                            <p></p>
+                         </div>
+                   </div>
+                 
+                  
+                   
                 </div>
+               
             </form>
           </div>
         </section>

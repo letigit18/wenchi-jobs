@@ -1,13 +1,16 @@
 .container{
+    position: relative;
     width: 100%;
     background-color: rgba(243,244,246, 80%);
-    height: 80%;
     padding: 10px 20px 20px 20px;
-    font-size: 12pt;
+    font-size: 11pt;
 }
+
 .container .card{
+    position: relative;
     width: 100%;
-    height: 85vh;
+    height: fit-content;
+    min-height: 100% !important;
     padding: 20px;
     background-color: white;
 }
@@ -17,26 +20,111 @@
     gap: 5%;
 }
 .formContainer{
-    max-width: 50%;
+    max-width: 49%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
-
-.formContainerEng, .formContainerOro{
+.formContainerOro{
+    max-width: 49%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    visibility: hidden;
+    
+}
+.formContainerOro.active{
+    opacity: 1;
+    visibility: visible;
+}
+.formContainer h2, .formContainerOro h2{
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+}
+.formContainer p{
+    font-size: 10pt;
+    color: gray;
     display: flex;
     justify-content: space-between;
+}
+.formContainerOro p{
+    font-size: 10pt;
+    color: gray;
+    display: flex;
+}
+
+.checkbox{
+    display: flex;
+    gap: 5px;
+    color: green;
+    font-weight: bold;
+    font-size: 10pt;
+    
+}
+.checkbox input{
+    cursor: pointer;
+}
+.formContainerEng{
+    display: flex;
+    gap: 5px;
+}
+.formContainerOro .formContainer{
+display: flex;
+flex-direction: row;
+}
+.formContainerTextArea{
+    display: flex;
+    gap: 10px;
 }
 .inputBox{
     display: flex;
     flex-direction: column;
-    width: 32%;
+    width: 31%;
 }
+
 .formControl{
     outline: none;
     border: 1px solid rgb(214, 213, 216);
-    padding: 3px 5px;
+    padding: 5px 5px;
     border-radius: 5px;
+    font-size: 11pt;
   
 }
 
+.textArea{
+    height: 250px;
+    max-height: 250px;
+    overflow: auto;
+}
+.buttonContainer{
+    margin-top: 15px;
+    position: relative;
+    left: 0;
+}
+.buttonContainer.active{
+    margin-top: 15px;
+    position: relative;
+    left: 100%;
+}
+.btnSubmit{
+    border: none;
+    color: white;
+    background-color: rgb(74, 150, 74);
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-right: 10px;
+
+}
+.btnReset{
+    border: none;
+    color: white;
+    background-color: #f74949;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 100px;
+
+}
