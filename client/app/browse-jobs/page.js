@@ -3,29 +3,21 @@ import {useEffect, useState, useRouter } from 'react';
 import styles from './finder.module.css';
 import Link from 'next/link';
 import { useSelector} from 'react-redux';
+import moment from 'moment';
 const JobFinder = ()=>{
   const [selected, setSelected] = useState(null)
   const isEnglish = useSelector((state)=> state.language.isEnglish)
 
-  const [data, setData] = useState(null);
- 
+  const [data, setData] = useState([]);
   useEffect(() => {
-      fetchData().then((result) => {
-          setData(result);
+    fetch('http://localhost:5000/fetch-job-data')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+       setData(data)
       });
   }, []);
-
-  const fetchData = async () => {
-      try {
-          const response = await
-              fetch('https://jsonplaceholder.typicode.com/posts/1');
-          const jsonData = await response.json();
-          return jsonData;
-      } catch (error) {
-          console.error('Error fetching data:', error);
-          return null;
-      }
-  };
   //handle the accordion toggle
   const handleToggle = (index)=>{
     if(selected == index){
@@ -34,7 +26,20 @@ const JobFinder = ()=>{
     setSelected(index)
   }
  
-       
+  //function that calculates closing date 
+  const calculateClosingDate = (date1, date2)=>{
+    const diffDate = moment(date1).diff(date2, 'days');
+    if(diffDate >= 1){
+        return `${diffDate} days left`
+    }
+    else if(diffDate == 0){
+        return "Closing: Today"
+    }
+    else{
+        return "Closed"
+    }
+  }
+ 
     return(
         <section className={styles.container} id="category">
             <div className={styles.card}>
@@ -104,101 +109,29 @@ const JobFinder = ()=>{
                     <div className={styles.searchBar}>
                       <input type="text" placeholder='Enter your search term eg. Software Developer' name="job" />
                     </div>
-            
-                      
-                    <div className={styles.box}>
-                            <div className={styles.header}>
-                                <h3>Application Developer</h3>
-                                <p>2 days left</p>
-                            </div>
-                            <ul>
-                                <li className={styles.company}>Awash Bank</li>
-                                <li><b>Salary:</b> 12000 </li>
-                                <li><b>Employment Type:</b> </li>
-                                <li><b>Posted:</b> March 13</li> 
-                            </ul>
-                            <img src='logo.jpg' alt='company logo' className={styles.logo} />
-                            <div className={styles.tooltip}>
-                               {isEnglish ? 'Click to view detail': `Cuqaasii`} 
-                            </div>
-                    </div>
-                        
-                    <div className={styles.box}>
-                            <div className={styles.header}>
-                                <h3>{isEnglish ? 'Application Developer' : 'Guddisaa Teeknoologii'}</h3>
-                                <p>2 days left</p>
-                            </div>
-                            <ul>
-                                <li className={styles.company}>Awash Bank</li>
-                                <li><b>Salary:</b> 12000 </li>
-                                <li><b>Posted:</b> March 13</li>
-                                <li><b>Employment Type:</b> </li>
-                                {data ? (
-                <div>
-                    <h2>Title: {data.title}</h2>
-                    <p>Body: {data.body}</p>
-                </div>
-            ) : (
-                <p>Loading...</p>
-            )}
-                            </ul>
-                            <img src='logo.jpg' alt='company logo' className={styles.logo} />
-                            <div className={styles.tooltip}>
-                                Click to view detail!
-                            </div>
-                    </div>
-                        
+                      {data?.map((job, index) =>{
+                          return <div className={styles.box} key={index}>
+                                    <div className={styles.header}>
+                                        <h3 style={{textTransform: 'capitalize'}}>{job.jobTitle}</h3>
+                                        <p>{calculateClosingDate(`${moment(job.expiredDate).format('MM/DD/YYYY')}`, `${moment(job.postedDate).format('MM/DD/YYYY')}`)} </p>
+                                    </div>
+                                    <ul>
 
-                          <div className={styles.box}>
-                            <div className={styles.header}>
-                                <h3>Application Developer</h3>
-                                <p>2 days left</p>
-                            </div>
-                            <ul>
-                                <li className={styles.company}>Awash Bank</li>
-                                <li><b>Salary:</b> 12000 </li>
-                                <li><b>Posted:</b> March 13</li>
-                                <li><b>Employment Type:</b> </li>
-                            </ul>
-                            <img src='logo.jpg' alt='company logo' className={styles.logo} />
-                            <div className={styles.tooltip}>
-                                Click to view detail!
-                            </div>
-                        </div>
-                        <div className={styles.box}>
-                            <div className={styles.header}>
-                                <h3>Application Developer</h3>
-                                <p>2 days left</p>
-                            </div>
-                            <ul>
-                                <li className={styles.company}>Awash Bank</li>
-                                <li><b>Salary:</b> 12000 </li>
-                                <li><b>Posted:</b> March 13</li>
-                                <li><b>Employment Type:</b> </li>
-                            </ul>
-                            <img src='logo.jpg' alt='company logo' className={styles.logo} />
-                            <div className={styles.tooltip}>
-                                Click to view detail!
-                            </div>
-                    </div>
+                                       {isEnglish ? <li className={styles.company}>{job.companyName}</li> : <li className={styles.company}>{job.companyNameOr != '' ? job.companyNameOr : job.companyName}</li>} 
+                                        {job.salary != null && <li><b>Salary:</b> {job.salary} </li> }
+                                        <li><b>Posted: {`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`} {`${moment(job.postedDate).format('YYYY')}` }</b> </li>
+                                        <li><b>Employment Type: </b>{job.employmentType} </li>
+                                        <li><b>Closing Date: {`${moment(job.expiredDate).format('MM')}` == 1 ? 'January': `${moment(job.expiredDate).format('MM')}` == 2 ? 'February': `${moment(job.expiredDate).format('MM')}` == 3 ? 'March': `${moment(job.expiredDate).format('MM')}` == 4 ? 'April' : `${moment(job.expiredDate).format('MM')}` == 5 ? 'May': `${moment(job.expiredDate).format('MM')}` == 6 ? 'June': `${moment(job.expiredDate).format('MM')}` == 7 ? 'July': `${moment(job.expiredDate).format('MM')}` == 8 ? 'August': `${moment(job.expiredDate).format('MM')}` == 9 ? 'September': `${moment(job.expiredDate).format('MM')}` == 10 ? 'October': `${moment(job.expiredDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.expiredDate).format('DD')}`} {`${moment(job.expiredDate).format('YYYY')}` }</b> </li>
+                                    </ul>
+                                    <img src='logo.jpg' alt='company logo' className={styles.logo} />
+                                    <div className={styles.tooltip}>
+                                        Click to view detail!
+                                    </div>
+                                </div>
+                      })}
+                       
                         
-                    <div className={styles.box}>
-                            <div className={styles.header}>
-                                <h3>Application Developer</h3>
-                                <p>2 days left</p>
-                            </div>
-                            <ul>
-                                <li className={styles.company}>Awash Bank</li>
-                                <li><b>Salary:</b> 12000 </li>
-                                <li><b>Posted:</b> March 13</li>
-                                <li><b>Employment Type:</b> </li>
-                            </ul>
-                            <img src='logo.jpg' alt='company logo' className={styles.logo} />
-                            <div className={styles.tooltip}>
-                                Click to view detail!
-                            </div>
-                    </div>
-                        
+               
                         
                          
 
