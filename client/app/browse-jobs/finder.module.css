@@ -22,7 +22,7 @@
    
   }
   .category{
-    width: 18%;
+    width: 25%;
     overflow: hidden;
     overflow-y: scroll;
     padding: 15px 7px;
@@ -120,13 +120,14 @@
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     margin-bottom: 10px;
+    color:#0c4a6e;
 }
 .box ul li.company{
-    color: #0c4a6e;
+    color: steelblue;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
 }
 .box ul li:first-child{
     margin-bottom: 5px;
@@ -176,6 +177,29 @@
     bottom: 10px;
     visibility: visible;
 }
+/** pagination styles **/
+.pagination{
+    margin-top: 20px;
+    list-style: none;
+    width: 80%;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+}
+.pagination a{
+    padding: 3px 7px;
+    font-size: 11pt;
+    margin: 2px;
+    border-radius: 3px;
+    background-color: white;
+    cursor: pointer;
+    border: #0c4a6e 1px solid;
+}
+.btnActive a{
+    color: white;
+    background-color: #0c4a6e;
+}
+
 @keyframes counter {
     0%{
         transform: scale(0);

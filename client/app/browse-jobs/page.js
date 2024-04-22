@@ -4,11 +4,20 @@ import styles from './finder.module.css';
 import Link from 'next/link';
 import { useSelector} from 'react-redux';
 import moment from 'moment';
+import ReactPaginate from 'react-paginate';
 const JobFinder = ()=>{
   const [selected, setSelected] = useState(null)
   const isEnglish = useSelector((state)=> state.language.isEnglish)
-
   const [data, setData] = useState([]);
+  //setting pagination variables
+  const [pageNumber, setPageNumber] = useState(0)
+  const jobsPerPage = 5
+  let todaysDate = new Date();
+  todaysDate = moment(todaysDate).format('MM/DD/YYYY')
+
+  const pagesVisited = pageNumber * jobsPerPage
+  const pagesCount = Math.ceil(data.length / jobsPerPage)
+
   useEffect(() => {
     fetch('http://localhost:5000/fetch-job-data')
       .then((res) => {
@@ -39,7 +48,34 @@ const JobFinder = ()=>{
         return "Closed"
     }
   }
- 
+  //function that displays jobs
+  const displayJobs = data
+  .slice(pagesVisited, pagesVisited + jobsPerPage)
+  .map((job, index) =>{
+    return (
+    <div className={styles.box} key={index}>
+              <div className={styles.header}>
+                  <h3 style={{textTransform: 'capitalize'}}>{job.jobTitle}</h3>
+                  <p>{calculateClosingDate(`${moment(job.expiredDate).format('MM/DD/YYYY')}`, todaysDate)} </p>
+              </div>
+              <ul>
+
+                 {isEnglish ? <li className={styles.company}>{job.companyName}</li> : <li className={styles.company}>{job.companyNameOr != '' ? job.companyNameOr : job.companyName}</li>} 
+                  {job.salary != null && <li><b>Salary:</b> {job.salary} </li> }
+                  <li><b>Posted: {`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`} {`${moment(job.postedDate).format('YYYY')}` }</b> </li>
+                  <li><b>Employment Type: </b>{job.employmentType} </li>
+                  <li><b>Closing Date: {`${moment(job.expiredDate).format('MM')}` == 1 ? 'January': `${moment(job.expiredDate).format('MM')}` == 2 ? 'February': `${moment(job.expiredDate).format('MM')}` == 3 ? 'March': `${moment(job.expiredDate).format('MM')}` == 4 ? 'April' : `${moment(job.expiredDate).format('MM')}` == 5 ? 'May': `${moment(job.expiredDate).format('MM')}` == 6 ? 'June': `${moment(job.expiredDate).format('MM')}` == 7 ? 'July': `${moment(job.expiredDate).format('MM')}` == 8 ? 'August': `${moment(job.expiredDate).format('MM')}` == 9 ? 'September': `${moment(job.expiredDate).format('MM')}` == 10 ? 'October': `${moment(job.expiredDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.expiredDate).format('DD')}`} {`${moment(job.expiredDate).format('YYYY')}` }</b> </li>
+              </ul>
+              <img src='logo.jpg' alt='company logo' className={styles.logo} />
+              <div className={styles.tooltip}>
+                  Click to view detail!
+              </div>
+          </div>
+  )}) // end of mapping the job data 
+  //function that changes page number 
+  const changePage = ({selected})=>{
+    setPageNumber(selected)
+  }
     return(
         <section className={styles.container} id="category">
             <div className={styles.card}>
@@ -109,37 +145,24 @@ const JobFinder = ()=>{
                     <div className={styles.searchBar}>
                       <input type="text" placeholder='Enter your search term eg. Software Developer' name="job" />
                     </div>
-                      {data?.map((job, index) =>{
-                          return <div className={styles.box} key={index}>
-                                    <div className={styles.header}>
-                                        <h3 style={{textTransform: 'capitalize'}}>{job.jobTitle}</h3>
-                                        <p>{calculateClosingDate(`${moment(job.expiredDate).format('MM/DD/YYYY')}`, `${moment(job.postedDate).format('MM/DD/YYYY')}`)} </p>
-                                    </div>
-                                    <ul>
-
-                                       {isEnglish ? <li className={styles.company}>{job.companyName}</li> : <li className={styles.company}>{job.companyNameOr != '' ? job.companyNameOr : job.companyName}</li>} 
-                                        {job.salary != null && <li><b>Salary:</b> {job.salary} </li> }
-                                        <li><b>Posted: {`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`} {`${moment(job.postedDate).format('YYYY')}` }</b> </li>
-                                        <li><b>Employment Type: </b>{job.employmentType} </li>
-                                        <li><b>Closing Date: {`${moment(job.expiredDate).format('MM')}` == 1 ? 'January': `${moment(job.expiredDate).format('MM')}` == 2 ? 'February': `${moment(job.expiredDate).format('MM')}` == 3 ? 'March': `${moment(job.expiredDate).format('MM')}` == 4 ? 'April' : `${moment(job.expiredDate).format('MM')}` == 5 ? 'May': `${moment(job.expiredDate).format('MM')}` == 6 ? 'June': `${moment(job.expiredDate).format('MM')}` == 7 ? 'July': `${moment(job.expiredDate).format('MM')}` == 8 ? 'August': `${moment(job.expiredDate).format('MM')}` == 9 ? 'September': `${moment(job.expiredDate).format('MM')}` == 10 ? 'October': `${moment(job.expiredDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.expiredDate).format('DD')}`} {`${moment(job.expiredDate).format('YYYY')}` }</b> </li>
-                                    </ul>
-                                    <img src='logo.jpg' alt='company logo' className={styles.logo} />
-                                    <div className={styles.tooltip}>
-                                        Click to view detail!
-                                    </div>
-                                </div>
-                      })}
-                       
-                        
-               
-                        
-                         
-
-                
-                   
-                        
-                    
+                    {/** function that displays jobs */}
+                    {displayJobs}  
+                    {/**pagination buttons container */}    
+                    <div className='buttonsContainer'>
+                        <ReactPaginate 
+                        previousLabel= {"Previous"}
+                        nextLabel = {"Next"}
+                        pageCount={pagesCount}
+                        onPageChange={changePage}
+                        containerClassName={styles.pagination}
+                        previousLinkClassName={styles.previous}
+                        nextLinkClassName={styles.next}
+                        disabledClassName={styles.disabledBtn}
+                        activeClassName={styles.btnActive}
+                        />
+                    </div>
                 </div>
+               
             </div>
         </section>
     )
