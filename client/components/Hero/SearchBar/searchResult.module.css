@@ -1,0 +1,25 @@
+.resultContainer{
+    position: absolute;
+    width: 100%;
+    max-height: 350px;
+    background-color: white;
+    top: 100%;
+    margin-top: 10px;
+    z-index: 1000;
+    box-shadow: 0px 0px 3px #ddd;
+    overflow-y: scroll;
+  
+}
+.resultContainer li{
+    color: black;
+    margin: 0 15px;
+    padding: 5px;
+    cursor: pointer;
+}
+.resultContainer li:first-child{
+    margin: 10px 0 15 0;
+}
+.resultContainer li:hover{
+    background-color: rgba(243,244,246, 80%);
+    color: steelblue;
+}

@@ -13,6 +13,7 @@ import moment from 'moment'
 const PersonalForm = () =>{
     const dispatch = useDispatch();
     const username = useSelector((state)=>state.user.value);
+    const userId = localStorage.getItem("userId");
     const currentStep = useSelector((state)=>state.step.currentStep);
     const imageState = useSelector((state)=> state.CVBuilder.imageData)
     const personalData = useSelector((state)=>state.CVBuilder.personalData)
@@ -66,7 +67,7 @@ const PersonalForm = () =>{
     useEffect(()=>{
         //functin that fetches personal data from server
         async function fetchPersonalData(){
-         await axios.get('http://localhost:5000/fetch-personal-data')
+         await axios.get('http://localhost:5000/fetch-personal-data/'+userId)
          .then((res)=>{
              dispatch(getPersonalData(res.data[0]))
          })
@@ -75,7 +76,7 @@ const PersonalForm = () =>{
        }
        //function that fetches image data from the server
        async function fetchImageData(){
-         await axios.get('http://localhost:5000/display-user-image')
+         await axios.get('http://localhost:5000/display-user-image/'+userId)
          .then((res) => {
              setImageData(res.data[0])
              dispatch(getImageData(res.data[0]))
@@ -137,7 +138,7 @@ const PersonalForm = () =>{
         })
         .then(response => {
         
-        dispatch(updatePersonalData({ userId: 1, userFirstName: data.firstName, userMiddleName: data.middleName, userLastName: data.lastName, userSex: data.sex, userDateOfBirth: data.dateOfBirth, userLocation: data.currentLocation, userPhoneNumber: data.phoneNumber, portfolioLink: data.portfolio, linkedinLink: data.linkedinLink, githubLink: data.githubLink,  userEmail: data.email}))
+        dispatch(updatePersonalData({ userId: userId, userFirstName: data.firstName, userMiddleName: data.middleName, userLastName: data.lastName, userSex: data.sex, userDateOfBirth: data.dateOfBirth, userLocation: data.currentLocation, userPhoneNumber: data.phoneNumber, portfolioLink: data.portfolio, linkedinLink: data.linkedinLink, githubLink: data.githubLink,  userEmail: data.email}))
         dispatch(changeStep(currentStep + 1))
         
         })
@@ -268,4 +269,3 @@ const PersonalForm = () =>{
     )
 }
 export default PersonalForm;
-

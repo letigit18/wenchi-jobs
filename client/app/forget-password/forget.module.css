@@ -30,11 +30,25 @@
     
 
 }
+.notification{
+    position: absolute;
+    top: 70px;
+    max-width: 95%;
+    margin-left: 3%;
+    max-height: 40px;
+    background-color: whitesmoke;
+    color: black;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
 .header{
     position: absolute;
     font-weight: bold;
     font-size: 15pt;
-    left: 44%;
+    left: 36%;
     top: 40px;
 }
 .errorHeader{

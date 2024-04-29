@@ -1,19 +1,30 @@
 "use client"
 import { useEffect, useState } from 'react';
 import styles from './category.module.css';
-import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 const Category = ()=>{
   const [selected, setSelected] = useState(null)
   const dispatch = useDispatch();
   const isEnglish = useSelector((state)=> state.language.isEnglish)
   const [category, setCategory] = useState([])
+  const [location, setLocation] = useState([])
+  const [counterData, setCounterData] = useState([])
   const handleToggle = (index)=>{
     if(selected == index){
         return setSelected(null)
     }
     setSelected(index)
   }
+  //fetch location 
+  useEffect(() => {
+    fetch('http://localhost:5000/fetch-location-data')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+       setLocation(data)
+      });
+  }, []);
   //fetch category from database 
   useEffect(() => {
     fetch('http://localhost:5000/fetch-job-category')
@@ -22,6 +33,19 @@ const Category = ()=>{
       })
       .then((data) => {
        setCategory(data)
+
+      });
+  }, []);
+  //fetch job counter by category
+  useEffect(() => {
+    fetch('http://localhost:5000/job-counter')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+    
+       setCounterData(data)
+     
       });
   }, []);
        
@@ -39,7 +63,7 @@ const Category = ()=>{
                         </div>
                         <div className={styles.accordionItemBody}>
                             <ul className={styles.accordioItemBodyContent}>
-                                <li><Link href="#">Government Jobs</Link></li>
+                                <li><a href="#">Government Jobs</a></li>
                                 <li>NGO Jobs</li>
                                 <li>University Jobs</li>
                             </ul>
@@ -50,29 +74,33 @@ const Category = ()=>{
                         {isEnglish ? 'Employment type' : 'Gosa qacarrii'}
                         </div>
                         <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Contractual Jobs </li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
+                            <ul className={styles.accordioItemBodyContent}>    
                                 <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
+                                <li>Freelancers</li>
+                                <li>Full time </li>
+                                <li>Intern</li>
+                                <li>Part time</li>
+                                <li>Remote</li>
                             </ul>
                         </div>
                       </div>
                       <div className={styles.accordionMenuItem}>
                         <div className={selected === 3 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(3)}>
-                           {isEnglish ? 'Company names' : 'Maqaa dhaabbataa'}
+                           {isEnglish ? 'Experience Level' : 'Sadarkaa Muuxannoo'}
                         </div>
                         <div className={styles.accordionItemBody}>
                             <ul className={styles.accordioItemBodyContent}>
-                                <li>Awash bank</li> 
+                            
+                                <div>
+                                  <li>{isEnglish ? "Freesh Graduates" : "Eebbifamtoota Haaraa"} </li> 
+                                  <li>{isEnglish ? "1 - 3 years " : "waggaa 1-3"} </li>
+                                  <li>{isEnglish ? "3 - 5 years " : "waggaa 3-5"} </li>
+                                  <li>{isEnglish ? "5 - 10 years " : "waggaa 5-10"} </li>
+                                  <li>{isEnglish ?  "Greater than 10 years" : "waggaa 10 ol"}</li>
+                                </div>
+                           
+                              
+                              
                             </ul>
                         </div>
                       </div>
@@ -82,7 +110,9 @@ const Category = ()=>{
                         </div>
                         <div className={styles.accordionItemBody}>
                             <ul className={styles.accordioItemBodyContent}>
-                                <li>Addis Ababa</li> 
+                                {location.map((loc, index)=>{
+                                  return <li key={index}><a >{loc.jobLocation}</a></li>
+                                })}
                             </ul>
                         </div>
                       </div>
@@ -94,8 +124,16 @@ const Category = ()=>{
                 
                     <ul className={styles.gridContainer}>
                     {category?.map((cat, index)=>{
-                      return  <li key={index}>{isEnglish ? cat.categoryName : cat.categoryOromic} <span className={styles.counter}> 102</span></li>
-                    })}
+                      return  (<a href={`/browse-by-category/${cat.categoryName}`}><li key={index}>{isEnglish ? cat.categoryName : cat.categoryOromic}
+                       
+                           {counterData.map((job, index)=>{
+                            if(job.jobCategory == cat.categoryName)
+                            {
+                              return (<span className={styles.counter}> {job.counter}</span>)
+                            }
+                           })}
+                       </li></a>
+                    )})}
                     </ul>
               
                 </div>

@@ -4,6 +4,7 @@
     background-color: rgba(243,244,246, 80%);
     padding: 10px 20px 20px 20px;
     font-size: 11pt;
+ 
 }
 
 .container .card{
@@ -15,6 +16,7 @@
     background-color: white;
 }
 .card form{
+    margin: auto;
     width: 100%;
     display: flex;
     gap: 5%;

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import styles from './page.module.css'
+import styles from './forget.module.css'
 import Link  from 'next/link';
 import Signup from '@/components/Signup/page';
 import { useState, useEffect} from 'react';
@@ -12,17 +12,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '@/redux/login';
 import { Emilys_Candy } from 'next/font/google';
 
-const Login = ()=>{
+const ForgetPassword = ()=>{
     const [signupOpen, setSignupOPen] = useState(false);
     const isEnglish = useSelector((state)=>state.language.isEnglish)
     const loading =  useSelector((state)=>state.login.loading)
     const [email, setEmail] = useState('')
+    const [message, setMessage] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const dispatch = useDispatch()
     const validationSchema = yup.object().shape({
-        email: yup.string().required("Enter your email"),
-        password: yup.string().required("Enter your password")
+        email: yup.string().required("Enter your email")
+               .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Invalid email address"),
+       
     
     })
      //linking the validation schema with the form data throuhg resolver
@@ -32,20 +34,31 @@ const Login = ()=>{
     
     //login checker
 const onSubmit= (data)=>{
-    dispatch(loginStart())
-    axios.defaults.withCredentials = true
-    axios.post('http://localhost:5000/auth', data)
-    .then(res=>{
-        if(res.data.login){
-            dispatch(loginSuccess())
-            localStorage.setItem('userFirstName', res.data.userFirstName)
-            window.location.href = "/job-seekers"
+   fetch('http://localhost:5000/send-email', {
+    method: 'post',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+   })
+   .then((res)=>{
+      if(!res.ok){
+        throw new error('Network error')
+      }
+      return res.json()
+   })
+   .then((data)=>{
+      if(data.message == "Success"){
+      setMessage("We have sent you an email with verification code, if you can't find your email check in the spam list")
+      }
+      if(data.message == "Not found"){
+        setError("Error: No user found by this email")
+      }
+      if(data.message == "Error"){
+        setError("Error: Can't send an email to this email ")
         }
-        else{
-            dispatch(loginFailure())
-            setError("Wrong user name or password")
-        }
-    })
+   })
+   .catch(error=>{
+    console.error('Error in fetching data')
+   })
 }
    
     return(
@@ -55,23 +68,22 @@ const onSubmit= (data)=>{
                     <img src='wenchijobs-nav-logo.png' />
                 </div>
                 <div className={styles.header}>
-                        Login
+                        {isEnglish ? 'Find your Account' : 'Galmee kessan barbaadaa'}
                     
                 </div>
                 <p className={styles.errorHeader}>{error}</p> 
+                <p className={styles.notification}>{message}</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.formContainer}>
                         <label htmlFor='email' className={styles.formControl}>Email:</label>
                         <input type='text'  {...register('email')} className={styles.formControl}  id='email' placeholder='Enter your email' />
-                        
-                        <label htmlFor='email' className={styles.formControl}>Password:</label>
-                        <input type='password' {...register('password')} className={styles.formControl}  placeholder='Enter your password' />
-                        
+                        <p className={styles.error}>{errors.email?.message}</p>
+                                   
                     </div>
-                    <Link href="/forget-password" className={styles.forgetPassword}>{isEnglish ? "Forget Password?" : "Passwordii dagatanii?"}</Link>
-                 <input type='submit' value={loading ? "Verifying.." : "Login"} name='submit' className={styles.btnLogin} /> 
+
+                 <input type='submit' value={isEnglish ? "Search" : "Barbaadii"} name='submit' className={styles.btnLogin} /> 
                    
-                    <input type='button' value={isEnglish ? 'Create Account' : "Haaraa Galmaa'ii"} name='submit' className={styles.btnSignup} onClick={()=>setSignupOPen(true)}/>
+                   
                 </form>
                 
             </div>
@@ -80,4 +92,4 @@ const onSubmit= (data)=>{
         </section>
     )
 }
-export default Login;
+export default ForgetPassword;

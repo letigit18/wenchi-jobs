@@ -11,6 +11,27 @@ const CVBuilder = () =>{
  const currentStep = useSelector((state)=> state.step.currentStep);
  const isEnglish = useSelector((state)=>state.language.isEnglish)
  const dispatch = useDispatch()
+//check logged in users
+// useEffect(()=>{
+//   dispatch(loginStart())
+//   axios.defaults.withCredentials = true
+//   axios.get("http://localhost:5000/job-seekers-home")
+//   .then((res)=>{
+//      dispatch(loginStart())
+//       if(res.data.valid)
+//       {
+//               dispatch(loginSuccess())
+//                localStorage.setItem("userFirstName", res.data.userFirstName)
+//                localStorage.setItem("userMiddleName", res.data.userMiddleName)
+//                localStorage.setItem("userId", res.data.userId)
+
+//       }
+//       else{
+//           dispatch(loginFailure())
+//           window.location.href = "/auth"
+//       }
+//   })
+// }, [])
 
     return(
         <section className={styles.container}>

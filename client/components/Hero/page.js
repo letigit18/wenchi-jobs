@@ -1,20 +1,21 @@
 "use client"
-import React from 'react';
+import {useEffect} from 'react';
 import { TypeAnimation, TypeAnimationOr } from 'react-type-animation';
 import styles from './hero.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
 import SignupModal from '../Signup/page'
 import { useSelector, useDispatch } from 'react-redux';
+import SearchBar from './SearchBar/SearchBar';
+import SearchResult from './SearchBar/SearchResult';
 const Hero = () =>{
     const [search, setSearch] = useState("");
     const [signupOpen, setSignupOpen] = useState(false);
+    const [result, setResult] = useState([])
     //declaring language state
     const dispatch = useDispatch();
     const isEnglish = useSelector((state)=> state.language.isEnglish)
-    const handleValidation = (e)=>{
-        setSearch(e.target.value)
-       }
+
     return(
         <section className={styles.hero} id="hero">
            <div className={styles.leftContainer}>
@@ -69,15 +70,11 @@ const Hero = () =>{
            {/*** search box on the hero section */}
               <div className={styles.box}>
                 <div className={styles.searchBox}>
-                <form>
-                  <input type='text' size="33" id='searchText' placeholder='Search your job here'  />
-                  <label className={styles.icon}>
-                    <i className='bx bx-search'></i>
-                  </label>
-                    
-                </form>
+                  <SearchBar setResult={setResult} />
+                  <SearchResult result={result} />
                 </div>   
               </div>
+
              <div className={styles.buttons}>
                   <Link href="#" className={styles.btnWhite} onClick={()=>{setSignupOpen(true)}}>{isEnglish ? 'Signup' : `Galmaa'i`}</Link>
                   <Link href="/auth" className={styles.btnTransparent}>{isEnglish ? 'Login' : 'Seeni'}</Link>                

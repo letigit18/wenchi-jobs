@@ -177,3 +177,12 @@
     background-color: #f74949;
     color: white;
 }
+@media  screen and (max-width: 768px) {
+    .card{
+        position: absolute;
+        width: 90%;
+        left: 4%;
+        top: 90px;
+
+    }
+}

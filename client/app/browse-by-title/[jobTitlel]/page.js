@@ -1,11 +1,11 @@
 "use client"
 import {useEffect, useState, useRouter } from 'react';
-import styles from './finder.module.css';
+import styles from './browseJobs.module.css';
 import Link from 'next/link';
 import { useSelector} from 'react-redux';
 import moment from 'moment';
 import ReactPaginate from 'react-paginate';
-const JobFinder = ()=>{
+const BrowseByJobTitle = ({params})=>{
   const [selected, setSelected] = useState(null)
   const isEnglish = useSelector((state)=> state.language.isEnglish)
   const [data, setData] = useState([]);
@@ -19,7 +19,7 @@ const JobFinder = ()=>{
   const pagesCount = Math.ceil(data.length / jobsPerPage)
 
   useEffect(() => {
-    fetch('http://localhost:5000/fetch-job-data')
+    fetch(`http://localhost:5000/fetch-by-title/${params.jobTitlel}`)
       .then((res) => {
         return res.json();
       })
@@ -144,12 +144,11 @@ const JobFinder = ()=>{
                         
                 </div>
                 <div className={styles.jobContainer}>
-                    <div className={styles.searchBar}>
-                      <input type="text" placeholder='Enter your search term eg. Software Developer' name="job" />
-                    </div>
+                
                     {/** function that displays jobs */}
                     {displayJobs}  
-                    {/**pagination buttons container */}    
+                    {/**pagination buttons container */} 
+                  {data.length > 5 &&  (
                     <div className='buttonsContainer'>
                         <ReactPaginate 
                         previousLabel= {"Previous"}
@@ -163,10 +162,11 @@ const JobFinder = ()=>{
                         activeClassName={styles.btnActive}
                         />
                     </div>
+                  )}
                 </div>
                
             </div>
         </section>
     )
 }
-export default JobFinder;
+export default BrowseByJobTitle;

@@ -31,13 +31,13 @@ const About = ()=>{
                     </div>
                     <div className={styles.body}>
                       {isEnglish ? 
-                      `
-                      Wenchijobs.com is the platform that connects job seekers and employers that are found in Ethiopia. The website is built with the intention of connecting the right talents to the posted jobs and realize reliable recruitment process. This website allows the job seekers to build professional CV by using our CV Builder, view and apply for jobs, filter jobs based on custom criteria and being notified on the progress of the job application.
-                      Besides, the website enables employers to post their job, to search for potential job seekers, to shortlist the job seekers based on custom criteria and to notify the job seekers on the progress of the job application.
+                      (
+                      <p>Wenchijobs.com is the platform that connects job seekers and employers that are found in Ethiopia. The website is built with the intention of connecting the right talents to the posted jobs, and realize reliable recruitment process. It has features that allows the job seekers to build professional CV by using our CV Builder, view and apply for jobs, filter jobs based on custom criteria and being notified on the progress of the job application.
+                      Besides, the website enables employers to post their job, to search for potential job seekers based on the required skill, to shortlist the job seekers based on custom criteria and to notify the job seekers on the progress of the job application.
                       Accordingly this website simplifies the routine and tedious tasks of Employers and support them to hire the right talent for their job. <br />
                       For more information you can contact us by the following contact information: 
-                      `
-                      : ` Wenchijobs.com waltajjii hojii barbaaddotaa fi hojjechiistota Itoophiyaa keessatti argaman walitti hidhudha. Weebsaayitiin kun dandeettii sirrii hojiiwwan maxxanfaman waliin walqabsiisuu fi adeemsa qacarrii amanamaa dhugoomsuu yaadamee kan ijaaramedha. Weebsaayitiin kun hojii barbaaddonni CV ogeessaa ijaaruun CV Builder keenya fayyadamuun, hojii ilaaluu fi iyyachuu, ulaagaa amala irratti hundaa’uun hojii calaluu ​​fi adeemsa iyyata hojii irratti beeksisuu ni dandeessisa.`}
+                      </p>)
+                      : ` Wenchijobs.com waltajjii hojii barbaaddotaa fi hojjechiistota Itoophiyaa keessatti argaman wal qunnamsiisuu dha. Weebsaayitiin kun dandeettii sirrii hojiiwwan maxxanfaman waliin walqabsiisuu fi adeemsa qacarrii amanamaa dhugoomsuu yaadamee kan ijaaramedha. Tajaajiloota Wenchijobs.com 'n kennaman keessaa:  hojii barbaaddonni CV qopheessaa kenyaa fayyadamuun CV ogeessaa qopheefachuu, hojii ilaaluu fi kara toora intarneetiittin hojiif iyyachuu, ulaagaa fedhii irratti hundaa’een  hojii calaluu ​​fi adeemsa iyyata hojii irratti beeksisaa argachuu ni dandeessisa.`}
                     </div>
                 </div>
                 <div className={styles.contactContainer}>

@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from '../steps.module.css'
 import Link  from 'next/link';
-import {useFieldArray, useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
@@ -45,7 +45,7 @@ const EducationModal = ({closeModal})=>{
                     
     })
     //linking the validation schema with the form data throuhg resolver
-    const {register,reset, watch, setValue, handleSubmit, formState: {errors}} = useForm({
+    const {register, setValue, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(validationSchema),
        
     });

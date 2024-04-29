@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import  {useState, useEffect} from 'react'
 import styles from './signup.module.css'
 import Link  from 'next/link';
 import {useForm} from 'react-hook-form'
@@ -22,6 +22,7 @@ const Signup = ({closeModal})=>{
     const {register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(validationSchema)
     });
+   //closing signup window on out side click
 
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
@@ -31,9 +32,12 @@ const Signup = ({closeModal})=>{
             body: JSON.stringify(data)
         })
         .then((res)=>{
-            console.log(res)
-            closeModal(false)
+            if(res.ok){
+               window.location.href = "/auth"
+              }
+            
         })
+      
     }
     return(
         
@@ -79,8 +83,8 @@ const Signup = ({closeModal})=>{
                     </div>
                                    
                     <input type='submit' value={isEnglish ? 'Register' : 'Galmeessii '} name='submit' className={styles.btnLogin} />
-                   
-                   
+                    {/** popup window for messages*/}
+                  
                    
                 </form>
             </div>

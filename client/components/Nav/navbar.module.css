@@ -28,6 +28,7 @@
     font-weight: 500;
    
 }
+
 .menu .menuItem a{
     position: relative;
     cursor: pointer;
@@ -71,7 +72,7 @@
     display: none;
     
 }
-.menu .menuItem:hover .dropdownMenu{
+.menu .menuItem.active .dropdownMenu{
     display: block;
     height: 0;
     opacity: 0;
@@ -82,44 +83,54 @@
 .menu .menuItem i{
     transition: .3s ease-in-out;
 }
-.menu .menuItem:hover i{
+/* .menu .menuItem:hover i{
         transform: rotate(180deg);
-    }
+    } */
 /* Mega menu for job category style */
 
 .menu .menuItem .megaMenu{
     background-color: white;
     border-top: 1px solid #f74949;
-    width: 75%;
-    left: 15%;
+    width: 80%;
+    left: 10%;
     top: 100%;
-    display: none;
+    opacity: 0;
+    visibility: hidden;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     box-shadow: 1px 3px 15px rgba(0, 0, 0, .1);
     position: absolute;
     z-index: 300;
 }
-.menu .menuItem:hover .megaMenu{
-    display: block;
+.menu .menuItem.active .megaMenu{
+    opacity: 1;
+    visibility: visible;
     height: 0;
     opacity: 0;
     animation-name: dropdownt;
     animation-fill-mode: forwards;
     animation-duration: .5s;
 }
+.menuItem.active i{
+    transform: rotate(180deg);
+}
 .menu .megaItem{
     position: static;
+  
 }
+
 .megaContainer{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 30px 0;
+    display: grid;
+    font-weight: 500;
+    color: black;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 20px;
+    row-gap: 20px;
 }
 /* right side menu in the navbar */
 .menuRight{
     display: flex;
+    padding-left: 20px;
     align-items: center;
     margin-right: 10px;
     font-size: 14px;
@@ -157,9 +168,14 @@
         padding: 10px;
         cursor: pointer;
 }
-.menuRight .menuItem:hover i{
+.dropdownMenu .menuItem:hover{
+    background-color: rgba(243,244,246, 80%);
+}
+
+
+/* .menuRight .menuItem:hover i{
         transform: rotate(180deg);
- }
+ } */
 /*buttons style */
 .btnTransparent{
     display: flex;
@@ -223,12 +239,171 @@
 .hamburger{
     width: 40px;
     height: 40px;
+    cursor: pointer;
     text-align: center;
     color: #0c4a6e;
     top: 20px;
     right: 20px;
     font-size: 33px;
     display: none;
+    cursor: pointer;
+}
+
+.profileContainer{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-left: 20px;
+}
+.profileContainer .message, .notification, .account{
+    width: 32px;
+    height: 32px;
+    background-color: rgba(243,244,246, 80%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.message i, .notification i, .account i{
+    font-size: 20px;
+}
+.messageContainer{
+    position: absolute;
+    padding: 10px;
+    top: 85px;
+    right: 10px;
+    width: 300px;
+    height: 480px;
+    overflow-y: scroll;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    box-shadow: 5px 3px 10px rgba(0, 0, 0, .07);
+    z-index: 3000;
+    visibility: hidden;
+    opacity: 0;
+}
+.message.active .messageContainer{
+    visibility: visible;
+    opacity: 1;
+}
+
+.messageContainer h3{
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+.messageContainer .messageContent{
+    margin-top: 10px;
+    color: black;
+}
+/** notification styles*/
+.notificationContainer{
+    position: absolute;
+    padding: 10px;
+    top: 85px;
+    right: 10px;
+    width: 300px;
+    height: 480px;
+    overflow-y: scroll;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    box-shadow: 5px 3px 10px rgba(0, 0, 0, .07);
+    z-index: 3000;
+    visibility: hidden;
+    opacity: 0;
+}
+.notification.active .notificationContainer{
+    visibility: visible;
+    opacity: 1;
+}
+
+.notificationContainer h3{
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+.notificationContainer .notificationContent{
+    margin-top: 10px;
+    color: black;
+}
+/** user account styles*/
+.accountContainer{
+    position: absolute;
+    padding: 10px;
+    top: 85px;
+    right: 10px;
+    width: 230px;
+    height: 250px;
+    overflow-y: scroll;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    box-shadow: 5px 3px 10px rgba(0, 0, 0, .07);
+    z-index: 3000;
+    visibility: hidden;
+    opacity: 0;
+}
+.account.active .accountContainer{
+    visibility: visible;
+    opacity: 1;
+}
+
+.accountContainer h3{
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+.accountUser{
+    width: 32px;
+    height: 32px;
+    background-color: rgba(243,244,246, 80%);
+    border-radius: 50%;
+    color: #0c4a6e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.userInfoContainer{
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid lightgray;
+}
+.userInfoContainer p{
+    font-weight: bold;
+}
+.accountContainer ul{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.accountContainer ul li{
+    display: flex;
+    gap: 20px;
+}
+.accountContainer ul li:hover{
+    background-color: rgba(243,244,246, 80%);
+}
+.accountContainer ul li span{
+    width: 32px;
+    height: 32px;
+    background-color: rgba(243,244,246, 80%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+.mobileMenu{
+  display: none;
 }
 .hidden{
     display: none;
@@ -258,6 +433,7 @@
         height: 90px;
         max-width: 100vw;
     }
+    
     .hamburger{
         display: block;
         position: absolute;
@@ -267,7 +443,9 @@
         top: 20px;
         right: 1rem;
         font-size: 33px;
+        cursor: pointer;
     }
+    
     .menu{
        display: none;
     }
@@ -277,6 +455,7 @@
         color: white;
         top: 0;
         right: -3000px;
+        display: none;
         z-index: 5000;
         width: 65%;
         padding-top: 87px;
@@ -284,7 +463,8 @@
         font-size: 15px;
         box-shadow: 5px 3px 15px rgba(0, 0, 0, .5);
     }
-    .mobileMenu.active{
+   .mobileMenu.active{
+        display: block;
         right: 0;
         
 
@@ -298,6 +478,7 @@
         left: 20px;
         font-size: 17px;
         font-weight: bold;
+        cursor: pointer;
     }
     .myAccount .dropdownMenu::before{
         content: '';
@@ -349,9 +530,12 @@
         top: 20px;
         right: 1rem;
         font-size: 33px;
+        cursor: pointer;
     }
    
- 
+    .socialIcons{
+        font-size: 60px;
+    }
     .mobileMenu .menuItem{
         position: relative;
     }
@@ -374,11 +558,12 @@
     
     .mobileMenu .brand{
         position: fixed;
-        bottom: 15px;
-        right: 15px;
-        color: white;
+        bottom: 20px;
+        right: 3%;
+        color: lightgray;
         font-size: 12px;
     }
+    
     .mobileMenu .menuItem{
         padding: 15px;
         margin-left: 15px;
@@ -391,6 +576,9 @@
         width: 110px;
     }
     .toolTip{
+        display: none;
+    }
+    .profileContainer{
         display: none;
     }
 }
