@@ -3,7 +3,7 @@ const cvBuilderModel = require("../models/cvBuilderModel")
 //personal data controllers
 //fetch personal data to display 
  exports.fetchPersonalDataController = (req, res)=>{
-    const data = {userId: 1}
+    const data = {userId: req.params.id}
     cvBuilderModel.fetchPersonalData(req.con, data, (error, result)=>{
         if(result){
             res.json(result)
@@ -27,7 +27,7 @@ exports.updatePersonalData = (req, res)=>{
 }
 //display CV Image controller
 exports.displayCVImage = (req, res)=>{
-    const data = {userId: 1}
+    const data = {userId: req.params.id}
     cvBuilderModel.displayImage(req.con, data, (error, result)=>{
         if(result){
             return res.json(result)

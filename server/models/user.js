@@ -6,3 +6,11 @@ exports.signupModel = (con, data, callback)=>{
     callback
     )
 }
+//login model
+exports.loginModel=(con, data, callback)=>{
+    db.query('select * from jobseekers where BINARY userEmail=?', [data.email], callback)
+}
+//forget password 
+exports.forgetModel=(con, data, callback)=>{
+    db.query('select userId, userEmail from jobseekers where userEmail=?', [data.email], callback)
+}

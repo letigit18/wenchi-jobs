@@ -3,18 +3,25 @@ const app=express();
 const router=require('./routes/routes')
 const session=require('express-session')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 //setting up the middlewares 
-app.use(cors())
+app.use(cors({
+  origin: ["http://localhost:3000"] ,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}))
 app.use(express.json());
+app.use(cookieParser())
 app.use(express.urlencoded({extended: true}));
 app.set('view engine', null);
 app.use(express.static('public'))
 //setting the sessions and express validator 
 app.use(session({
     secret:'secret key',
-    resave: true,
-    saveUninitialized:true,
+    resave: false,
+    saveUninitialized:false,
     cookie: {
+        secure: false,
         maxAge: 100*60*60*24
     }
 }))
