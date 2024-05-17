@@ -6,14 +6,26 @@ exports.signupController = async(req, res)=>{
     const plainPassword = req.body.password;
     const hashedPassword = await bcryptjs.hash(plainPassword, 8);
     const data = {userFirstName: req.body.firstName, userMiddleName: req.body.middleName,  userEmail: req.body.email, userPassword: hashedPassword}
-    userModel.signupModel(req.con, data, (error, result)=>{
-        if(result){
-            res.json({"message": "Success"})
+    userModel.emailChecker(req.con, data, (error1, result1)=>{
+        if(error1){
+            throw error1
+        }
+        if(result1.length > 0){
+            res.json({"message": "Exist"})
         }
         else{
-            throw error
+            userModel.signupModel(req.con, data, (error, result)=>{
+                if(result){
+                    res.json({"message": "Success"})
+                }
+                else{
+                    throw error
+                }
+            })
         }
+
     })
+   
 }
 //login job seekrs
 exports.loginController = ((req, res) => {

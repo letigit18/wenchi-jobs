@@ -12,17 +12,17 @@ exports.createJobRecord = (con, data, callback)=>{
 }
 //fetch job info
 exports.fetchJobInfo = (con, callback)=>{
-    db.query('select * from jobs  join company on jobs.companyId = company.companyId', callback)
+    db.query('select * from jobs  join company on jobs.companyId = company.companyId order by postedDate desc', callback)
 }
 exports.fetchJobByCategory = (con, data,  callback)=>{
-    db.query('select * from jobs  join company on jobs.companyId = company.companyId where jobs.jobCategory=?', [data.jobCategory], callback)
+    db.query('select * from jobs  join company on jobs.companyId = company.companyId where jobs.jobCategory=? order by jobs.postedDate desc', [data.jobCategory], callback)
 }
 exports.fetchJobDetail = (con, data, callback)=>{
     db.query('select * from jobs  join company on jobs.companyId = company.companyId where jobs.jobId=?',[data.jobId], callback)
 }
 //fetch job location
 exports.fetchLocationData = (con, callback)=>{
-    db.query('select DISTINCT jobLocation, jobLocationOr from jobs', callback)
+    db.query('select DISTINCT jobLocation from jobs order by jobLocation', callback)
 }
 //counter based on the job category
 exports.counterByCategory = (con, callback)=>{
@@ -30,9 +30,32 @@ exports.counterByCategory = (con, callback)=>{
 }
 //fetch job titles for live search
 exports.fetchJobData = (con, callback)=>{
-    db.query('select jobTitle, jobTitleOr, jobCategory, jobCategoryOr from jobs', callback)
+    db.query('select jobTitle, jobTitleOr, jobCategory, jobCategoryOr from jobs order by postedDate desc', callback)
 }
+//fetch active jobs 
+exports.fetchActiveJobs = (con, callback)=>{
+    db.query('select jobTitle, jobTitleOr, jobCategory, jobCategoryOr from jobs where expiredDate >= CURRENT_DATE order by postedDate desc', callback)
+}
+
+
 //fetch job data by job title
 exports.fetchByJobTitle = (con, data, callback)=>{
     db.query(`select * from jobs where jobTitle like ?`, [data.jobTitle], callback)
 }
+//fetch by organization type
+exports.fetchByOrganizationType = (con, data, callback)=>{
+    db.query(`select * from jobs join company ON jobs.companyId = company.companyId where company.companyType like ? order by jobs.postedDate desc`, [data.companyType], callback)
+}
+//fetch by employment type 
+exports.fetchByEmploymentType = (con, data, callback)=>{
+    db.query(`select * from jobs join company ON jobs.companyId = company.companyId where jobs.employmentType like ? order by jobs.postedDate desc`, [data.employmentType], callback)
+}
+//fetch by location
+exports.fetchByLocation = (con, data, callback)=>{
+    db.query(`select * from jobs join company ON jobs.companyId = company.companyId where jobs.jobLocation like ? order by jobs.postedDate desc`, [data.jobLocation], callback)
+}
+//fetch by location
+exports.fetchByExperience = (con, data, callback)=>{
+    db.query(`select * from jobs join company ON jobs.companyId = company.companyId where jobs.jobExperience >= ? and jobs.jobExperience <= ? order by jobs.postedDate desc`, [data.minExp, data.maxExp], callback)
+}
+

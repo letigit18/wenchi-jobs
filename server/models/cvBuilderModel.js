@@ -4,8 +4,8 @@ exports.fetchEducationData = (con, data, callback)=>{
     db.query('select * from education where userId = ?',[data.userId],callback)
 }
 exports.createEducationData = (con, data, callback)=>{
-    db.query('insert into education set id=?, educationalLevel=?, category=?, department=?, collegeName=?, cgpa=?, startDate=?, endDate=?, userId=?',
-    [data.id, data.educationalLevel, data.category, data.department, data.collegeName, data.cgpa, data.startDate, data.endDate, data.userId],
+    db.query('insert into education set educationalLevel=?, category=?, department=?, collegeName=?, cgpa=?, startDate=?, endDate=?, userId=?',
+    [data.educationalLevel, data.category, data.department, data.collegeName, data.cgpa, data.startDate, data.endDate, data.userId],
     callback
     )
 }
@@ -23,8 +23,8 @@ exports.fetchExperienceData = (con, data, callback)=>{
     db.query('select * from experience where userId = ?',[data.userId],callback)
 }
 exports.createExperienceData = (con, data, callback)=>{
-    db.query('insert into experience set id=?, employerName=?, jobTitle=?, responsibility=?, totalExperience=?, startDate=?, endDate=?, userId=?',
-    [data.id, data.employerName, data.jobTitle, data.jobResponsibility, data.totalExperience, data.startDate, data.endDate, data.userId],
+    db.query('insert into experience set employerName=?, jobTitle=?, responsibility=?, totalExperience=?, startDate=?, endDate=?, userId=?',
+    [data.employerName, data.jobTitle, data.jobResponsibility, data.totalExperience, data.startDate, data.endDate, data.userId],
     callback
     )
 }
@@ -42,8 +42,8 @@ exports.fetchLanguageData = (con, data, callback)=>{
     db.query('select * from language where userId = ?',[data.userId],callback)
 }
 exports.createLanguageData = (con, data, callback)=>{
-    db.query('insert into language set id=?, language=?, other=?, proficiency=?, userId=?',
-    [data.id, data.language, data.other, data.proficiency, data.userId],
+    db.query('insert into language set language=?, other=?, proficiency=?, userId=?',
+    [data.language, data.other, data.proficiency, data.userId],
     callback
     )
 }
@@ -58,11 +58,11 @@ exports.deleteLanguageData = (con, data, callback)=>{
 }
 //skills model 
 exports.fetchSkillData = (con, data, callback)=>{
-    db.query('select * from skill where userId = ?',[data.userId],callback)
+    db.query('select * from skill where userId = ?',[data.userId], callback)
 }
 exports.createSkillData = (con, data, callback)=>{
-    db.query('insert into skill set id=?, skills=?, profileSummary=?, userId=?',
-    [data.id, data.skills, data.profileSummary, data.userId],
+    db.query('insert into skill set skills=?, profileSummary=?, userId=?',
+    [data.skills, data.profileSummary, data.userId],
     callback
     )
 }

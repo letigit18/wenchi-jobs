@@ -15,7 +15,7 @@ const cvBuilderModel = require("../models/cvBuilderModel")
  }
 //update personal data
 exports.updatePersonalData = (req, res)=>{
-    const data = {userId: 1, userFirstName: req.body.userFirstName, userMiddleName: req.body.userMiddleName, userLastName: req.body.userLastName, userSex: req.body.userSex, userDateOfBirth: req.body.userDateOfBirth, userLocation: req.body.userLocation, userPhoneNumber: req.body.userPhoneNumber, portfolioLink: req.body.portfolioLink, linkedinLink: req.body.linkedinLink, githubLink: req.body.githubLink,  userEmail: req.body.userEmail}
+    const data = {userId: req.body.userId, userFirstName: req.body.userFirstName, userMiddleName: req.body.userMiddleName, userLastName: req.body.userLastName, userSex: req.body.userSex, userDateOfBirth: req.body.userDateOfBirth, userLocation: req.body.userLocation, userPhoneNumber: req.body.userPhoneNumber, portfolioLink: req.body.portfolioLink, linkedinLink: req.body.linkedinLink, githubLink: req.body.githubLink,  userEmail: req.body.userEmail}
     cvBuilderModel.updatePersonalData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Success"})
@@ -40,8 +40,9 @@ exports.displayCVImage = (req, res)=>{
 }
 //upload profile image 
 exports.uploadProfileImage = (req, res)=>{
- const data = {userImage: req.file.filename, userId: 1};
+ const data = {userImage: req.file.filename, userId: req.body.userId};
  cvBuilderModel.uploadImage(req.con, data, (error, result)=>{
+   
     if(result){
         cvBuilderModel.displayImage(req.con, data, (error2, result2)=>{
             if(result2){
@@ -59,7 +60,7 @@ exports.uploadProfileImage = (req, res)=>{
 }
 //fetch educational data based on userId
 exports.fetchEducationalData = (req, res)=>{
-    const data = {userId: 1}
+    const data = {userId: req.params.id}
     cvBuilderModel.fetchEducationData(req.con, data, (error, result)=>{
         if(result){
             res.json(result)
@@ -72,7 +73,7 @@ exports.fetchEducationalData = (req, res)=>{
 }
 //insert new record of education data for job seekers
 exports.createEducationData = (req, res)=>{
-    const data = {userId: 1, id: req.body.id, educationalLevel: req.body.educationalLevel, category: req.body.category, collegeName: req.body.collegeName, department: req.body.department, startDate: req.body.startDate, endDate: req.body.endDate, cgpa: req.body.cgpa}
+    const data = {userId: req.body.userId, educationalLevel: req.body.educationalLevel, category: req.body.category, collegeName: req.body.collegeName, department: req.body.department, startDate: req.body.startDate, endDate: req.body.endDate, cgpa: req.body.cgpa}
     cvBuilderModel.createEducationData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Record Successfully created"})
@@ -109,7 +110,7 @@ exports.deleteEducationData = (req, res)=>{
 /** experince controller functions */
 //fetch experience data
 exports.fetchExperienceData = (req, res)=>{
-    const data = {userId: 1}
+    const data = {userId: req.params.id}
     cvBuilderModel.fetchExperienceData(req.con, data, (error, result)=>{
         if(result){
             res.json(result)
@@ -122,7 +123,7 @@ exports.fetchExperienceData = (req, res)=>{
 }
 //insert new record of experience data for job seekers
 exports.createExperienceData = (req, res)=>{
-    const data = {id: req.body.id, userId: req.body.userId, totalExperience: 2, jobTitle: req.body.jobTitle, employerName: req.body.employerName, jobResponsibility: req.body.jobResponsibility, startDate: req.body.startDate, endDate: req.body.endDate}
+    const data = {userId: req.body.userId, totalExperience: 2, jobTitle: req.body.jobTitle, employerName: req.body.employerName, jobResponsibility: req.body.jobResponsibility, startDate: req.body.startDate, endDate: req.body.endDate}
     cvBuilderModel.createExperienceData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Record Successfully created"})
@@ -146,7 +147,7 @@ exports.updateExperienceData =(req, res)=>{
 }
 //delete experience data of job seekers
 exports.deleteExperienceData = (req, res)=>{
-    const data = {id: req.body.id, userId: 1};
+    const data = {id: req.body.id, userId: req.body.userId};
     cvBuilderModel.deleteExperienceData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Record deleted successfully"})
@@ -158,7 +159,7 @@ exports.deleteExperienceData = (req, res)=>{
 }
 // controller that handles the language data 
 exports.fetchLanguageData = (req, res)=>{
-    const data = {userId: 1}
+    const data = {userId: req.params.id}
     cvBuilderModel.fetchLanguageData(req.con, data, (error, result)=>{
         if(result){
             res.json(result)
@@ -171,7 +172,7 @@ exports.fetchLanguageData = (req, res)=>{
 }
 //insert new record of language data for job seekers
 exports.createLanguageData = (req, res)=>{
-    const data = {id: req.body.id, userId: req.body.userId, language: req.body.language, other: req.body.other, proficiency: req.body.proficiency }
+    const data = {userId: req.body.userId, language: req.body.language, other: req.body.other, proficiency: req.body.proficiency }
  
     cvBuilderModel.createLanguageData(req.con, data, (error, result)=>{
         if(result){
@@ -197,7 +198,7 @@ exports.updateLanguageData =(req, res)=>{
 }
 //delete language data of job seekers
 exports.deleteLanguageData = (req, res)=>{
-    const data = {id: req.body.id, userId: 1};
+    const data = {id: req.body.id, userId: req.body.userId};
     cvBuilderModel.deleteLanguageData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Record deleted successfully"})
@@ -210,7 +211,7 @@ exports.deleteLanguageData = (req, res)=>{
 //controllers thant handles skills data
 //create record of skill 
 exports.fetchSkillData = (req, res)=>{
-    const data = {userId: 1}
+    const data = {userId: req.params.id}
     cvBuilderModel.fetchSkillData(req.con, data, (error, result)=>{
         if(result){
             res.json(result)
@@ -224,7 +225,7 @@ exports.fetchSkillData = (req, res)=>{
 }
 //insert new record of skills data for job seekers
 exports.createSkillData = (req, res)=>{
-    const data = {id: req.body.id, userId: req.body.userId, skills: req.body.skills, profileSummary: req.body.profileSummary }
+    const data = {userId: req.body.userId, skills: req.body.skills, profileSummary: req.body.profileSummary }
     cvBuilderModel.createSkillData(req.con, data, (error, result)=>{
         if(result){
             res.send("Record Successfully created")
@@ -248,7 +249,7 @@ exports.updateSkillData =(req, res)=>{
 }
 //delete skills data of job seekers
 exports.deleteSkillData = (req, res)=>{
-    const data = {id: req.body.id, userId: 1};
+    const data = {id: req.body.id, userId: req.body.userId};
     cvBuilderModel.deleteSkillData(req.con, data, (error, result)=>{
         if(result){
             res.json({"message": "Record deleted successfully"})
