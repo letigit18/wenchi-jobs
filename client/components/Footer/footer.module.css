@@ -73,10 +73,17 @@
   .socialLinks i{
     padding-right: 25px;
     font-size: 24px;
+    transition: 0.5s ease;
+    cursor: pointer;
+  }
+  .socialLinks i:hover{
+    transform: scale(1.2);
   }
   @media screen and (max-width: 768px){
     .footer{
-        height: fit-content;
+       height: fit-content;
+       padding: 20px 10px;
+       display: block;
     }
     .footer .rightMenu{
         display: none;
@@ -85,13 +92,22 @@
         flex-direction: column;
         gap: 15px;
     }
+    .footer .leftContainer{
+        width: 95%;
+    }
     .container{
         width: 90%;
         height: 80%;
+        margin-bottom: 5px;
+        padding-top: 0px;
+        padding-bottom: 0px;
     }
+   .footer .copyrightInfo{
+    padding-bottom: 0px;
+   }
     .copyrightInfo p{
         font-size: 13px;
-        font-style: italic;
+        
     }
     .linkContainer ul li:not(:first-child){
         padding-top: 25px;

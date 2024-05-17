@@ -34,7 +34,7 @@ const ForgetPassword = ()=>{
     
     //login checker
 const onSubmit= (data)=>{
-   fetch('http://localhost:5000/send-email', {
+   fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/send-email', {
     method: 'post',
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)

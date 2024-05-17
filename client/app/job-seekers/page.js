@@ -4,20 +4,52 @@ import styles from './seekers.module.css'
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '@/redux/login';
-function getUserName(){
-    if (typeof window !== 'undefined') {
-        // Perform localStorage action
-        let user = localStorage.getItem('userFirstName')
-        if(user){
-            return user
-        }
-        else{
-            return;
-        }
+import LeftMenu from '@/components/Category/LeftMenu/LeftMenu';
+//get userName from local storage
+// function getUserName(){
+//     if (typeof window !== 'undefined') {
+//         // Perform localStorage action
+//         let user = localStorage.getItem('userFirstName')
+//         if(user){
+//             return user
+//         }
+//         else{
+//             return;
+//         }
        
-      }
+//       }
      
-}
+// }
+// //get userMiddleName from local storage
+// function getUserMiddleName(){
+//     if (typeof window !== 'undefined') {
+//         // Perform localStorage action
+//         let user = localStorage.getItem('userMiddleName')
+//         if(user){
+//             return user
+//         }
+//         else{
+//             return;
+//         }
+       
+//       }
+     
+// }
+//get userName from local storage
+// function getUserId(){
+//     if (typeof window !== 'undefined') {
+//         // Perform localStorage action
+//         let user = localStorage.getItem('userId')
+//         if(user){
+//             return user
+//         }
+//         else{
+//             return;
+//         }
+       
+//       }
+     
+// }
 const JobSeekersHome = ()=>{
 //const [user, setUser] = useState(getUserName())
 const [userFirstName, setUserFirstName] = useState('')
@@ -27,9 +59,9 @@ const dispatch = useDispatch()
 useEffect(()=>{
     dispatch(loginStart())
     axios.defaults.withCredentials = true
-    axios.get("http://localhost:5000/job-seekers-home")
+    axios.get(process.env.NEXT_PUBLIC_SERVER_ADDRESS+"/job-seekers-home")
     .then((res)=>{
-        console.log(res)
+     
         if(res.data.valid)
         {
                 dispatch(loginSuccess())
@@ -46,11 +78,33 @@ useEffect(()=>{
 }, [])
 
     return(
-        <div>
-         <h1>Welcome {userFirstName} {userMiddleName}</h1>
+        <section className={styles.container}>
+        {userFirstName !=  '' &&
+            <div className={styles.card}>
+               <LeftMenu />
+               <table>
+                 <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Job Title</th>
+                        <th>Company name</th>
+                        <th>Application code</th>
+                        
+                        <th>Progress</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                    <tr>
+                        <td colSpan={5}>There is no job application yet </td>
+                    </tr>
+                 </tbody>
+               </table>
+            </div>
+}
+        </section>
  
         
-        </div>
+        
     )
 }
 export default JobSeekersHome;

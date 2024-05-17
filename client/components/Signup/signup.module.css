@@ -5,7 +5,7 @@
     padding: 0 15px;
     width: 35%;
     top: 14vh;
-    height: 75vh;
+    height: 80vh;
     border: 1px solid rgb(231, 236, 255);
     background-color: white;
     box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
@@ -73,10 +73,15 @@
     position: absolute;
     width: calc((100% - 10px));
     padding: 0 40px;
-    top: 70px;
+    top: 90px;
     left: 10px;
     display: flex;
     flex-direction: column;
+}
+.card .errorMessage{
+    position: absolute;
+    top: 55px;
+    left: 30%;
 }
 .card form .inputBox{
     position: relative;
@@ -176,6 +181,10 @@
 .btnSignup:hover{
     background-color: #f74949;
     color: white;
+}
+.errorMessage{
+    font-size: 11pt;
+    color: red;
 }
 @media  screen and (max-width: 768px) {
     .card{

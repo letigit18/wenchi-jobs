@@ -9,7 +9,7 @@
 .formContainer .table{
     width: 100%;
     font-size: 1rem;
-
+    
 }
 .formContainer .table thead tr{
     text-align: left;
@@ -123,8 +123,8 @@
     position: fixed;
     left: 32.5%;
     width: 35%;
-    top: 14vh;
-    height: 550px;
+    top: 12vh;
+    height: 570px;
     border: 1px solid rgb(231, 236, 255);
     background-color: white;
     box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
@@ -457,4 +457,34 @@
     border-radius: 5px;
     font-size: 15px;
     transition: 0.3s;
+}
+
+@media screen and (max-width: 768px){
+    .card{
+        width: 96vw;
+        left: 2vw;
+        top: 70px;
+        height: 600px;
+    }  
+      
+    .formContainer{
+        width: 100vw;
+        overflow-x: scroll;
+    }
+    .formContainer form .table{
+       width: 100%;
+       margin-bottom: 20px;
+    
+       }
+       .table th:not(:first-child, :last-child){
+        padding: 5px;
+        min-width: 120px;
+       }
+       .table th:first-child{
+        padding: 5px;
+       }
+       .table th:last-child{
+        min-width: 100px;
+       }
+    
 }

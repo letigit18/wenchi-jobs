@@ -42,7 +42,7 @@
     color: whitesmoke;
     margin-top: 20px;
     display: flex;
-    gap: 30px;
+    gap: 25px;
 }
 .rightContainer .socialContainer h3{
     color: whitesmoke;
@@ -59,13 +59,34 @@
     background-color: #f74949;
     
 }
-.rightContainer .socialContainer .socialIcons i{
-    color: whitesmoke;
-    font-size: 1.3rem;
-}
-.rightContainer .socialContainer .socialIcons a{
+.socialIcons a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 3px;
+    background-color: whitesmoke;
     cursor: pointer;
+    transition: 0.5s ease;
+    box-shadow: 0px 0px 2px #ddd;
 }
+.socialContainer .socialIcons a:hover{
+    background-color: #f74949;
+    transform: scale(1.2);
+    color: white;
+    box-shadow: 0;
+}
+.socialContainer .socialIcons a:hover i{
+ 
+    color: white;
+}
+.rightContainer .socialContainer .socialIcons i{
+    color:#0c4a6e;
+    font-size: 1.3rem;
+    transition: 0.5s ease;
+}
+
 .hero .container .buttons{
    position: relative;
    font-size: 13px;

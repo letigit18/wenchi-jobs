@@ -178,3 +178,10 @@
     padding-left: 10px;
     list-style: none;
 }
+@media screen and (max-width: 768px){
+    .skillCard{
+        width: 96vw;
+        left: 1vw;
+        top: 78px;
+    }
+}

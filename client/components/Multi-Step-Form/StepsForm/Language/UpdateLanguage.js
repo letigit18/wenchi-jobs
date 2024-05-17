@@ -31,7 +31,7 @@ const UpdateLanguage = ({closeModal, indexValue, languageData})=>{
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
         
-        const response = fetch('http://localhost:5000/update-language-data', {
+        const response = fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/update-language-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id: data.id, userId: data.userId, language: data.language, other: data.other, proficiency: data.proficiency})

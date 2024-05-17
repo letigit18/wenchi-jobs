@@ -104,8 +104,9 @@
     animation-delay: 5s;
 }
 .btnPrimary{
-    width: 140px;
+    width: 150px;
     cursor:pointer;
+    text-align: center;
     display: block;
     position: absolute;
     top: 180px;

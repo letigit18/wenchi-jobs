@@ -1,0 +1,27 @@
+.formInput{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    padding-left:20px;
+    border-radius: 25px;
+    color: black;
+}
+
+.icon{
+    position: absolute;
+    right: -3px;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    color: white;
+    text-align: center;
+    background-color: #f74949;
+    line-height: 40px;
+    font-size: 22px;
+    cursor: pointer;
+    border-radius: 0 25px 25px 0;
+ 
+
+}

@@ -47,7 +47,7 @@ const UpdateModal = ({closeModal, experienceData, indexValue})=>{
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
      
-        const response = fetch('http://localhost:5000/update-experience-data', {
+        const response = fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/update-experience-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id: data.id, userId: data.userId, jobTitle: data.jobTitle, employerName: data.employerName, jobResponsibility: editorContent, startDate: data.startDate, endDate: data.endDate})
@@ -79,7 +79,7 @@ const UpdateModal = ({closeModal, experienceData, indexValue})=>{
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
          
-                   <input type='hidden' {...register("userId")} defaultValue={1} />
+                   <input type='hidden' {...register("userId")} defaultValue={experienceData[indexValue].userId}/>
                    <input type="hidden" {...register("id")} defaultValue={experienceData[indexValue].id} />
                    <div className={styles.inputBox}>
                         <label htmlFor='jobTitle'>Job Title</label>
@@ -96,7 +96,7 @@ const UpdateModal = ({closeModal, experienceData, indexValue})=>{
                     <div className={styles.inputBoxQuill}>
                         <label htmlFor='jobResponsibility'>Job Responsibility</label>
                         
-                        <ReactQuill theme="snow" id="jobResponsibility" value={editorContent} onChange={setEditorContent} className= {errors.jobResponsibility ? styles.inputError : ""} />
+                        <ReactQuill theme="snow" style={{height: '100px'}} id="jobResponsibility" value={editorContent} onChange={setEditorContent} className= {errors.jobResponsibility ? styles.inputError : ""} />
                         <p className={styles.errorLabel}></p>
                     </div>
                     <div className={styles.inputBox}>

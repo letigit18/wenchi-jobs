@@ -8,9 +8,24 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
 import { updateEducationalData, } from '@/redux/multiStepForm';
 import { redirect } from 'next/navigation';
+function getUserId(){
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        let userId = window.localStorage.getItem('userId')
+        if(userId){
+            return userId
+        }
+        else{
+            return;
+        }
+       
+      }
+     
+}
 const UpdateModal = ({closeModal, educationData, indexValue})=>{
     const date = new Date();
     date.toDateString();
+    const [userId, setUserId] = useState(getUserId())
     const isEnglish = useSelector((state)=>state.language.isEnglish)
     const [universityName, setUniversityName] = useState(educationData[indexValue].collegeName)
     const dispatch = useDispatch()
@@ -52,7 +67,7 @@ const UpdateModal = ({closeModal, educationData, indexValue})=>{
    
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
-      fetch('http://localhost:5000/update-education-data', {
+      fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/update-education-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, other: data.other, collegeName: data.collegeName, category: data.category, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa})
@@ -101,7 +116,7 @@ const UpdateModal = ({closeModal, educationData, indexValue})=>{
                        
                         <p className={styles.errorLabel}>{errors.educationalLevel?.message}</p>
                     </div>
-                    <div className={styles.inputBox}>
+                    <div className={styles.inputBox} style={{marginBottom: '10px'}}>
                         <label>University/College name</label>
                         <select  {...register("collegeName")}  value={universityName} onChange={e => setUniversityName(e.target.value)} className= {errors.collegeName? styles.inputError : ""}  required>
                     
@@ -149,7 +164,7 @@ const UpdateModal = ({closeModal, educationData, indexValue})=>{
                             <option value="other">other</option>                                              
                        </select>
                         <p className={styles.errorLabel}>{errors.collegeName?.message}</p>
-                        {universityName == 'other' && <input type='text' defaultValue={educationData[indexValue].other} {...register("other")} />}
+                        {universityName == 'other' && <input type='text' defaultValue={educationData[indexValue].other} {...register("other")} style={{margin: '5px 0'}} />}
                         <p className={styles.errorLabel}>{errors.other?.message}</p>
                     </div>
                     <div className={styles.inputBox}>

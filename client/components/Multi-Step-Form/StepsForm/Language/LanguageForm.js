@@ -8,10 +8,25 @@ import styles from '../steps.module.css'
 import AddLanguage from './AddLanguage';
 import { getLanguageData, deleteLanguageData } from '@/redux/multiStepForm';
 import UpdateLanguage from './UpdateLanguage';
+function getUserId(){
+  if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      let userId = window.localStorage.getItem('userId')
+      if(userId){
+          return userId
+      }
+      else{
+          return;
+      }
+     
+    }
+   
+}
 const LanguageForm = () =>{
 
     const currentStep = useSelector((state)=> state.step.currentStep);
     const languageData = useSelector((state)=> state.CVBuilder.languageData)
+    const [userId, setUserId] = useState(getUserId())
      const [indexValue, setIndexValue] = useState(0);
     const [languageModalOpen, setLanguageModalOpen] = useState(false)
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
@@ -19,7 +34,7 @@ const LanguageForm = () =>{
     const {register, handleSubmit} = useForm();
     //fetching language data
     useEffect(() => {
-        fetch('http://localhost:5000/fetch-language-data')
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-language-data/'+userId)
           .then((res) => {
             return res.json();
           })
@@ -29,8 +44,7 @@ const LanguageForm = () =>{
       }, []);
     //handle delete language
     const handleDelete = (id, userId)=>{
-        console.log(id)
-        fetch('http://localhost:5000/delete-language-data',{
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/delete-language-data',{
           method: "delete",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify({id: id, userId: userId})

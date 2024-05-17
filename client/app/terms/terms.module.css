@@ -7,19 +7,40 @@
 }
 .textBox{
     width: 100%;
-    line-height: 1.5;
+    line-height: 1.8;
     text-align: justify;
     text-justify: inter-word;
     height: 90vh;
-    padding: 10px 10px;
+    padding: 10px;
     overflow: hidden;
     overflow-y: scroll;
     background-color: white;
 }
 .container h3{
     padding: 10px 0;
+
 }
 .container h2{
     padding: 10px 0;
     font-size: larger;
 }
+@media screen and (max-width: 768px) {
+    .container{
+      height: fit-content;
+      padding: 10px;
+      font-size: 11pt;
+    }
+    .card{
+      width: 100%;
+      flex-direction: column;
+      gap: 40px;
+      padding-left: 0 20px;
+    }
+    .aboutContainer{
+      width: 100%;
+    
+    }
+    .contactContainer{
+      width: 100%;
+    }
+   }

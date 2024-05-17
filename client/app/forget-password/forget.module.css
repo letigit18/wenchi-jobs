@@ -129,7 +129,10 @@
     .container{
         padding: 50px 10px 20px 10px;
         align-items: flex-start;
-        height: 70vh;
+        height: fit-content;
         margin: auto;
+    }
+    .card{
+        height: 350px;
     }
 }

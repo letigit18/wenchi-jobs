@@ -80,6 +80,9 @@
 .accordionItemBody li a{
     cursor: pointer;
 }
+.accordionItemBody li a:hover{
+    color: steelblue;
+}
 .jobContainer{
     width: 75%;
     overflow-y: scroll;

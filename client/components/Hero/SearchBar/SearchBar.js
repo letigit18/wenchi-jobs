@@ -4,7 +4,7 @@ const SearchBar = ({setResult})=>{
     const [search, setSearch] = useState('')
 //fetching all the job data from server
    const fetchData = (value)=>{
-    fetch('http://localhost:5000/fetch-jobs')
+    fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-active-jobs')
     .then(res=>{
      return res.json()
     })

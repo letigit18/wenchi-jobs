@@ -8,6 +8,20 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
 import { addEducationalFormData, setFormData } from '@/redux/multiStepForm';
 import { redirect } from 'next/navigation';
+function getUserId(){
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        let userId = window.localStorage.getItem('userId')
+        if(userId){
+            return userId
+        }
+        else{
+            return;
+        }
+       
+      }
+     
+}
 const EducationModal = ({closeModal})=>{
     const date = new Date();
     date.toDateString();
@@ -15,6 +29,7 @@ const EducationModal = ({closeModal})=>{
     const educationData = useSelector((state)=> state.CVBuilder.educationalFormData)
     const [universityName, setUniversityName] = useState('')
     let regId;
+    const [userId, setUserId] = useState(getUserId())
     const dispatch = useDispatch()
     //setting up the validation schema
     const validationSchema = yup.object().shape({
@@ -71,12 +86,12 @@ const EducationModal = ({closeModal})=>{
     }
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
-        fetch('http://localhost:5000/create-education-data', {
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-education-data', {
             method: "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
-        dispatch(addEducationalFormData({id: data.id, userId: data.userId, educationalLevel: data.educationalLevel, category: data.category, collegeName: data.collegeName, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa}))
+        dispatch(addEducationalFormData({userId: userId, educationalLevel: data.educationalLevel, category: data.category, collegeName: data.collegeName, department: data.department, startDate: data.startDate, endDate: data.endDate, cgpa: data.cgpa}))
         closeModal(false)
     }
     return(
@@ -92,8 +107,7 @@ const EducationModal = ({closeModal})=>{
                      </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                    <input type="hidden" {...register("userId")} value="1" />
-                    <input type='hidden' {...register("id")} value={getRegId()} />
+                    <input type='hidden' {...register("userId")} value={userId} />
                     <div className={styles.inputBox}>
                         <label>Educational Level</label>
                         <select  {...register("educationalLevel")} className= {errors.educationalLevel ? styles.inputError : ""} required>
@@ -166,7 +180,7 @@ const EducationModal = ({closeModal})=>{
                        </select>
                         <input type='hidden' {...register("showOther")} />
                         <p className={styles.errorLabel}>{errors.collegeName?.message}</p>
-                        {universityName === 'other' && <input type='text' {...register("other")} />}
+                        {universityName === 'other' && <input type='text' {...register("other")} style={{margin: '5px 0'}}  />}
                         <p className={styles.errorLabel}>{errors.other?.message}</p>
                     </div>
                     <div className={styles.inputBox}>

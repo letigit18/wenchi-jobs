@@ -34,16 +34,18 @@ const Login = ()=>{
 const onSubmit= (data)=>{
     dispatch(loginStart())
     axios.defaults.withCredentials = true
-    axios.post('http://localhost:5000/auth', data)
+    axios.post(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/auth', data)
     .then(res=>{
         if(res.data.login){
-            dispatch(loginSuccess())
             localStorage.setItem('userFirstName', res.data.userFirstName)
+            localStorage.setItem('userMiddleName', res.data.userMiddleName)
+            localStorage.setItem('userId', res.data.userId)
+            dispatch(loginSuccess())
             window.location.href = "/job-seekers"
         }
         else{
             dispatch(loginFailure())
-            setError("Wrong user name or password")
+            setError("Invalid user name or password, try again")
         }
     })
 }

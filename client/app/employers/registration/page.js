@@ -29,6 +29,10 @@ const EmployeRegistration = ()=>{
     companyAbout: yup.string().nullable()
                   .min(5, "Please enter valid company info.")
                   .transform((_, val) => (val !== "" ? String(val) : null)),
+    phoneNumber: yup.string().nullable()
+                  .min(10, "Please enter valid phone number")
+                  .max(15, "Please enter valid telephone number")
+                  .transform((_, val) => (val !== "" ? String(val) : null)),
     location: yup.string().nullable()
     .min(3, "Invalid work place")
     .transform((_, val) => (val !== "" ? String(val) : null)),
@@ -54,7 +58,7 @@ const onAboutChange = (editorState) => {
 
 //the function that handles the onsubmit event
 const onSubmit = (data)=>{
-  fetch('http://localhost:5000/create-company-data', {
+  fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-company-data', {
     method: "post",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)
@@ -95,7 +99,7 @@ const about = watch("companyAbout")
                               <option value="Banks or Insurance">Banks or Insurance company</option>
                               <option value="Government">Government </option>
                               <option value="NGO">NGO</option>
-                              <option value="Private Limited Company">Private Limited Company</option>
+                              <option value="PLC">Private Limited Company</option>
                               <option value="Higher Education Institution">Higher Education Institution</option>
                             </select>
                             <p className={styles.errorLabel}>{errors.companyType?.message}</p>
@@ -107,11 +111,7 @@ const about = watch("companyAbout")
                           </div>
                    </div>
                    <div className={styles.formContainerEng}>
-                          <div className={styles.inputBox}>
-                            <label>Website Address</label>
-                            <input type='text' {...register("website")} className= {errors.website ? `${styles.formControl} ${styles.inputError}` : styles.formControl} />
-                            <p className={styles.errorLabel}>{errors.website?.message}</p>
-                          </div>
+                         
                           <div className={styles.inputBox}>
                             <label>Password </label>
                             <input type='password' {...register("password")} className= {errors.password ? `${styles.formControl} ${styles.inputError}` : styles.formControl} />
@@ -122,10 +122,19 @@ const about = watch("companyAbout")
                             <input type='password' {...register("confirmPassword")} className= {errors.confirmPassword ? `${styles.formControl} ${styles.inputError}` : styles.formControl} />
                             <p className={styles.errorLabel}>{errors.confirmPassword?.message}</p>
                           </div>
-                          
+                          <div className={styles.inputBox}>
+                            <label>Telephone number</label>
+                            <input type='text' {...register("phoneNumber")} className= {errors.phoneNumber ? `${styles.formControl} ${styles.inputError}` : styles.formControl} />
+                            <p className={styles.errorLabel}>{errors.phoneNumber?.message}</p>
+                          </div>
                         
                    </div>
                    <div className={styles.formContainerEng}>
+                         <div className={styles.inputBox}>
+                            <label>Website Address</label>
+                            <input type='text' {...register("website")} className= {errors.website ? `${styles.formControl} ${styles.inputError}` : styles.formControl} />
+                            <p className={styles.errorLabel}>{errors.website?.message}</p>
+                         </div>
                          <div className={styles.inputBox}>
                               <label>Number of employees</label>
                               <select {...register("companyNoOfEmp")} className= {errors.companyNoOfEmp? `${styles.formControl} ${styles.inputError}` : styles.formControl}>
@@ -159,7 +168,7 @@ const about = watch("companyAbout")
                  
                  
                    <div className={styles.buttonContainer}>
-                       <input type="submit" value= "Register job" className={styles.btnSubmit} />
+                       <input type="submit" value= "Register Company" className={styles.btnSubmit} />
                        <input type='reset' value="Reset" className={styles.btnReset} />
                    </div>
                    

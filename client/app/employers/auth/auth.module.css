@@ -1,0 +1,121 @@
+.container{
+    background-color:  rgba(243,244,246, 80%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 89vh;
+    padding: 10px 0;
+    margin: auto;
+}
+.card{
+    position: relative;
+    width: 480px;
+    height: 450px;
+    border: 1px solid rgb(231, 236, 255);
+    background-color: white;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    border-top: 2px solid #f74949;
+}
+.card .logo{
+    position: absolute;
+    top: -37px;
+    left: 40%;
+
+}
+.card .logo img{
+    
+    border-radius: 50%;
+    
+
+}
+.header{
+    position: absolute;
+    font-weight: bold;
+    font-size: 14pt;
+    left: 35%;
+    top: 40px;
+}
+.errorHeader{
+    position: absolute;
+    top: 75px;
+    left: 23%;
+    font-size: 12pt;
+    color: red;
+    text-align: center;
+}
+.card form{
+    position: absolute;
+    width: 100%;
+    top: 100px;
+    padding:0px 40px;
+}
+.card .formControl{
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    
+}
+.card input{
+    padding: 5px 10px;
+    border: 1px solid rgb(212, 210, 210);
+    border-radius: 5px;
+}
+.card input:focus{
+    outline: none;
+    border: #0c4a6e solid 1px;
+}
+.forgetPassword{
+    position: absolute;
+    margin-top: 10px;
+    right: 40px;
+    color: black;
+    font-size: 14px;
+}
+.forgetPassword:hover{
+    color: steelblue;
+}
+.btnLogin{
+   
+    margin-top: 45px;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    background-color: #0c4a6e;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+.btnSignup{
+    margin-top: 10px;
+    width: 100%;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    background-color: transparent;
+    color:#0c4a6e;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+.errorLabel{
+    font-size: 10pt;
+    color: red;
+}
+
+.btnLogin:hover{
+    background-color: #f74949;
+}
+.btnSignup:hover{
+    background-color: #f74949;
+    color: white;
+}
+@media screen and (max-width: 768px){
+    .container{
+        padding: 50px 10px 20px 10px;
+        align-items: flex-start;
+        height: 70vh;
+        margin: auto;
+    }
+}

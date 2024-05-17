@@ -195,7 +195,7 @@ useEffect(()=>{
 }, [oroForm])
 //fetching job category from db
 useEffect(()=>{
-  fetch("http://localhost:5000/fetch-job-category")
+  fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+"/fetch-job-category")
   .then((res)=>{
     return res.json()
   })
@@ -206,7 +206,7 @@ useEffect(()=>{
 }, [])
 //the function that handles the onsubmit event
 const onSubmit = (data)=>{
-  fetch('http://localhost:5000/create-job-data', {
+  fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-job-data', {
     method: "post",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)
@@ -214,6 +214,7 @@ const onSubmit = (data)=>{
   if(result.ok){
     toast.success("Your job has been successfully submitted, it will be visible soon on the Job board!", {
       position: "top-center"
+     
     })
   }
 })

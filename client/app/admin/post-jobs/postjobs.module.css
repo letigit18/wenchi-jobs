@@ -1,0 +1,193 @@
+.container{
+    position: relative;
+    width: 100%;
+    background-color: rgba(243,244,246, 80%);
+    padding: 10px 20px 20px 20px;
+    font-size: 11pt;
+}
+
+.container .card{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    min-height: 100% !important;
+    padding: 20px;
+    background-color: white;
+}
+.card form{
+    width: 100%;
+    display: flex;
+    gap: 5%;
+}
+.formContainer{
+    max-width: 49%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.formContainerOro{
+    max-width: 49%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    visibility: hidden;
+    
+}
+.formContainerOro.active{
+    opacity: 1;
+    visibility: visible;
+}
+.formContainer h2, .formContainerOro h2{
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+}
+.formContainer p{
+    font-size: 10pt;
+    color: gray;
+    display: flex;
+    justify-content: space-between;
+}
+.formContainerOro p{
+    font-size: 10pt;
+    color: gray;
+    display: flex;
+}
+
+.checkbox{
+    display: flex;
+    gap: 5px;
+    color: green;
+    font-weight: bold;
+    font-size: 10pt;
+    
+}
+.checkbox input{
+    cursor: pointer;
+}
+.formContainerEng{
+    display: flex;
+    gap: 5px;
+}
+.col4Container{
+    display: flex;
+    gap: 5px;
+}
+.col4Container .inputBox{
+    width: 23%;
+}
+ 
+.formContainerOro .formContainer{
+display: flex;
+flex-direction: row;
+}
+.formContainerTextArea{
+    display: flex;
+    gap: 10px;
+}
+.inputBox{
+    display: flex;
+    flex-direction: column;
+    width: 31%;
+}
+
+.inputBoxQuill p{
+    color: black;
+}
+
+.inputBoxQuill p.errorLabel{
+    color: red;
+    font-size: 10pt;
+}
+.inputBox .errorLabel{
+    color: red;
+    font-size: 10pt;
+}
+.formControl{
+    outline: none;
+    border: 1px solid rgb(214, 213, 216);
+    padding: 5px 5px;
+    border-radius: 5px;
+    font-size: 11pt;
+  
+}
+.formControl.inputError{
+    outline: none;
+    border: 1px solid red;
+    padding: 5px 5px;
+    border-radius: 5px;
+    font-size: 11pt; 
+}
+
+.textArea{
+    height: 250px;
+    max-height: 250px;
+    overflow: auto;
+}
+.textArea.inputError{
+    height: 250px;
+    max-height: 250px;
+    overflow: auto; 
+    border: 1px solid red;
+}
+.buttonContainer{
+    margin-top: 15px;
+    position: relative;
+    left: 0;
+}
+.buttonContainer.active{
+    margin-top: 15px;
+    position: relative;
+    left: 100%;
+}
+.btnSubmit{
+    border: none;
+    color: white;
+    background-color: rgb(74, 150, 74);
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-right: 10px;
+
+}
+.imageContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.imageContainer img{
+    width: 180px;
+    height: 120px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.03);
+}
+.btnUpload{
+    margin-top:3px;
+    padding: 7px;
+    width: 90%;
+    background-color: #4a964a;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.buttonContainer{
+    width: 230px;
+}
+.btnUpload:disabled{
+    cursor: not-allowed;
+    color: black;
+    background-color: whitesmoke;
+}
+.btnReset{
+    border: none;
+    color: white;
+    background-color: #f74949;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 100px;
+
+}

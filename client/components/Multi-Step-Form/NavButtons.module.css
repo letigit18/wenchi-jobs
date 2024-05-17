@@ -43,3 +43,13 @@
 .btnPrevious:disabled{
     cursor: not-allowed;
 }
+.btnDownload:disabled{
+    cursor: not-allowed;
+}
+@media screen and (max-width: 768px) {
+    .btnContainer{
+        left: 50px;
+        bottom: 20px;
+        margin-top: 20px;
+    }
+}

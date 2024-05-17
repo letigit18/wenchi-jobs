@@ -9,10 +9,25 @@ import AddSkill from './AddSkill';
 import {deleteSkillsData, getSkillsData } from '@/redux/multiStepForm';
 import UpdateSkill from './UpdateSkill';
 import axios from 'axios';
+function getUserId(){
+  if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      let userId = window.localStorage.getItem('userId')
+      if(userId){
+          return userId
+      }
+      else{
+          return;
+      }
+     
+    }
+   
+}
 const SkillsForm = () =>{
 
     const currentStep = useSelector((state)=> state.step.currentStep);
     const skillData = useSelector((state)=> state.CVBuilder.skillData)
+    const [userId, setUserId] = useState(getUserId())
     const [indexValue, setIndexValue] = useState(0);
     const [skillModalOpen, setSkillModalOpen] = useState(false)
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
@@ -22,7 +37,7 @@ const SkillsForm = () =>{
     //fetching language data
     useEffect(() => {
       async function fetchPersonalData(){
-        await axios.get('http://localhost:5000/fetch-skill-data')
+        await axios.get(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-skill-data/'+userId)
         .then((res)=>{
           dispatch(getSkillsData(res.data))
         })
@@ -33,7 +48,7 @@ const SkillsForm = () =>{
     }, []);
     //handle delete language
     const handleDelete = (id, userId)=>{
-        fetch('http://localhost:5000/delete-skill-data',{
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/delete-skill-data',{
           method: "delete",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify({id: id, userId: userId})
@@ -74,7 +89,7 @@ const SkillsForm = () =>{
                         
                         <th style={{paddingLeft: '10px'}}>Skills</th>
                         <th>Profile Summary</th>
-                        <th style={{textAlign: 'center'}}>Actions</th>
+                        <th style={{textAlign: 'center'}} stye={{width: '140px'}}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,7 +99,7 @@ const SkillsForm = () =>{
                         
                         <td style={{paddingLeft: '30px'}}>{formatSkill(skill.skills.split(","))}</td>
                         <td style={{textAlign: "left"}}>{skill.profileSummary}</td>
-                        <td  className={styles.actionIcons} style={{textAlign: 'center'}} >
+                        <td  className={styles.actionIcons} style={{textAlign: 'center', width: '100px'}} >
                       
                       <i className={`${styles.editButton} bx bx-edit`} style={{color:'green'}} onClick={()=>{setUpdateModalOpen(true), setIndexValue(index) }}></i>
                  

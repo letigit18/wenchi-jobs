@@ -6,34 +6,45 @@
    
 }
 .textBox{
-    background: white;
-
-  width: 21cm;
-  height: 29.7cm;
-  padding-bottom: 4px;
-  margin-bottom: 0;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 12pt;
-  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-  overflow-y: scroll;
-  text-align: justify;
-  text-justify: inter-word;
-  color: black;
-}
-.container h3{
-    padding: 10px 0;
-    font-weight: bold;
-    background-color: rgb(28, 23, 51);
+    width: 100%;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    height: 90vh;
+    padding: 10px 10px;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: white;
 }
 .container h1{
+    font-size: 13pt;
     font-weight: bold;
-    font-size: 20px;
+    margin-bottom: 10px;
+}
+.container h3{
     padding: 10px 0;
 }
 .container h2{
     padding: 10px 0;
-    font-weight: bold;
+    font-size: larger;
 }
-.container ul li{
-    list-style:disc;
-}
+@media screen and (max-width: 768px) {
+    .container{
+      height: fit-content;
+      padding: 10px;
+      font-size: 11pt;
+    }
+    .card{
+      width: 100%;
+      flex-direction: column;
+      gap: 40px;
+      padding-left: 0 20px;
+    }
+    .aboutContainer{
+      width: 100%;
+    
+    }
+    .contactContainer{
+      width: 100%;
+    }
+   }

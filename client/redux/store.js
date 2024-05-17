@@ -5,6 +5,7 @@ import stepReducer from './step'
 import languageReducer from './language'
 import multiStepReducer from './multiStepForm'
 import loginReducer from './login'
+import employersReducer from './employers';
 const store = configureStore(
     {
         reducer: {
@@ -13,6 +14,7 @@ const store = configureStore(
             language: languageReducer,
             CVBuilder: multiStepReducer,
             login: loginReducer,
+            employers: employersReducer,
         },
     }
 )

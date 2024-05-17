@@ -17,6 +17,7 @@
     box-shadow: 5px 5px 20px rgba(0,0,0,0.08);
     border-radius: 10px;
     border-top: 2px solid #f74949;
+    margin-bottom: 20px;
 }
 .card .logo{
     position: absolute;
@@ -39,16 +40,17 @@
 }
 .errorHeader{
     position: absolute;
+  
     top: 75px;
-    left: 35%;
-    font-size: 12pt;
+    left: 20%;
+    font-size: 11pt;
     color: red;
     text-align: center;
 }
 .card form{
     position: absolute;
     width: 100%;
-    top: 100px;
+    top: 105px;
     padding:0px 40px;
 }
 .card .formControl{
@@ -115,7 +117,7 @@
     .container{
         padding: 50px 10px 20px 10px;
         align-items: flex-start;
-        height: 70vh;
+        height: fit-content;
         margin: auto;
     }
 }

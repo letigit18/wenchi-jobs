@@ -7,12 +7,26 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
 import { addLanguageData } from '@/redux/multiStepForm';
-
+function getUserId(){
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        let userId = window.localStorage.getItem('userId')
+        if(userId){
+            return userId
+        }
+        else{
+            return;
+        }
+       
+      }
+     
+  }
 const AddLanguage = ({closeModal})=>{
 
     const isEnglish = useSelector((state)=>state.language.isEnglish)
     const languageData = useSelector((state)=> state.CVBuilder.languageData)
     let regId; 
+    const [userId, setUserId] = useState(getUserId())
     const [openInputField, setOpenInputField] = useState(false);
     const [otherVar, setOtherVar] = useState('')
     const [language, setLanguage] = useState('')
@@ -58,14 +72,14 @@ const AddLanguage = ({closeModal})=>{
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
         console.log(data.showOther)
-        fetch('http://localhost:5000/create-language-data', {
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-language-data', {
             method: "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
         .then(response => {
          
-        dispatch(addLanguageData({id: data.id, userId: data.userId, language: data.language, other: data.other, proficiency: data.proficiency}))
+        dispatch(addLanguageData({userId: data.userId, language: data.language, other: data.other, proficiency: data.proficiency}))
        
         closeModal(false)
         })
@@ -84,8 +98,7 @@ const AddLanguage = ({closeModal})=>{
                      </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                   <input type='hidden' {...register("id")} value={getRegId()}  />
-                   <input type='hidden' value={1} {...register("userId")} />
+                   <input type='hidden' value={userId} {...register("userId")} />
                    <div className={styles.inputBox} >
                         <label htmlFor='language'>Language</label>
                         <select {...register("language")}  onChange={e=>setLanguage(e.target.value)} className= {errors.language ? styles.inputError : ""} required>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {personalData: {}, educationalFormData: [], experienceData: [], languageData: [], skillData: [], imageData: {}}
+const initialState = {personalData: {}, educationalFormData: [], experienceData: [], languageData: [], skillData: [], imageData: {}, confirmation: false}
 const multiStepSlice = createSlice({
     name: "CVBuilder",
     initialState,
@@ -140,6 +140,9 @@ const multiStepSlice = createSlice({
            state.imageData.userImage = action.payload.userImage
             
         },
+        updateConfirmationData: (state, action)=>{
+            state.confirmation = action.payload
+        }
 
     }
 })
@@ -149,5 +152,6 @@ getLanguageData,addLanguageData, updateLanguageData, deleteLanguageData,
 getSkillsData, addSkillsData, updateSkillsData, deleteSkillsData,
 getImageData, updateImageData,
 getPersonalData, updatePersonalData,
+updateConfirmationData
 } = multiStepSlice.actions;
 export default multiStepSlice.reducer;

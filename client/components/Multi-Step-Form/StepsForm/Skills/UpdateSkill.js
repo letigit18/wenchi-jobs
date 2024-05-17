@@ -21,7 +21,7 @@ const UpdateSkill= ({closeModal, skillData, indexValue})=>{
     const validationSchema = yup.object().shape({     
         profileSummary: yup.string().required("Profile summary required")
                         .min(50, 'Please Enter informative profile summary')
-                        .max(500, "Your summary should not exceed 500 characters"),
+                        .max(450, "Your summary should not exceed 450 characters"),
        
     })
     //linking the validation schema with the form data throuhg resolver
@@ -60,7 +60,7 @@ const UpdateSkill= ({closeModal, skillData, indexValue})=>{
     //the function that handles the onsubmit form data 
     const onSubmit = (data, e) =>{
         e.preventDefault()
-        const response = fetch('http://localhost:5000/update-skill-data', {
+        const response = fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/update-skill-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary})
@@ -80,7 +80,7 @@ const UpdateSkill= ({closeModal, skillData, indexValue})=>{
             <div className={styles.skillCard} >
               
                 <div className={styles.header}>
-                     <h3>Update Language Data </h3>
+                     <h3>Update Skill </h3>
                      
                      <div className={styles.close} onClick={()=>closeModal(false)}>X</div>
                      <div className={styles.closeToolTip}>

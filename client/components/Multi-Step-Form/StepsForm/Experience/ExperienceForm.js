@@ -11,24 +11,39 @@ import UpdateModal from './UpdateModal';
 import moment from 'moment'
 import Link from 'next/link';
 import { deleteEducationalFormData, deleteExperienceData, getEducationalData, getExperienceData } from '@/redux/multiStepForm';
+function getUserId(){
+  if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      let userId = window.localStorage.getItem('userId')
+      if(userId){
+          return userId
+      }
+      else{
+          return;
+      }
+     
+    }
+   
+}
 const EducationForm = () =>{
     const [experienceModalOpen, setExperienceModalOpen] = useState(false);
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
     const [indexValue, setIndexValue] = useState(0);
+    const [userId, setUserId] = useState(getUserId())
     const dispatch = useDispatch();
     const currentStep = useSelector((state)=> state.step.currentStep);
     const experienceData = useSelector((state)=>state.CVBuilder.experienceData);
     const {register, handleSubmit} = useForm();
 
     const onSubmit = (data)=>{
-        if(experienceData.length > 0){
+        if(experienceData.length >= 0){
         dispatch(changeStep(currentStep + 1))
         }
        
     }
 
  useEffect(() => {
-  fetch('http://localhost:5000/fetch-experience-data')
+  fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-experience-data/'+userId)
     .then((res) => {
       return res.json();
     })
@@ -40,7 +55,7 @@ const EducationForm = () =>{
     //function that deletes the educational data
     const handleDelete = (id, userId)=>{
       console.log(id)
-      fetch('http://localhost:5000/delete-experience-data',{
+      fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/delete-experience-data',{
         method: "delete",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({id: id, userId: userId})
@@ -78,7 +93,7 @@ const EducationForm = () =>{
                       <td>
                         {formData.employerName}
                       </td>
-                      <td dangerouslySetInnerHTML={{__html: formData.jobResponsibility}}>
+                      <td dangerouslySetInnerHTML={{__html: formData.jobResponsibility}} className={styles.tdScroll}>
                       
                         
                       </td>

@@ -10,18 +10,33 @@ import EducationModal from './EducationModal';
 import UpdateModal from './UpdateModal';
 import moment from 'moment'
 import Link from 'next/link';
+import axios from 'axios';
 import { deleteEducationalFormData, getEducationalData } from '@/redux/multiStepForm';
+function getUserId(){
+  if (typeof window !== 'undefined') {
+      // Perform localStorage action
+      let userId = window.localStorage.getItem('userId')
+      if(userId){
+          return userId
+      }
+      else{
+          return;
+      }
+     
+    }
+   
+}
 const EducationForm = () =>{
     const [educationModalOpen, setEducationModalOpen] = useState(false);
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
     const [indexValue, setIndexValue] = useState(0);
-
+    const [userId, setUserId] = useState(getUserId())
     const dispatch = useDispatch();
     const currentStep = useSelector((state)=> state.step.currentStep);
     const educationalFormData = useSelector((state)=>state.CVBuilder.educationalFormData);
     const {register, handleSubmit} = useForm();
     useEffect(() => {
-      fetch('http://localhost:5000/fetch-educational-data')
+      fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-educational-data/'+userId)
         .then((res) => {
           return res.json();
         })
@@ -29,6 +44,7 @@ const EducationForm = () =>{
          dispatch(getEducationalData(data))
         });
     }, []);
+   
     
     const onSubmit = (data)=>{
         if(educationalFormData.length > 0){
@@ -38,7 +54,7 @@ const EducationForm = () =>{
     }
     //function that deletes the educational data
     const handleDelete = (id, userId)=>{
-      fetch('http://localhost:5000/delete-education-data',{
+      fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/delete-education-data',{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({id: id, userId: userId})

@@ -7,7 +7,7 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import { useDispatch, useSelector } from 'react-redux';
 import language from '@/redux/language';
 const Signup = ({closeModal})=>{
-    const [message, setMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
     const dispatch = useDispatch();
     const isEnglish = useSelector((state)=> state.language.isEnglish)
     //setting up the validation schema
@@ -26,16 +26,25 @@ const Signup = ({closeModal})=>{
 
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
-        fetch('http://localhost:5000/create-signup-data', {
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-signup-data', {
             method: 'post',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
         .then((res)=>{
-            if(res.ok){
-               window.location.href = "/auth"
+            if(!res.ok){
+               throw errors
               }
+              return res.json()
             
+        })
+        .then((data)=>{
+            if(data.message == "Exist"){
+                setErrorMessage("Email already exist")
+            }
+            if(data.message == "Success"){
+                window.location.href = "/auth"
+            }
         })
       
     }
@@ -44,8 +53,8 @@ const Signup = ({closeModal})=>{
             <div className={styles.card}>
               
                 <div className={styles.header}>
-                     <h3>{isEnglish ? 'Signup' : `Galmaa'ii`} {message && `Welcome ${message}`}</h3>
-                     
+                     <h3>{isEnglish ? 'Signup' : `Galmaa'ii`} </h3>
+                     <p className={styles.errorMessage}>{errorMessage}</p>
                      <div className={styles.close} onClick={()=>closeModal(false)}>X</div>
                      <div className={styles.closeToolTip}>
                         {isEnglish ? 'Close' : 'Cufi'}
@@ -66,7 +75,7 @@ const Signup = ({closeModal})=>{
                     </div>
                   
                     <div className={styles.inputBox}>
-                        <input type='text'  {...register("email")} className= {errors.email ? styles.inputError : ""} required />
+                        <input type='text'  {...register("email")} className= {errors.email || errorMessage != '' ? styles.inputError : ""} required />
                         <span>{isEnglish ? 'Email' : `Email`}</span>
                         <p className={styles.errorLabel}>{errors.email?.message}</p>
                     </div>

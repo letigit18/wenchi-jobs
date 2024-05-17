@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useMemo} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import styles from '../steps.module.css'
 import Link  from 'next/link';
 import {useForm} from 'react-hook-form'
@@ -10,6 +10,20 @@ import { addEducationalFormData, addExperienceData, getExperienceData, setFormDa
 import { redirect } from 'next/navigation';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic'
+function getUserId(){
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        let userId = window.localStorage.getItem('userId')
+        if(userId){
+            return userId
+        }
+        else{
+            return;
+        }
+       
+      }
+     
+}
 const EducationModal = ({closeModal})=>{
     //react quill input
     const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }),[]);
@@ -19,6 +33,7 @@ const EducationModal = ({closeModal})=>{
     const isEnglish = useSelector((state)=>state.language.isEnglish)
     const experienceData = useSelector((state)=>state.CVBuilder.experienceData);
     let regId;
+    const [userId, setUserId] = useState(getUserId())
     const dispatch = useDispatch()
     //setting up the validation schema
     const validationSchema = yup.object().shape({
@@ -61,13 +76,13 @@ const EducationModal = ({closeModal})=>{
     }
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
-        fetch('http://localhost:5000/create-experience-data', {
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-experience-data', {
             method: "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
         })
         .then(response => {
-        dispatch(addExperienceData({id: data.id, userId: data.userId, jobTitle: data.jobTitle, employerName: data.employerName, jobResponsibility: data.jobResponsibility, startDate: data.startDate, endDate: data.endDate}))
+        dispatch(addExperienceData({userId: data.userId, jobTitle: data.jobTitle, employerName: data.employerName, jobResponsibility: data.jobResponsibility, startDate: data.startDate, endDate: data.endDate}))
        
         closeModal(false)
         })
@@ -87,8 +102,7 @@ const EducationModal = ({closeModal})=>{
                      </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                   <input type='hidden' value={getRegId()} {...register("id")} />
-                   <input type='hidden' value={1} {...register("userId")} />
+                   <input type='hidden' value={userId} {...register("userId")} />
                    <div className={styles.inputBox}>
                         <label htmlFor='jobTitle'>Job Title</label>
                         <input type='text' id="jobTitle"  {...register("jobTitle")} className= {errors.jobTitle ? styles.inputError : ""} required/>
@@ -104,7 +118,7 @@ const EducationModal = ({closeModal})=>{
                     <div className={styles.inputBoxQuill}>
                         <label htmlFor='jobResponsibility'>Job Responsibility</label>
                         
-                        <ReactQuill theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' value={editorContent} onChange={onEditorStateChange} className= {errors.jobResponsibility ? styles.inputError : ""} />
+                        <ReactQuill style={{height: '100px'}} theme="snow" id="jobResponsibility" placeholder='Enter your main responsibility in the form of list not more than 5 lines' value={editorContent} onChange={onEditorStateChange} className= {errors.jobResponsibility ? styles.inputError : ""} />
                         <p className={styles.errorLabel}>{errors.jobResponsibility?.message}</p>
                     </div>
                     <div className={styles.inputBox}>

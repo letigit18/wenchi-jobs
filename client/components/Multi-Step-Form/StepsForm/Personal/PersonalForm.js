@@ -10,10 +10,24 @@ import styles from './personal.module.css'
 import axios from 'axios'
 import { getImageData, getPersonalData, updateImageData, updatePersonalData } from '@/redux/multiStepForm'
 import moment from 'moment'
+function getUserId(){
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        let userId = window.localStorage.getItem('userId')
+        if(userId){
+            return userId
+        }
+        else{
+            return;
+        }
+       
+      }
+     
+}
 const PersonalForm = () =>{
     const dispatch = useDispatch();
     const username = useSelector((state)=>state.user.value);
-    const userId = localStorage.getItem("userId");
+    const [userId, setUserId] = useState(getUserId())
     const currentStep = useSelector((state)=>state.step.currentStep);
     const imageState = useSelector((state)=> state.CVBuilder.imageData)
     const personalData = useSelector((state)=>state.CVBuilder.personalData)
@@ -67,7 +81,7 @@ const PersonalForm = () =>{
     useEffect(()=>{
         //functin that fetches personal data from server
         async function fetchPersonalData(){
-         await axios.get('http://localhost:5000/fetch-personal-data/'+userId)
+         await axios.get(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-personal-data/'+userId)
          .then((res)=>{
              dispatch(getPersonalData(res.data[0]))
          })
@@ -76,7 +90,8 @@ const PersonalForm = () =>{
        }
        //function that fetches image data from the server
        async function fetchImageData(){
-         await axios.get('http://localhost:5000/display-user-image/'+userId)
+         axios.defaults.withCredentials = true
+         await axios.get(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/display-user-image/'+userId)
          .then((res) => {
              setImageData(res.data[0])
              dispatch(getImageData(res.data[0]))
@@ -131,10 +146,10 @@ const PersonalForm = () =>{
 
     }
     const onSubmit = (data) =>{
-        const response = fetch('http://localhost:5000/update-personal-data', {
+        const response = fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/update-personal-data', {
             method: "put",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({userId: data.userId, userFirstName: data.firstName, userMiddleName: data.middleName, userLastName: data.lastName, userSex: data.sex, userDateOfBirth: data.dateOfBirth, userLocation: data.currentLocation, userPhoneNumber: data.phoneNumber, portfolioLink: data.portfolio, linkedinLink: data.linkedinLink, githubLink: data.githubLink,  userEmail: data.email})
+            body: JSON.stringify({userId: userId, userFirstName: data.firstName, userMiddleName: data.middleName, userLastName: data.lastName, userSex: data.sex, userDateOfBirth: data.dateOfBirth, userLocation: data.currentLocation, userPhoneNumber: data.phoneNumber, portfolioLink: data.portfolio, linkedinLink: data.linkedinLink, githubLink: data.githubLink,  userEmail: data.email})
         })
         .then(response => {
         
@@ -147,13 +162,15 @@ const PersonalForm = () =>{
     }
     //uploading image to the server 
     const handleImageUpload = ()=>{
+
         const formData = new FormData()
         if(file === ''){
             setFileError("Select the file")
         }
         else{
         formData.append('image', file);
-        axios.post('http://localhost:5000/upload-cv-image', formData)
+        formData.append('userId', userId)
+        axios.post(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/upload-cv-image', formData)
         .then(res => {
             if(res.data.userImage){
                 dispatch(updateImageData({userId: res.data.userId, userImage: res.data.userImage}))
@@ -247,7 +264,7 @@ const PersonalForm = () =>{
              </div>
              <div className={styles.imageContainer}>
                
-                <img src={`http://localhost:5000/uploads/`+imageState?.userImage} alt='wenchijobs-default-profile-picture' />
+                <img src={`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/uploads/`+imageState?.userImage} alt='wenchijobs-default-profile-picture' />
                
                 <div className={styles.buttonContainer}>
                     <input type='file' onChange={(e)=>{

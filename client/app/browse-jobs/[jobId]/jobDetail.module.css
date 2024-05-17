@@ -84,7 +84,7 @@
 }
 .jobContainer{
     padding: 20px;
-    width: 80%;
+    width: 70%;
     font-size: 11pt;
     display: flex;
     flex-direction: column;
@@ -92,17 +92,38 @@
     line-height: calc(11pt * 1.7)
 }
 .jobBox{
+    position: relative;
     width: 100%;
-    padding: 10px;
-    height: 150px;
+    padding: 10px 0 10px 10px;
+    height: fit-content;
     border-radius: 5px;
     background-color: rgba(249, 249, 250, 0.8);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
     border: 1px solid lightgrey;
+    margin-bottom: 10px;
    
 }
+.jobBox .headerContent{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.jobBox .headerContent h1, .headerContent h2{
+    margin-bottom: 5px;
+}
+.jobBox .textContent{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+    font-size: 10pt;
+}
+
+.jobBox .headerContent p{
+    font-weight: bold;
+}
+
 .jobBox h1{
     font-weight: bold;
     color: #0c4a6e;
@@ -129,15 +150,21 @@
 }
 
 .btnBack{
-    padding: 7px;
-    background-color:#0c4a6e;
-    color: white;
+    padding: 5px 15px;
+    background-color:rgba(220, 222, 226, 0.8);
+    color: black;
     width: fit-content;
+    font-weight: bold;
     border-radius: 5px;
+    transition: 0.5s ease;
+}
+.btnBack:hover{
+    background-color: #0c4a6e;
+    color: white;
 }
 .jobContainer .box{
     position: relative;
-    padding: 10px;
+    padding: 10px 0 10px 10px;
     width: 70%;
     height: 180px;
     border-radius: 5px;
@@ -229,6 +256,22 @@
     color: white;
     background-color: #0c4a6e;
 }
+.jobBox table{
+    font-size: 10pt;
+}
+.jobBox td{
+    padding-right: 10px;
+}
+.jobBox .rightContent table{
+    margin-top: 50px;
+}
+.jobBox .rightContent table td{
+    padding-top: 5px;
+    max-width: 200px;
+}
+.jobBox table tr td:first-child{
+    font-weight: bold;
+}
 
 @keyframes counter {
     0%{
@@ -240,27 +283,52 @@
 }
 @media screen and (max-width: 768px){
     .container{
-        height: 80vh;
+        height: 100%;
+        padding: 10px 5px 10px 5px;
     }
     .card{
         flex-direction: column;
         margin-top: 10px;
         width: 100%;
         height: 97%;
-        padding-left: 10px;
         box-shadow: none;
+    }
+    .jobBox .rightContent table{
+        margin-top: 0px;
+    }
+    .jobBox .leftContent table tr td{
+        width: 40vh;
+        
+    }
+    .jobBox .rightContent table tr td{
+        width: 40vh;
+        
+        
+       
+    }
+    .jobBox .headerContent .rightContent{
+        padding-top: 5px;
+        width: 90vw;
     }
     .category{
         width: 100%;
-       
+        display: none;
         
+    }
+    .jobBox{
+        padding: 15px;
     }
     .jobContainer{
         width: 100%;
         height: 55%;
-        box-shadow: 0 3px 5px rgba(0,0,0, 0.09);
         overflow: hidden;
         overflow-y: scroll;
+        padding: 5px;
+    }
+   
+    .headerContent{
+        flex-direction: column;
+        
     }
     .gridContainer{
         grid-template-columns: repeat(1, 1fr);

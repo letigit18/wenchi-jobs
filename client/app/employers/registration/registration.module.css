@@ -14,9 +14,10 @@
     min-height: 100% !important;
     padding: 20px;
     background-color: white;
+    margin: auto;
 }
 .card form{
-    margin: auto;
+ 
     width: 100%;
     display: flex;
     gap: 5%;

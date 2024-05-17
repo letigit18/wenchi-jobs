@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    height: 85vh;
+    padding: 20px;
+    background-color: rgba(243,244,246, 80%);
+}
+.card{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5%;
+    width: 100%;
+    background-color: white;
+    min-height: 76vh;
+}
+.card table{
+    margin-top: 20px;
+    width: 65%;
+    font-size: 12pt;
+}
+.card table thead tr{
+    background-color: aliceblue;
+    
+}
+.card table thead tr th, .card table tr td{
+ padding: 10px 0;
+}
+@media screen and (max-width: 737px){
+    .container{
+        padding: 20px 5px;
+    }
+    .card{
+        flex-direction: column;
+        padding: 5px;
+    }
+    .card table{
+        width: 100%;
+        font-size: 11pt;
+    }
+}

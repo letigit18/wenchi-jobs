@@ -1,39 +1,13 @@
 "use client"
 import styles from './privacy.module.css'
-import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
-import { useRef } from 'react'
+
 const Privacy = ()=>{
-    const pdfRef = useRef();
-    const downloadPDF = ()=>{
-    const input = pdfRef.current;
-    var opt = {
-        margin:       0,
-        scale: 3,
-        quality: 1,
-        filename:     'my_file_name.pdf',
-        image:        { type: 'png'},
-    };
-    html2canvas(input, opt).then(function (canvas) {
-        var imgData = canvas.toDataURL("image/jpeg");
-        var pdf = new jsPDF('p', 'mm', 'a4', true);
-        var pdfWidth = pdf.internal.pageSize.getWidth();
-        var pdfHeight = pdf.internal.pageSize.getHeight();
-        var imgWidth = canvas.width;
-        var imgHeight = canvas.height;
-        const ratio = Math.min(pdfWidth/imgWidth, pdfHeight/imgHeight);
-        const imgX = (pdfWidth - imgWidth * ratio) / 2;
-        const imgY = 2;
-        pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-        pdf.save('CV.pdf');
-    });
-    }
+  
     return(
         <section className={styles.container}>
-            <div className={styles.textBox} ref={pdfRef}>
+            <div className={styles.textBox} >
             <h1><center>Wenchi Jobs Privacy Policy</center></h1>
 <p>Last updated: February 18, 2024</p>
-<img src='English.jpg' style={{width: '300px', height: '300px'}}/>
 <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
 <p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the <a href="https://www.termsfeed.com/privacy-policy-generator/" target="_blank">Privacy Policy Generator</a>.</p>
 <h2>Interpretation and Definitions</h2>
@@ -221,7 +195,7 @@ const Privacy = ()=>{
 </ul>
 
             </div>
-    <button onClick={downloadPDF}>Download PDF</button>
+   
         </section>
     )
 }

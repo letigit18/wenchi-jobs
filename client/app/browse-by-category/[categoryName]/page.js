@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { useSelector} from 'react-redux';
 import moment from 'moment';
 import ReactPaginate from 'react-paginate';
-const BrowseJobCategory = ({params})=>{
+import LeftMenu from '@/components/Category/LeftMenu/LeftMenu';
+const BrowseByCategory = ({params})=>{
   const [selected, setSelected] = useState(null)
   const isEnglish = useSelector((state)=> state.language.isEnglish)
   const [data, setData] = useState([]);
   //setting pagination variables
   const [pageNumber, setPageNumber] = useState(0)
-  const jobsPerPage = 5
+  const jobsPerPage = 10
   let todaysDate = new Date();
   todaysDate = moment(todaysDate).format('MM/DD/YYYY')
 
@@ -19,7 +20,7 @@ const BrowseJobCategory = ({params})=>{
   const pagesCount = Math.ceil(data.length / jobsPerPage)
 
   useEffect(() => {
-    fetch(`http://localhost:5000/browse-by-category/${params.categoryName}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/browse-by-category/${params.categoryName}`)
       .then((res) => {
         return res.json();
       })
@@ -39,13 +40,14 @@ const BrowseJobCategory = ({params})=>{
   const calculateClosingDate = (date1, date2)=>{
     const diffDate = moment(date1).diff(date2, 'days');
     if(diffDate >= 1){
-        return `${diffDate} days left`
+      
+        return isEnglish == "English" ? `${diffDate} days left`: isEnglish == "Oromic" ? `Guyyaa ${diffDate} hafe` : `${diffDate} ቀን ይቀራል`
     }
     else if(diffDate == 0){
-        return "Closing: Today"
+        return isEnglish == "English" ? "Closing: Today": isEnglish == "Oromic" ? "Guyyaan xuumuuraa: Har'aa" : "የመዝጊያ ቀን፡ ዛሬ"
     }
     else{
-        return "Closed"
+        return isEnglish == "English" ? "Closed" : isEnglish == "Oromic" ? "Cufameera": "ተዘግቷል" 
     }
   }
   //function that displays jobs
@@ -60,16 +62,35 @@ const BrowseJobCategory = ({params})=>{
                   <p>{calculateClosingDate(`${moment(job.expiredDate).format('MM/DD/YYYY')}`, todaysDate)} </p>
               </div>
               <ul>
+              {isEnglish ? <li className={styles.company}>{job.companyName}</li> : <li className={styles.company}>{job.companyNameOr != undefined ? job.companyNameOr : job.companyName}</li>} 
+                <table>
+                  <tr>
+                    <td>{isEnglish == "English" ? "Employment Type:" : isEnglish =="Oromic" ? "Haala qacarrii" : "የቅጥር ሁኔታ"}</td>
+                    <td>{isEnglish ? job.employmentType : job.employmentTypeOr}</td>
+                  </tr>
+                  <tr>
+                    <td>{job.jobSalary != undefined && (isEnglish == "English" ? "Salary:" : isEnglish =="Oromic" ? "Miindaa" : "ደሞዝ") || job.jobSalaryText.length > 1  && (isEnglish == "English" ? "Salary:" : isEnglish =="Oromic" ? "Miindaa" : "ደሞዝ")}</td>
+                    <td>{job.jobSalary != undefined ? `${job.jobSalary} ${job.currency}` : (isEnglish == "English" ? job.jobSalaryText : isEnglish =="Oromic" ? job.jobSalaryTextOr : job.jobSalaryText)}</td>
+          
+                  </tr>
+                  <tr>
+                    <td>{isEnglish == "English" ? "Posted Date:" : isEnglish =="Oromic" ? "Guyyaa Maxxanffame:" : "የተለጠፈበት ቀን"}</td>
+                    <td>{`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`.concat(',')} {`${moment(job.postedDate).format('YYYY')}` }</td>
+                  </tr>
+                  <tr>
+                    <td>{isEnglish == "English" ? "Closing Date:" : isEnglish =="Oromic" ? "Guyyaa cufiinsaa" : "የመዝጊያ ቀን"}</td>
+                    <td>{`${moment(job.expiredDate).format('MM')}` == 1 ? 'January': `${moment(job.expiredDate).format('MM')}` == 2 ? 'February': `${moment(job.expiredDate).format('MM')}` == 3 ? 'March': `${moment(job.expiredDate).format('MM')}` == 4 ? 'April' : `${moment(job.expiredDate).format('MM')}` == 5 ? 'May': `${moment(job.expiredDate).format('MM')}` == 6 ? 'June': `${moment(job.expiredDate).format('MM')}` == 7 ? 'July': `${moment(job.expiredDate).format('MM')}` == 8 ? 'August': `${moment(job.expiredDate).format('MM')}` == 9 ? 'September': `${moment(job.expiredDate).format('MM')}` == 10 ? 'October': `${moment(job.expiredDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.expiredDate).format('DD')}`.concat(',')} {`${moment(job.expiredDate).format('YYYY')}` }</td>
+                  </tr>
+                 
+                </table>
 
-                 {isEnglish ? <li className={styles.company}>{job.companyName}</li> : <li className={styles.company}>{job.companyNameOr != '' ? job.companyNameOr : job.companyName}</li>} 
-                  {job.salary != null && <li><b>Salary:</b> {job.salary} </li> }
-                  <li><b>Posted: {`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`} {`${moment(job.postedDate).format('YYYY')}` }</b> </li>
-                  <li><b>Employment Type: </b>{job.employmentType} </li>
-                  <li><b>Closing Date: {`${moment(job.expiredDate).format('MM')}` == 1 ? 'January': `${moment(job.expiredDate).format('MM')}` == 2 ? 'February': `${moment(job.expiredDate).format('MM')}` == 3 ? 'March': `${moment(job.expiredDate).format('MM')}` == 4 ? 'April' : `${moment(job.expiredDate).format('MM')}` == 5 ? 'May': `${moment(job.expiredDate).format('MM')}` == 6 ? 'June': `${moment(job.expiredDate).format('MM')}` == 7 ? 'July': `${moment(job.expiredDate).format('MM')}` == 8 ? 'August': `${moment(job.expiredDate).format('MM')}` == 9 ? 'September': `${moment(job.expiredDate).format('MM')}` == 10 ? 'October': `${moment(job.expiredDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.expiredDate).format('DD')}`} {`${moment(job.expiredDate).format('YYYY')}` }</b> </li>
               </ul>
-              <img src='logo.jpg' alt='company logo' className={styles.logo} />
+              {job.companyLogo != undefined && <img src={`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/logoImages/`+job?.companyLogo}  className={styles.logo} /> }
               <div className={styles.tooltip}>
-                  Click to view detail!
+                {isEnglish == "English" ? "Click to view detail": isEnglish == "Oromic" ? "Bal'ina isaa ilaaluuf cuqaasaa" : "ዝርዝሩን ለማየት ይጫኑ"}
+              </div>
+              <div className={styles.btnView}>
+                {isEnglish == "English" ? "View Detail": isEnglish == "Oromic" ? "Bal'inaan Ilaalaa" : "ዝርዝሩን ተመልከቱ"}
               </div>
     </div>
     </Link>
@@ -81,76 +102,13 @@ const BrowseJobCategory = ({params})=>{
     return(
         <section className={styles.container} id="category">
             <div className={styles.card}>
-                <div className={styles.category}>
-                    <div className={styles.title}>
-                        Job categories
-                    </div>
-                    <div className={styles.accordion}>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 1 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`} onClick={()=>handleToggle(1)}>
-                            Organization Type
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li><Link href="#">Government Jobs</Link></li>
-                                <li>NGO Jobs</li>
-                                <li>University Jobs</li>
-                            </ul>
-                        </div>
-                      </div>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 2 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(2)}>
-                            Job Type
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Contractual Jobs </li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                            </ul>
-                        </div>
-                      </div>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 3 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(3)}>
-                            Company names
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Awash bank</li> 
-                            </ul>
-                        </div>
-                      </div>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 4 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(4)}>
-                            Location
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Addis Ababa</li> 
-                            </ul>
-                        </div>
-                      </div>
-                      
-                    </div>
-                        
-                </div>
+                <LeftMenu />
                 <div className={styles.jobContainer}>
-                    <div className={styles.searchBar}>
-                      <input type="text" placeholder='Enter your search term eg. Software Developer' name="job" />
-                    </div>
+                   
                     {/** function that displays jobs */}
                     {displayJobs}  
-                    {/**pagination buttons container */} 
-                  {data.length > 5 &&  (
+                    {/**pagination buttons container */}    
+                    {data.length >= 10 &&(    
                     <div className='buttonsContainer'>
                         <ReactPaginate 
                         previousLabel= {"Previous"}
@@ -163,12 +121,13 @@ const BrowseJobCategory = ({params})=>{
                         disabledClassName={styles.disabledBtn}
                         activeClassName={styles.btnActive}
                         />
+                      
                     </div>
-                  )}
+                    )}
                 </div>
                
             </div>
         </section>
     )
 }
-export default BrowseJobCategory;
+export default BrowseByCategory;

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSelector} from 'react-redux';
 
 import moment from 'moment';
+import LeftMenu from '@/components/Category/LeftMenu/LeftMenu';
 
 const ViewJobDetail = ({params})=>{
     const [selected, setSelected] = useState(null)
@@ -20,10 +21,11 @@ const ViewJobDetail = ({params})=>{
   }
  //handle back button
  const handleBack = ()=>{
+  window.history.back()
     
  }
     useEffect(() => {
-        fetch('http://localhost:5000/fetch-job-detail/'+params.jobId)
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/fetch-job-detail/'+params.jobId)
           .then((res) => {
             return res.json();
           })
@@ -35,91 +37,84 @@ const ViewJobDetail = ({params})=>{
     return(
         <section className={styles.container}>
             <div className={styles.card}>
-            <div className={styles.category}>
-                    <div className={styles.title}>
-                        Job categories
-                    </div>
-                    <div className={styles.accordion}>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 1 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`} onClick={()=>handleToggle(1)}>
-                            Organization Type
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li><Link href="#">Government Jobs</Link></li>
-                                <li>NGO Jobs</li>
-                                <li>University Jobs</li>
-                            </ul>
-                        </div>
-                      </div>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 2 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(2)}>
-                            Job Type
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Contractual Jobs </li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                                <li>Contractual Jobs</li>
-                                <li>Permanent Jobs</li>
-                                <li>Remote Jobs</li>
-                            </ul>
-                        </div>
-                      </div>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 3 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(3)}>
-                            Company names
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Awash bank</li> 
-                            </ul>
-                        </div>
-                      </div>
-                      <div className={styles.accordionMenuItem}>
-                        <div className={selected === 4 ? `${styles.accordionItemHeader} ${styles.active}`: `${styles.accordionItemHeader}`}  onClick={()=>handleToggle(4)}>
-                            Location
-                        </div>
-                        <div className={styles.accordionItemBody}>
-                            <ul className={styles.accordioItemBodyContent}>
-                                <li>Addis Ababa</li> 
-                            </ul>
-                        </div>
-                      </div>
-                      
-                    </div>
-                        
-                </div>
+            <LeftMenu />
                 {data.map((job, index)=> {
                 return <div className={styles.jobContainer} key={index}>
                     <div className={styles.jobBox}>
-                        <h1>{job.jobTitle}</h1>
-                        <h2 className={styles.companyName}>By {job.companyName}</h2>
-                        {job.salary != undefined ? `Salary: ${job.salary}`: job.jobSalaryText != '' ? `Salary: ${job.jobSalaryText}` : ''}
-                        <p>Posted: {`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`} {`${moment(job.postedDate).format('YYYY')}` }</p>
+                      <div className={styles.headerContent}>
+                          <div className={styles.leftContent}>
+                            <h1>{job.jobTitle}</h1>
+                            <h2 className={styles.companyName}>By {job.companyName}</h2>
+                            <table>
+                             <tr>
+                                <td>{isEnglish == "English" ? "Employment Type:" : isEnglish =="Oromic" ? "Haala Qacarrii፡" : "የቅጥር ሁኔታ"}</td>
+                                <td>{job.employmentType}</td>
+                              </tr>
+                              <tr>
+                                <td>{isEnglish == "English" ? "Job Category" : isEnglish =="Oromic" ? "Gosa Hojii" : "የስራዉ ምድብ"}</td>
+                                <td style={{textTransform: 'capitalize'}}>{`${job.jobCategory}`}</td>
+                              </tr>
+                              <tr>
+                                <td>{isEnglish == "English" ? "Salary:" : isEnglish =="Oromic" ? "Miindaa" : "ደሞዝ"}</td>
+                                <td>{job.jobSalary != undefined ? `${job.jobSalary} ${job.currency}` : job.jobSalaryText}</td>
+                              </tr>
+                            {job.jobExperience != undefined &&
+                              <tr>
+                                <td>{isEnglish == "English" ? "Minimum Experience:" : isEnglish =="Oromic" ? "Muuxannoo Hojii:" : "የስራ ልምድ"}</td>
+                                <td>{isEnglish == "English" ? `${job.jobExperience} Years`: isEnglish == "Oromic" ? `Waggaa ${job.jobExperience}` : `${job.jobExperience} አመት`}</td>
+                              </tr>
+                            }
+                              
+                            </table>
+                          
+                         
+                                        
+                                           
+                          </div>
+                          <div className={styles.rightContent}>
+                            <table>
+                            
+                              <tr>
+                                <td>{isEnglish == "English" ? "Posted Date:" : isEnglish =="Oromic" ? "Guyyaa Maxxanfame:" : "የተለጠፈበት ቀን"}</td>
+                                <td>{`${moment(job.postedDate).format('MM')}` == 1 ? ('January') : `${moment(job.postedDate).format('MM')}` == 2 ? 'February': `${moment(job.postedDate).format('MM')}` == 3 ? 'March': `${moment(job.postedDate).format('MM')}` == 4 ? 'April' : `${moment(job.postedDate).format('MM')}` == 5 ? 'May': `${moment(job.postedDate).format('MM')}` == 6 ? 'June': `${moment(job.postedDate).format('MM')}` == 7 ? 'July': `${moment(job.postedDate).format('MM')}` == 8 ? 'August': `${moment(job.postedDate).format('MM')}` == 9 ? 'September': `${moment(job.postedDate).format('MM')}` == 10 ? 'October': `${moment(job.postedDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.postedDate).format('DD')}`.concat(',')} {`${moment(job.postedDate).format('YYYY')}` }</td>
+                              </tr>
+                              <tr>
+                                <td>{isEnglish == "English" ? "Closing Date:" : isEnglish =="Oromic" ? "Guyyaa Cufinsaa" : "የመዝጊያ ቀን"}</td>
+                                <td>{`${moment(job.expiredDate).format('MM')}` == 1 ? ('January') : `${moment(job.expiredDate).format('MM')}` == 2 ? 'February': `${moment(job.expiredDate).format('MM')}` == 3 ? 'March': `${moment(job.expiredDate).format('MM')}` == 4 ? 'April' : `${moment(job.expiredDate).format('MM')}` == 5 ? 'May': `${moment(job.expiredDate).format('MM')}` == 6 ? 'June': `${moment(job.expiredDate).format('MM')}` == 7 ? 'July': `${moment(job.expiredDate).format('MM')}` == 8 ? 'August': `${moment(job.expiredDate).format('MM')}` == 9 ? 'September': `${moment(job.expiredDate).format('MM')}` == 10 ? 'October': `${moment(job.expiredDate).format('MM')}` == 11 ? 'November' : 'December'} {`${moment(job.expiredDate).format('DD')}`.concat(',')} {`${moment(job.expiredDate).format('YYYY')}` }</td>
+                              </tr>
+                              <tr>
+                                <td>{isEnglish == "English" ? "Work place:" : isEnglish =="Oromic" ? "Bakka Hojii:" : "የስራዉ ቦታ"}</td>
+                                <td>{job.jobLocation}</td>
+                              </tr>
+                              {job.requiredNo != undefined && (
+                              <tr>
+                                <td>{isEnglish == "English" ? "Required Number:" : isEnglish =="Oromic" ? `Baay'inaa Barbaadamuu:` : "ብዛት"}</td>
+                                <td>{job.requiredNo}</td>
+                              </tr>
+                              )}
+                            </table>
+                            
+                            
+                            
+                          </div>
+                      </div>
                     </div>
+                      
                     {job.jobDescription != undefined && (
-                      <>
-                        <h2>Job Description</h2>
+                      <div className={styles.descriptionContainer}>
+                        <h2>{isEnglish == "English" ? "Job Description" : isEnglish =="Oromic" ? `Bal'inaa Hojii` : "የስራዉ ዝርዝር"}</h2>
                         <div dangerouslySetInnerHTML={{__html: job.jobDescription}}>
                         </div>
-                      </>
+                      </div>
                        
                     )}
-                    <h2>Job Requirement</h2>
+                    <h2>{isEnglish == "English" ? "Job Requirement" : isEnglish =="Oromic" ? "Ulaagaa Hojii" : "የስራዉ መስፈርት"}</h2>
                      <div dangerouslySetInnerHTML={{__html: job.jobRequirement}}>
                      </div>
-                     <h2>How to Apply</h2>
+                     <h2>{isEnglish == "English" ? "How to apply" : isEnglish =="Oromic" ? "Haala Galmee" : "የማመልከቻ ሁኔታ"}</h2>
                      <div dangerouslySetInnerHTML={{__html: job.howToApply}}>
                      </div>
-                     <button className={styles.btnBack} onClick={()=>{handleBack}}>Back to previous page</button>
+                     <button className={styles.btnBack} onClick={()=>{handleBack()}}><i class='bx bx-arrow-back'></i> Back</button>
                        
                         
                 </div>

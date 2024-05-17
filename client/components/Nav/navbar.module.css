@@ -33,7 +33,7 @@
     position: relative;
     cursor: pointer;
 }
-.menu .menuItem a:hover::after{
+.menu .menuItem .link:hover::after{
     content: '';
     position: absolute;
     left: 0;
@@ -91,8 +91,8 @@
 .menu .menuItem .megaMenu{
     background-color: white;
     border-top: 1px solid #f74949;
-    width: 80%;
-    left: 10%;
+    width: 88%;
+    left: 8%;
     top: 100%;
     opacity: 0;
     visibility: hidden;
@@ -126,6 +126,15 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 20px;
     row-gap: 20px;
+}
+.megaContainer a{
+    padding: 5px;
+    transition: 0.5s ease;
+}
+.megaContainer a:hover{
+ background-color: rgba(243,244,246, 80%);
+ border-radius: 5px;
+ 
 }
 /* right side menu in the navbar */
 .menuRight{
@@ -181,7 +190,7 @@
     display: flex;
     gap: 5px;
     align-items: center;
-    width: 100px;
+    width: 120px;
     height: 30px; 
     border-radius: 5px;
     background-color: #0c4a6e;
@@ -191,8 +200,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) 
 }
 .btnTransparent span img{
-    width: 20px;
-    height: 12px;
+    width: 22px;
+    height: 13px;
 }
 
 .toolTip{

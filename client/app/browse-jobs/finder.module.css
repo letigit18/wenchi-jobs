@@ -22,7 +22,7 @@
    
   }
   .category{
-    width: 25%;
+    width: 30%;
     overflow: hidden;
     overflow-y: scroll;
     padding: 15px 7px;
@@ -83,16 +83,17 @@
     cursor: pointer;
 }
 .jobContainer{
-    width: 80%;
+    width: 100%;
     display: flex;
+    margin-top: 20px;
     flex-direction: column;
     gap: 7px;
 }
 .jobContainer .searchBar{
-    width: 70%;
+    width: 100%;
 }
 .searchBar input[type=text]{
-    width: 100%;
+    width: 90%;
     margin-top: 20px;
     padding: 6px;
     border-radius: 5px;
@@ -108,8 +109,8 @@
 .jobContainer .box{
     position: relative;
     padding: 10px;
-    width: 70%;
-    height: 180px;
+    width: 90%;
+    height: 190px;
     border-radius: 5px;
     background-color: white;
     border: 1px solid rgba(220, 222, 226, 0.8);
@@ -121,9 +122,35 @@
     justify-content: space-between;
     font-weight: bold;
     font-size: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
     color:#0c4a6e;
 }
+.box ul{
+    width: 50%;
+}
+
+.box ul table{
+ font-size: 10pt;
+}
+.box ul table td:first-child{
+    font-weight: bold;
+}
+.box ul table td{
+    padding-right: 30px;
+    padding-top: 8px;
+}
+.jobContainer .container .box{
+    width: 400px;
+    color: whitesmoke;
+}
+.jobContainer .box .searchBox{
+    position: relative;
+    width: 400px;
+    height: 40px;
+    margin: auto;
+    box-shadow: 0 5px 10px rgba(0,0,0, 0.2);
+}
+
 .box ul li.company{
     color: steelblue;
     font-weight: bold;
@@ -156,10 +183,12 @@
     border: 1px solid #3abbf7;
     cursor: pointer;
 }
+
 .box .tooltip{
     position: absolute;
-    width: 120px;
-    height: 25px;
+    width: fit-content;
+    padding:  5px 10px;
+    height: fit-content;
     left: 40%;
     bottom: 0px;
     background-color: #2e3233;
@@ -199,7 +228,9 @@
     color: white;
     background-color: #0c4a6e;
 }
-
+.btnView{
+    display: none;
+}
 @keyframes counter {
     0%{
         transform: scale(0);
@@ -210,25 +241,43 @@
 }
 @media screen and (max-width: 768px){
     .container{
-        height: 80vh;
+        padding: 10px 0px 0px 0px;
+        height: 100%;
     }
     .card{
         flex-direction: column;
-        margin-top: 10px;
         width: 100%;
         height: 97%;
-        padding-left: 10px;
         box-shadow: none;
+        padding: 10px 5px;
     }
+   .jobContainer .box{
+    width: 100%;
+    height: fit-content;
+   }
+   .jobContainer .box ul li{
+     width:  60vw;
+
+   }
+   
+   .jobContainer .box img{
+     width: 90px;
+     height: 60px;
+   }
+   .jobContainer .box  .header h3{
+    font-size: 11pt;
+   }
     .category{
-        width: 100%;
-       
-        
+        display: none;
+            
+    }
+    .jobContainer .box ul table{
+        width: 70vw;
     }
     .jobContainer{
         width: 100%;
-        height: 55%;
-        box-shadow: 0 3px 5px rgba(0,0,0, 0.09);
+        padding: 0px;
+        height: auto;
         overflow: hidden;
         overflow-y: scroll;
     }
@@ -243,5 +292,18 @@
     .gridContainer li{
         padding-top: 10px;
         font-size: 1.5rem;
+    }
+    .btnView{
+        display: block;
+        font-size: 10pt;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(227, 232, 241, 0.8);
+        color: rgb(67, 67, 68);
+        cursor: pointer;
+        font-weight: bold;
+        padding: 3px 10px;
+        border-radius: 3px;
     }
 }

@@ -76,8 +76,8 @@ const Hero = () =>{
               </div>
 
              <div className={styles.buttons}>
-                  <Link href="#" className={styles.btnWhite} onClick={()=>{setSignupOpen(true)}}>{isEnglish ? 'Signup' : `Galmaa'i`}</Link>
-                  <Link href="/auth" className={styles.btnTransparent}>{isEnglish ? 'Login' : 'Seeni'}</Link>                
+                  <Link href="#" className={styles.btnWhite} onClick={()=>{setSignupOpen(true)}}>  {isEnglish == "English" ? "Signup" : isEnglish =="Oromic" ? `Galmaa'ii` : "ይመዝገቡ"}</Link>
+                  <Link href="/auth" className={styles.btnTransparent}>  {isEnglish == "English" ? "Login" : isEnglish =="Oromic" ? `Seenii` : "ይግቡ"}</Link>                
              </div>
                 
            </div>
@@ -85,11 +85,11 @@ const Hero = () =>{
            <div className={styles.rightContainer}>
       
              <div className={styles.socialContainer}>
-                <h3>{isEnglish ? 'Follow us' : 'Nu hordofaa'}</h3>
+                <h3>  {isEnglish == "English" ? "Follow us:" : isEnglish =="Oromic" ? `Nu Hordofaa:` : "ይከታተሉን"}</h3>
                 <div className={styles.socialIcons}>
                  <Link href="#"><i className='bx bxl-facebook-circle'></i></Link>
-                 <i className='bx bxl-linkedin-square' ></i>
-                 <i className='bx bxl-telegram' ></i>
+                 <Link href={''}><i className='bx bxl-linkedin-square' ></i></Link>
+                 <Link href={''}><i className='bx bxl-telegram' ></i></Link>
                 </div>
              </div>
            </div> 

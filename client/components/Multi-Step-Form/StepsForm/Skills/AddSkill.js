@@ -7,12 +7,26 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup'
 import { useSelector, useDispatch} from 'react-redux';
 import { addLanguageData, addSkillsData } from '@/redux/multiStepForm';
-
+function getUserId(){
+    if (typeof window !== 'undefined') {
+        // Perform localStorage action
+        let userId = window.localStorage.getItem('userId')
+        if(userId){
+            return userId
+        }
+        else{
+            return;
+        }
+       
+      }
+     
+  }
 
 const AddLanguage = ({closeModal})=>{
 
     const isEnglish = useSelector((state)=>state.language.isEnglish)
     const skillData = useSelector((state)=> state.CVBuilder.skillData)
+    const [userId, setUserId] = useState(getUserId())
     const [skillTag, setSkillTag] = useState([])
     const inputRef = useRef(null)
     let regId; 
@@ -22,7 +36,7 @@ const AddLanguage = ({closeModal})=>{
     const validationSchema = yup.object().shape({     
         profileSummary: yup.string().required("Profile summary required")
                         .min(50, 'Please Enter informative profile summary')
-                        .max(500, "Your summary should not exceed 500 characters"),
+                        .max(450, "Your summary should not exceed 450 characters"),
        
     })
     //linking the validation schema with the form data throuhg resolver
@@ -68,13 +82,13 @@ const AddLanguage = ({closeModal})=>{
     //the function that handles the onsubmit form data 
     const onSubmit = (data) =>{
         
-        fetch('http://localhost:5000/create-skill-data', {
+        fetch(process.env.NEXT_PUBLIC_SERVER_ADDRESS+'/create-skill-data', {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary})
+            body: JSON.stringify({userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary})
         })
         .then(response => {
-        dispatch(addSkillsData({id: data.id, userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary}))
+        dispatch(addSkillsData({userId: data.userId, skills: skillTag.join(), profileSummary: data.profileSummary}))
        
         closeModal(false)
         })
@@ -93,8 +107,8 @@ const AddLanguage = ({closeModal})=>{
                      </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} onKeyPress={preventEnterKeySubmission} noValidate>
-                   <input type='hidden' value={getRegId()} {...register("id")} />
-                   <input type='hidden' value={1} {...register("userId")} />
+                 
+                   <input type='hidden' value={userId} {...register("userId")} />
                    <label>Skills</label>
                    <div className={styles.skillContainer} >
                        {skillTag.map((s, index)=>(
@@ -104,7 +118,7 @@ const AddLanguage = ({closeModal})=>{
                                                   
                                 </div>
                           ))}
-                        <input ref={inputRef} type='text' onKeyDown={handleKeyDown} className={styles.skillInput} placeholder='Enter your skill' autoFocus={true}/>
+                        <input ref={inputRef} type='text' onKeyDown={handleKeyDown} className={styles.skillInput} placeholder='Enter your skill & hit enter' autoFocus={true}/>
                         
                     </div>
                    
